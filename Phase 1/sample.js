@@ -20,12 +20,6 @@ jsPlumb.ready(function() {
 function initializeNodes() {
     var nodes = database_obj.nodes; 
 
-    jsPlumb.connect({
-        source:"item_left",
-        target:"item_right",
-        endpoint:"Rectangle"
-    });
-
     jsPlumb.setContainer($('#container'));
     
     for (i = 0; i < nodes.length; i++) {
@@ -33,14 +27,14 @@ function initializeNodes() {
         var newState = $('<div>').attr('id', nodes[i].id).addClass('item');        
         var title = $('<div>').addClass('title').text(nodes[i].name);
 
-        jsPlumb.makeSource(title, {
+        /*jsPlumb.makeSource(title, {
             parent: newState,
             anchor: 'Continuous'
         });
 
         jsPlumb.makeTarget(title, {
             anchor: 'Continuous'
-        }); 
+        });*/ 
         
         newState.append(title);
 
@@ -49,14 +43,14 @@ function initializeNodes() {
             newState.append(connect);
             itemheight += 20;
 
-            jsPlumb.makeSource(connect, {
+            /*jsPlumb.makeSource(connect, {
                 parent: newState,
                 anchor: 'Continuous'
             });
 
             jsPlumb.makeTarget(connect, {
                 anchor: 'Continuous'
-            });      
+            });*/      
         }
 
         newState.css({
@@ -65,7 +59,7 @@ function initializeNodes() {
         
         $('#container').append(newState);  
  
-        
+        //Allows you to drag nodes
         jsPlumb.draggable(newState, {
           containment: 'parent'
         }); 
