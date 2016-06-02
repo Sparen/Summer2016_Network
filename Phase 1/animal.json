@@ -1,8 +1,53 @@
 {
     "nodes": [
         {
+            "id": "sex",
+            "name": "Sex",
+            "type": "table",
+            "columns": [
+                {
+                   "id": "Male",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "Female",
+                   "datatype": "varchar"
+                }
+            ]
+        },
+        {
+            "id": "usa",
+            "name": "Live in USA?",
+            "type": "table",
+            "columns": [
+                {
+                   "id": "Yes",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "No",
+                   "datatype": "varchar"
+                }
+            ]
+        },
+        {
+            "id": "married",
+            "name": "Married?",
+            "type": "table",
+            "columns": [
+                {
+                   "id": "Yes",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "No",
+                   "datatype": "varchar"
+                }
+            ]
+        },
+        {
             "id": "pets",
-            "name": "Pets",
+            "name": "Pets?",
             "type": "table",
             "columns": [
                 {
@@ -16,20 +61,17 @@
                 {
                    "id": "Rabbit",
                    "datatype": "varchar"
-                }
-            ]
-        },
-        {
-            "id": "family",
-            "name": "Family",
-            "type": "table",
-            "columns": [
+                },
                 {
-                   "id": "Felidae",
+                   "id": "Fish",
                    "datatype": "varchar"
                 },
                 {
-                   "id": "Canidae",
+                   "id": "Mouse",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "Rock",
                    "datatype": "varchar"
                 }
             ]

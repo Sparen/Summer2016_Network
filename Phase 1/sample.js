@@ -54,7 +54,8 @@ function initializeNodes() {
         }
 
         newState.css({
-            'height': itemheight
+            'height': itemheight,
+            'margin-left': i*120 //Temporary static positioning
         });
         
         $('#container').append(newState);  
