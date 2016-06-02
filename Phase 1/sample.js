@@ -19,13 +19,14 @@ jsPlumb.ready(function() {
 
 function initializeNodes() {
     var nodes = database_obj.nodes; 
+    var edges = database_obj.edges; 
 
     jsPlumb.setContainer($('#container'));
     
     for (i = 0; i < nodes.length; i++) {
         var itemheight = 40;
-        var newState = $('<div>').attr('id', nodes[i].id).addClass('item');        
-        var title = $('<div>').addClass('title').text(nodes[i].name);
+        var newState = $('<div>').addClass('item');        
+        var title = $('<div>').attr('id', nodes[i].id).addClass('title').text(nodes[i].name);
 
         /*jsPlumb.makeSource(title, {
             parent: newState,
@@ -39,7 +40,7 @@ function initializeNodes() {
         newState.append(title);
 
         for (j = 0; j < nodes[i].columns.length; j++) {
-            var connect = $('<div>').addClass('connect').text(nodes[i].columns[j].id);
+            var connect = $('<div>').attr('id', nodes[i].columns[j].id).addClass('connect').text(nodes[i].columns[j].name);
             newState.append(connect);
             itemheight += 20;
 
@@ -55,7 +56,7 @@ function initializeNodes() {
 
         newState.css({
             'height': itemheight,
-            'margin-left': i*120 //Temporary static positioning
+            'margin-left': i*120 //Temporary static positioning. Will screw up drag and drop.
         });
         
         $('#container').append(newState);  
@@ -64,6 +65,16 @@ function initializeNodes() {
         jsPlumb.draggable(newState, {
           containment: 'parent'
         }); 
-    } 
+    }
+
+    for (i = 0; i < edges.length; i++) { 
+        jsPlumb.connect({
+            connector: ["Bezier"],
+            source: edges[i].source,
+            target: edges[i].target,
+            anchor: ["Left", "Right"],
+            endpoint: "Dot"
+        });
+    }
 
 }

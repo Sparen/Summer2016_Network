@@ -1,80 +1,98 @@
 {
     "nodes": [
         {
-            "id": "sex",
+            "id": "sex_title",
             "name": "Sex",
             "type": "table",
             "columns": [
                 {
-                   "id": "Male",
-                   "datatype": "varchar"
+                    "id": "sex.male",
+                    "name": "Male",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Female",
-                   "datatype": "varchar"
+                    "id": "sex.female",
+                    "name": "Female",
+                    "datatype": "varchar"
                 }
             ]
         },
         {
-            "id": "usa",
+            "id": "usa_title",
             "name": "Live in USA?",
             "type": "table",
             "columns": [
                 {
-                   "id": "Yes",
-                   "datatype": "varchar"
+                    "id": "usa.yes",
+                    "name": "Yes",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "No",
-                   "datatype": "varchar"
+                    "id": "usa.no",
+                    "name": "No",
+                    "datatype": "varchar"
                 }
             ]
         },
         {
-            "id": "married",
+            "id": "married_title",
             "name": "Married?",
             "type": "table",
             "columns": [
                 {
-                   "id": "Yes",
-                   "datatype": "varchar"
+                    "id": "married.yes",
+                    "name": "Yes",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "No",
-                   "datatype": "varchar"
+                    "id": "married.no",
+                    "name": "No",
+                    "datatype": "varchar"
                 }
             ]
         },
         {
-            "id": "pets",
+            "id": "pets_title",
             "name": "Pets?",
             "type": "table",
             "columns": [
                 {
-                   "id": "Cat",
-                   "datatype": "varchar"
+                    "id": "pets.cat",
+                    "name": "Cat",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Dog",
-                   "datatype": "varchar"
+                    "id": "pets.dog",
+                    "name": "Dog",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Rabbit",
-                   "datatype": "varchar"
+                    "id": "pets.rabbit",
+                    "name": "Rabbit",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Fish",
-                   "datatype": "varchar"
+                    "id": "pets.fish",
+                    "name": "Fish",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Mouse",
-                   "datatype": "varchar"
+                    "id": "pets.mouse",
+                    "name": "Mouse",
+                    "datatype": "varchar"
                 },
                 {
-                   "id": "Rock",
-                   "datatype": "varchar"
+                    "id": "pets.rock",
+                    "name": "Rock",
+                    "datatype": "varchar"
                 }
             ]
+        }
+    ],
+    "edges": [
+        {
+            "source": "sex.male",
+            "target": "pets_title"
         }
     ]
 }
