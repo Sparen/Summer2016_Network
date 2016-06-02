@@ -1,8 +1,5 @@
 var database_obj;
 
-jsPlumb.bind("ready", function() {
-});
-
 jsPlumb.ready(function() {
     var filepath = "animal.json";
     var client = new XMLHttpRequest();
@@ -32,12 +29,21 @@ function initializeNodes() {
     jsPlumb.setContainer($('#container'));
     
     for (i = 0; i < nodes.length; i++) {
+        var itemheight = 40;
         var newState = $('<div>').attr('id', nodes[i].id).addClass('item');        
         var title = $('<div>').addClass('title').text(nodes[i].name);
-        var connect = $('<div>').addClass('connect');
         
         newState.append(title);
-        newState.append(connect);
+
+        for (j = 0; j < nodes[i].columns.length; j++) {
+            var connect = $('<div>').addClass('connect').text(nodes[i].columns[j].id);
+            newState.append(connect);
+            itemheight += 20;
+        }
+
+        newState.css({
+            'height': itemheight
+        });
         
         $('#container').append(newState);
         
@@ -54,4 +60,5 @@ function initializeNodes() {
           containment: 'parent'
         }); 
     } 
+
 }
