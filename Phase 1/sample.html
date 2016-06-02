@@ -1,0 +1,110 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../js/jsPlumb-2.1.2.js"></script>
+
+    <style type="text/css">
+      .item {
+      	height: 80px; width: 80px;
+        border: 1px solid black;
+	    position: absolute;
+	    float: left;
+        background-color: #ddddff;
+      }
+      #container {
+        border: 1px solid gray;
+        width: 700px;
+        height: 500px;
+        background-color: grey;
+      }
+	  
+	.title {
+	  padding: 10px;
+	  cursor: move;
+	}
+		
+	.connect {
+	  width: 100%;
+	  height: 20px;
+	  background-color: white;
+	  cursor: pointer;
+	}
+
+	p {
+		text-align: center;
+	}
+
+    </style>
+
+    <title>Getting started with jsPlumb</title>
+  </head>  
+
+  <body>
+    <div id="container">
+        <div id="item_left" class="item">
+			<p> State 1 </p>
+        </div>
+        <div id="item_right" class="item" style="margin-left:100px;">
+			<p> State 2 </p>
+        </div>
+
+	</div>
+
+  </body>
+  
+  <script type="text/javascript">
+	jsPlumb.ready(function() {
+
+      jsPlumb.connect({
+          source:"item_left",
+          target:"item_right",
+          endpoint:"Rectangle"
+      });
+
+	  jsPlumb.setContainer($('#container'));
+	
+	  var i = 0;
+	  $('#container').dblclick(function(e) {
+
+		var newState = $('<div>').attr('id', 'state' + i).addClass('item');		
+		var title = $('<div>').addClass('title').text('State ' + i);
+		var connect = $('<div>').addClass('connect');
+		
+		newState.css({
+		  'top': e.pageY,
+		  'left': e.pageX
+		});
+		
+		newState.append(title);
+		newState.append(connect);
+		
+		$('#container').append(newState);
+		
+		jsPlumb.makeTarget(newState, {
+		  anchor: 'Continuous'
+		});
+		
+		jsPlumb.makeSource(connect, {
+		  parent: newState,
+		  anchor: 'Continuous'
+		});		
+		
+		jsPlumb.draggable(newState, {
+		  containment: 'parent'
+		});
+
+		newState.dblclick(function(e) {
+		  jsPlumb.detachAllConnections($(this));
+		  $(this).remove();
+		  e.stopPropagation();
+		});		
+		
+		i++;    
+
+		});  
+
+	});  
+  </script>
+  
+</html>
