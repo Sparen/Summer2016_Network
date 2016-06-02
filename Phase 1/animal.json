@@ -1,0 +1,38 @@
+{
+    "nodes": [
+        {
+            "id": "pets",
+            "name": "Pets",
+            "type": "table",
+            "columns": [
+                {
+                   "id": "Cat",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "Dog",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "Rabbit",
+                   "datatype": "varchar"
+                }
+            ],
+        },
+        {
+            "id": "family",
+            "name": "Family",
+            "type": "table",
+            "columns": [
+                {
+                   "id": "Felidae",
+                   "datatype": "varchar"
+                },
+                {
+                   "id": "Canidae",
+                   "datatype": "varchar"
+                }
+            ]
+        }
+    ]
+}
