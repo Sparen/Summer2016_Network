@@ -32,6 +32,15 @@ function initializeNodes() {
         var itemheight = 40;
         var newState = $('<div>').attr('id', nodes[i].id).addClass('item');        
         var title = $('<div>').addClass('title').text(nodes[i].name);
+
+        jsPlumb.makeSource(title, {
+            parent: newState,
+            anchor: 'Continuous'
+        });
+
+        jsPlumb.makeTarget(title, {
+            anchor: 'Continuous'
+        }); 
         
         newState.append(title);
 
@@ -39,22 +48,23 @@ function initializeNodes() {
             var connect = $('<div>').addClass('connect').text(nodes[i].columns[j].id);
             newState.append(connect);
             itemheight += 20;
+
+            jsPlumb.makeSource(connect, {
+                parent: newState,
+                anchor: 'Continuous'
+            });
+
+            jsPlumb.makeTarget(connect, {
+                anchor: 'Continuous'
+            });      
         }
 
         newState.css({
             'height': itemheight
         });
         
-        $('#container').append(newState);
-        
-        jsPlumb.makeTarget(newState, {
-          anchor: 'Continuous'
-        });
-        
-        jsPlumb.makeSource(connect, {
-          parent: newState,
-          anchor: 'Continuous'
-        });        
+        $('#container').append(newState);  
+ 
         
         jsPlumb.draggable(newState, {
           containment: 'parent'
