@@ -1,4 +1,5 @@
 var database_obj;
+var allnodes;
 
 jsPlumb.ready(function() {
     var filepath = "animal.json";
@@ -59,12 +60,14 @@ function initializeNodes() {
             'margin-left': i*120 //Temporary static positioning. Will screw up drag and drop.
         });
         
-        $('#container').append(newState);  
+        $('#container').append(newState); 
+        allnodes.append(newState); 
  
         //Allows you to drag nodes
         jsPlumb.draggable(newState, {
           containment: 'parent'
         }); 
+
     }
 
     for (i = 0; i < edges.length; i++) { 
@@ -77,4 +80,10 @@ function initializeNodes() {
         });
     }
 
+    placeNodes();
+
+}
+
+function placeNodes() {
+    //TODO
 }
