@@ -17,7 +17,7 @@
                    "id": "Rabbit",
                    "datatype": "varchar"
                 }
-            ],
+            ]
         },
         {
             "id": "family",
