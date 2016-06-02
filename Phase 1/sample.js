@@ -57,7 +57,7 @@ function initializeNodes() {
 
         newState.css({
             'height': itemheight,
-            'margin-left': i*120 //Temporary static positioning. Will screw up drag and drop.
+            'left': i*120 //Temporary static positioning.
         });
         
         $('#container').append(newState); 
