@@ -1,5 +1,5 @@
 var database_obj;
-var allnodes;
+var allnodes = [];
 
 jsPlumb.ready(function() {
     var filepath = "animal.json";
@@ -61,7 +61,7 @@ function initializeNodes() {
         });
         
         $('#container').append(newState); 
-        allnodes.append(newState); 
+        allnodes.push(nodes[i].id); 
  
         //Allows you to drag nodes
         jsPlumb.draggable(newState, {
