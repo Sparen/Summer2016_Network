@@ -58,7 +58,7 @@ function initializeNodes() {
             target: edges[i].target,
             anchor: ["Left", "Right"],
             endpoint: ["Dot", { radius: 5 }],
-
+            ConnectionsDetachable: false
         });
     }
 
