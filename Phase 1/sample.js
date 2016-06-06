@@ -53,11 +53,12 @@ function initializeNodes() {
 
     for (i = 0; i < edges.length; i++) { 
         jsPlumb.connect({
-            connector: ["Flowchart"],
+            connector: ["Flowchart", {stub: 20, cornerRadius: 5}],
             source: edges[i].source,
             target: edges[i].target,
             anchor: ["Left", "Right"],
-            endpoint: "Dot"
+            endpoint: ["Dot", { radius: 5 }],
+
         });
     }
 
@@ -67,7 +68,7 @@ function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
             'width' : width,
-            'left': x, //Temporary static positioning.
-            'top' : y //
+            'left': x+100, //Temporary static positioning.
+            'top' : y+40 //
         });
 }
