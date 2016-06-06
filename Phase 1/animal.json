@@ -87,6 +87,48 @@
                     "datatype": "varchar"
                 }
             ]
+        },
+        {
+            "id": "profession_title",
+            "name": "Profession?",
+            "type": "table",
+            "columns": [
+                {
+                    "id": "profession.business",
+                    "name": "Businessman",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.science",
+                    "name": "Scientist",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.engineer",
+                    "name": "Engineer",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.educator",
+                    "name": "Educator",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.artist",
+                    "name": "Artist",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.plumber",
+                    "name": "Plumber",
+                    "datatype": "varchar"
+                },
+                {
+                    "id": "profession.electrician",
+                    "name": "Electrician",
+                    "datatype": "varchar"
+                }
+            ]
         }
     ],
     "edges": [
@@ -95,8 +137,16 @@
             "target": "pets_title"
         },
         {
-           "source": "usa.yes",
-            "target": "married.yes"
+            "source": "usa.yes",
+            "target": "married_title"
+        },
+        {
+            "source": "usa.no",
+            "target": "profession_title"
+        },
+        {
+            "source": "profession.artist",
+            "target": "pets_title"
         }
     ]
 }
