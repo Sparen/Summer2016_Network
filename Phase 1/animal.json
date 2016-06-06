@@ -4,6 +4,7 @@
             "id": "sex_title",
             "name": "Sex",
             "type": "table",
+            "width": 80,
             "columns": [
                 {
                     "id": "sex.male",
@@ -21,6 +22,7 @@
             "id": "usa_title",
             "name": "Live in USA?",
             "type": "table",
+            "width": 120,
             "columns": [
                 {
                     "id": "usa.yes",
@@ -38,6 +40,7 @@
             "id": "married_title",
             "name": "Married?",
             "type": "table",
+            "width": 80,
             "columns": [
                 {
                     "id": "married.yes",
@@ -55,6 +58,7 @@
             "id": "pets_title",
             "name": "Pets?",
             "type": "table",
+            "width": 80,
             "columns": [
                 {
                     "id": "pets.cat",
@@ -92,6 +96,7 @@
             "id": "profession_title",
             "name": "Profession?",
             "type": "table",
+            "width": 120,
             "columns": [
                 {
                     "id": "profession.business",

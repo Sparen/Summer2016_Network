@@ -39,7 +39,7 @@ function initializeNodes() {
 
         var x_coord = (i % coord_array[0])*150;
         var y_coord = (Math.floor(i / coord_array[0]))*150;
-        placeNodes(newState, itemheight, x_coord, y_coord);
+        placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord);
         
         $('#container').append(newState); 
         allnodes.push(nodes[i].id); 
@@ -63,9 +63,10 @@ function initializeNodes() {
 
 }
 
-function placeNodes(newState, itemheight, x, y) {
+function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
+            'width' : width,
             'left': x, //Temporary static positioning.
             'top' : y //
         });
