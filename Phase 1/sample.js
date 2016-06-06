@@ -15,7 +15,6 @@ jsPlumb.ready(function() {
     };
 
     client.send();
-
 });  
 
 function initializeNodes() {
@@ -23,42 +22,24 @@ function initializeNodes() {
     var edges = database_obj.edges; 
 
     jsPlumb.setContainer($('#container'));
-    
+
+    var coord_array = optimizeToGrid(nodes.length);
+
     for (i = 0; i < nodes.length; i++) {
         var itemheight = 40;
-        var newState = $('<div>').addClass('item');        
+        var newState = $('<div>').addClass('item');
         var title = $('<div>').attr('id', nodes[i].id).addClass('title').text(nodes[i].name);
-
-        /*jsPlumb.makeSource(title, {
-            parent: newState,
-            anchor: 'Continuous'
-        });
-
-        jsPlumb.makeTarget(title, {
-            anchor: 'Continuous'
-        });*/ 
-        
         newState.append(title);
 
         for (j = 0; j < nodes[i].columns.length; j++) {
             var connect = $('<div>').attr('id', nodes[i].columns[j].id).addClass('connect').text(nodes[i].columns[j].name);
             newState.append(connect);
             itemheight += 20;
-
-            /*jsPlumb.makeSource(connect, {
-                parent: newState,
-                anchor: 'Continuous'
-            });
-
-            jsPlumb.makeTarget(connect, {
-                anchor: 'Continuous'
-            });*/      
         }
 
-        newState.css({
-            'height': itemheight,
-            'left': i*120 //Temporary static positioning.
-        });
+        var x_coord = (i % coord_array[0])*150;
+        var y_coord = (Math.floor(i / coord_array[0]))*150;
+        placeNodes(newState, itemheight, x_coord, y_coord);
         
         $('#container').append(newState); 
         allnodes.push(nodes[i].id); 
@@ -72,7 +53,7 @@ function initializeNodes() {
 
     for (i = 0; i < edges.length; i++) { 
         jsPlumb.connect({
-            connector: ["Bezier"],
+            connector: ["Flowchart"],
             source: edges[i].source,
             target: edges[i].target,
             anchor: ["Left", "Right"],
@@ -80,10 +61,12 @@ function initializeNodes() {
         });
     }
 
-    placeNodes();
-
 }
 
-function placeNodes() {
-    //TODO
+function placeNodes(newState, itemheight, x, y) {
+        newState.css({
+            'height': itemheight,
+            'left': x, //Temporary static positioning.
+            'top' : y //
+        });
 }

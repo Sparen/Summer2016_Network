@@ -93,6 +93,10 @@
         {
             "source": "sex.male",
             "target": "pets_title"
+        },
+        {
+           "source": "usa.yes",
+            "target": "married.yes"
         }
     ]
 }
