@@ -15,7 +15,7 @@ jsPlumb.ready(function() {
     };
 
     client.send();
-});  
+});
 
 function initializeNodes() {
     var nodes = database_obj.nodes; 
@@ -64,6 +64,12 @@ function initializeNodes() {
 
 }
 
+//Determines the position of a certain node.
+function determinePosition(newState) {
+
+}
+
+//Draws a single node
 function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
