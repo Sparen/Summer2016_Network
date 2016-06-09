@@ -1,3 +1,6 @@
+var systemZoom = 1;
+
+//following function from jsPlumb documentation. changing window to jsPlumb will scale the entire container div.
 window.setZoom = function(zoom, instance, transformOrigin, el) {
     transformOrigin = transformOrigin || [ 0.5, 0.5 ];
     instance = instance || jsPlumb;
@@ -16,3 +19,10 @@ window.setZoom = function(zoom, instance, transformOrigin, el) {
 
     instance.setZoom(zoom);    
 };
+
+function incrementZoom(num){
+    console.log("incrementZoom(): running");
+    systemZoom += num;
+    jsPlumb.setZoom(systemZoom);
+    console.log("incrementZoom(): systemZoom is now " + systemZoom);
+}
