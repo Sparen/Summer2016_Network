@@ -152,6 +152,14 @@
         {
             "source": "profession.artist",
             "target": "pets_title"
+        },
+        {
+            "source": "pets.cat",
+            "target": "sex_title"
+        },
+        {
+            "source": "pets.dog",
+            "target": "married_title"
         }
     ]
 }
