@@ -23,7 +23,9 @@ function initializeNodes() {
 
     jsPlumb.setContainer($('#container'));
 
-    var coord_array = optimizeToGrid(nodes.length);
+    var grid_size = optimizeToGrid(nodes.length);
+    //Set of coordinates of each node onto plane (optimized)
+    var coord_array = setCoordinates(nodes, edges);
 
     for (i = 0; i < nodes.length; i++) {
         var itemheight = 40;
@@ -37,8 +39,9 @@ function initializeNodes() {
             itemheight += 20;
         }
 
-        var x_coord = (i % coord_array[0])*150;
-        var y_coord = (Math.floor(i / coord_array[0]))*150;
+        //Draws a node onto the coordinate
+        var x_coord = (i % grid_size[0])*150;
+        var y_coord = (Math.floor(i / grid_size[0]))*150;
         placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord);
         
         $('#container').append(newState); 
@@ -64,11 +67,6 @@ function initializeNodes() {
 
 }
 
-//Determines the position of a certain node.
-function determinePosition(newState) {
-
-}
-
 //Draws a single node
 function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
@@ -77,4 +75,29 @@ function placeNodes(newState, itemheight, width, x, y) {
             'left': x+100, //Temporary static positioning.
             'top' : y+40 //
         });
+}
+
+function setCoordinates(edges, nodes) {
+        var grid_size = optimizeToGrid(nodes.length);
+        //Create 2D array
+        var coord_array = [];
+        for (i = 0; i < nodes.length; i++) {
+            coord_array[i] = [];
+            var x_coord = (i % grid_size[0])*150;
+            var y_coord = (Math.floor(i / grid_size[0]))*150;    
+            coord_array[i][0] = x_coord;
+            coord_array[i][1] = y_coord;              
+        }
+    return coord_array;
+}
+
+function hasTarget(id, edges) {
+    numSource = 0;
+    numTarget = 0;
+    for (i = 0; i < edges.length; i++) { 
+        if (edges[i].source == id) {
+            return true;
+        }
+    }
+    return false;
 }
