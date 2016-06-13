@@ -4,6 +4,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="../js/jsPlumb-2.1.2.js"></script>
     <script type="text/javascript" src="sample.js"></script>
+    <script type="text/javascript" src="helper.js"></script>
     <script type="text/javascript" src="optimization_code.js"></script>
 
     <link rel="stylesheet" type="text/css" href="sample.css">
@@ -12,8 +13,14 @@
   </head>  
 
   <body>
-    <div id="container">
+    <div id="main_box">
+        <div id="container">
+        </div>
     </div>
+    <div style="text-align:left">
+	<button type="button" onclick="incrementZoom(0.1)">Zoom +</button>
+	<button type="button" onclick="incrementZoom(-0.1)">Zoom -</button>
+    <div>
   </body>
 
 </html>

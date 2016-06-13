@@ -14,7 +14,7 @@ jsPlumb.ready(function() {
         }
     };
     client.send();
-});  
+});
 
 function initializeNodes() {
     var nodes = database_obj.nodes; 
@@ -62,11 +62,21 @@ function initializeNodes() {
             target: edges[i].target,
             anchor: ["Left", "Right"],
             endpoint: ["Dot", { radius: 5 }],
+<<<<<<< HEAD
+=======
+            ConnectionsDetachable: false
+>>>>>>> origin/master
         });
     }
 
 }
 
+//Determines the position of a certain node.
+function determinePosition(newState) {
+
+}
+
+//Draws a single node
 function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
