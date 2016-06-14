@@ -26,6 +26,8 @@ function initializeNodes() {
     var grid_size = optimizeToGrid(nodes.length);
     //Set of coordinates of each node onto plane (optimized)
     var coord_array = setCoordinates(nodes, edges);
+    //Scaled coordinates
+    var scaled_coord_array = scaleCoordinates(coord_array);
 
     for (i = 0; i < nodes.length; i++) {
         var itemheight = 40;
@@ -40,8 +42,8 @@ function initializeNodes() {
         }
 
         //Draws a node onto the coordinate
-        var x_coord = (i % grid_size[0])*150;
-        var y_coord = (Math.floor(i / grid_size[0]))*150;
+        var x_coord = scaled_coord_array[i][0];
+        var y_coord = scaled_coord_array[i][1];
         placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord);
         
         $('#container').append(newState); 
@@ -77,6 +79,8 @@ function placeNodes(newState, itemheight, width, x, y) {
         });
 }
 
+
+//Determines optimized coordinates for each node in a network
 function setCoordinates(edges, nodes) {
         var grid_size = optimizeToGrid(nodes.length);
         //Create 2D array
@@ -91,9 +95,34 @@ function setCoordinates(edges, nodes) {
     return coord_array;
 }
 
+//Scales the coordinates relative to the center of canvas (plane)
+function scaleCoordinates(coord_array) {
+    var newCoordinates = [];
+    var x_max = 0;
+    var y_max = 0;
+
+    for (i=0; i < coord_array.length; i++) {
+        newCoordinates[i] = [];
+        if (coord_array[i][0] > x_max) {
+            x_max = coord_array[i][0];
+        }
+
+        if (coord_array[i][1] > y_max) {
+            y_max = coord_array[i][1];
+        }
+    }
+
+    for (i=0; i < coord_array.length; i++) {
+        newCoordinates[i][0] = coord_array[i][0]/x_max*300; // random constant scaling
+        newCoordinates[i][1] = coord_array[i][1]/y_max*120; // random constant scaling
+    }
+    return newCoordinates;
+}
+
+
 function hasTarget(id, edges) {
-    numSource = 0;
-    numTarget = 0;
+    var numSource = 0;
+    var numTarget = 0;
     for (i = 0; i < edges.length; i++) { 
         if (edges[i].source == id) {
             return true;
