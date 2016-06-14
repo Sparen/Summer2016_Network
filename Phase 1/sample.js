@@ -74,8 +74,8 @@ function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
             'width' : width,
-            'left': x+100, //Temporary static positioning.
-            'top' : y+40 //
+            'left': x,
+            'top' : y
         });
 }
 
@@ -87,10 +87,10 @@ function setCoordinates(edges, nodes) {
         var coord_array = [];
         for (i = 0; i < nodes.length; i++) {
             coord_array[i] = [];
-            var x_coord = (i % grid_size[0])*150;
-            var y_coord = (Math.floor(i / grid_size[0]))*150;    
+            var x_coord = (i % grid_size[0]);
+            var y_coord = (Math.floor(i / grid_size[0]));    
             coord_array[i][0] = x_coord;
-            coord_array[i][1] = y_coord;              
+            coord_array[i][1] = y_coord;
         }
     return coord_array;
 }
@@ -101,21 +101,24 @@ function scaleCoordinates(coord_array) {
     var x_max = 0;
     var y_max = 0;
 
+    // return maximum values of x and y
     for (i=0; i < coord_array.length; i++) {
         newCoordinates[i] = [];
-        if (coord_array[i][0] > x_max) {
+        if (coord_array[i][0] >= x_max) {
             x_max = coord_array[i][0];
         }
 
-        if (coord_array[i][1] > y_max) {
+        if (coord_array[i][1] >= y_max) {
             y_max = coord_array[i][1];
         }
     }
 
+    // scaling by proportion (by maximum valus of x and y)
     for (i=0; i < coord_array.length; i++) {
-        newCoordinates[i][0] = coord_array[i][0]/x_max*300; // random constant scaling
-        newCoordinates[i][1] = coord_array[i][1]/y_max*120; // random constant scaling
+        newCoordinates[i][0] = coord_array[i][0]/x_max * 350 + 100; // random constant scaling
+        newCoordinates[i][1] = coord_array[i][1]/y_max * 150 + 50; // random constant scaling
     }
+
     return newCoordinates;
 }
 
