@@ -18,14 +18,14 @@ jsPlumb.ready(function() {
 });
 
 function initializeNodes() {
-    var nodes = database_obj.nodes; 
-    var edges = database_obj.edges; 
+    nodes = database_obj.nodes; 
+    edges = database_obj.edges; 
 
     jsPlumb.setContainer($('#container'));
 
     var grid_size = optimizeToGrid(nodes.length);
     //Set of coordinates of each node onto plane (optimized)
-    var coord_array = setCoordinates(nodes, edges);
+    var coord_array = setCoordinates();
     //Scaled coordinates
     var scaled_coord_array = scaleCoordinates(coord_array);
 
@@ -41,7 +41,7 @@ function initializeNodes() {
             itemheight += 20;
         }
 
-        //Draws a node onto the coordinate
+        //Draws a node onto the coordinate plane
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
         placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord);
@@ -52,24 +52,14 @@ function initializeNodes() {
         //Allows you to drag nodes
         jsPlumb.draggable(newState, {
           containment: 'parent'
-        }); 
-
-    }
-
-    for (i = 0; i < edges.length; i++) { 
-        jsPlumb.connect({
-            connector: ["Flowchart", {stub: 20, cornerRadius: 5}],
-            source: edges[i].source,
-            target: edges[i].target,
-            anchor: ["Left", "Right"],
-            endpoint: ["Dot", { radius: 5 }],
-            ConnectionsDetachable: false
         });
     }
 
+    //Draws edges between nodes
+    connectNodes();
 }
 
-//Draws a single node
+//Places a single node by the coordinates (CSS)
 function placeNodes(newState, itemheight, width, x, y) {
         newState.css({
             'height': itemheight,
@@ -79,9 +69,21 @@ function placeNodes(newState, itemheight, width, x, y) {
         });
 }
 
+function connectNodes() {
+    for (i = 0; i < edges.length; i++) { 
+        jsPlumb.connect({
+            connector: ["Flowchart", {stub: 20, cornerRadius: 5}],
+            source: edges[i].source,
+            target: edges[i].target,
+            anchor: ["Left", "Right"],
+            endpoint: ["Dot", { radius: 5 }],
+            ConnectionsDetachable: false
+        });
+    }    
+}
 
 //Determines optimized coordinates for each node in a network
-function setCoordinates(edges, nodes) {
+function setCoordinates() {
         var grid_size = optimizeToGrid(nodes.length);
         //Create 2D array
         var coord_array = [];
@@ -118,12 +120,11 @@ function scaleCoordinates(coord_array) {
         newCoordinates[i][0] = coord_array[i][0]/x_max * 350 + 100; // random constant scaling
         newCoordinates[i][1] = coord_array[i][1]/y_max * 150 + 50; // random constant scaling
     }
-
     return newCoordinates;
 }
 
 
-function hasTarget(id, edges) {
+function hasTarget(id) {
     var numSource = 0;
     var numTarget = 0;
     for (i = 0; i < edges.length; i++) { 
