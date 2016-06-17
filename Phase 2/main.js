@@ -124,8 +124,14 @@ function initializeNodes() {
             ctx.lineWidth = "2";
             ctx.strokeStyle = "black";
             ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.fill();
+            ctx.fill(); //rectangle
             ctx.stroke();
+
+            ctx.font = "14px Andale Mono, monospace";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center"; 
+            ctx.textBaseline = "middle";
+            ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
 
             var n;
             for (n = 0; n < this.columns.length; n++) {
