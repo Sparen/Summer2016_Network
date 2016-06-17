@@ -117,20 +117,21 @@ function initializeNodes() {
             for (n = 0; n < this.columns.length; n++) {
                 this.columns[n].update();
             }
-        }
+        };
         nodes[i].draw = function(){
             var ctx = myCanvas.context;
-            ctx.fillStyle = "#ddddff";
+            ctx.fillStyle = "#DDDDFF";
             ctx.lineWidth = "2";
             ctx.strokeStyle = "black";
             ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke;
+            ctx.fill();
+            ctx.stroke();
 
             var n;
             for (n = 0; n < this.columns.length; n++) {
                 this.columns[n].draw();
             }
-        }
+        };
 
         allnodes.push(nodes[i]); //add node to list of nodes
     }
