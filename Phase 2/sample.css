@@ -22,6 +22,10 @@
     height: 90%;
     background-color: gray;
 }
+
+#maincanvas{
+    border: 1px solid blue;
+}
       
 .title {
     padding: 10px;
