@@ -83,16 +83,19 @@ function initializeNodes() {
 
     var i;
     for (i = 0; i < nodes.length; i++) { //for every node in survey.json
-        var itemheight = 40;
-        //TODO
+        nodes[i].height = 40; //for the title
 
         //top left coordinates
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
-        //placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord); //To be replaced by canvas draw
         nodes[i].x = x_coord;
         nodes[i].y = y_coord;
-        allnodes.push(nodes[i]); 
+
+        //Iterate through 
+
+        //Now define the draw and update for the nodes
+
+        allnodes.push(nodes[i]); //add node to list of nodes
     }
 
     //Draws edges between nodes
