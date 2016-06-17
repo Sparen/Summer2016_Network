@@ -1,6 +1,25 @@
 var database_obj;
 var allnodes = [];
 
+function start(canvasid) {
+    console.log("start(): Running on canvas with id " + canvasid);
+    myCanvas.start(canvasid); //set up canvas and interval, etc.
+    onLoad();
+}
+
+var myCanvas = {
+    start: function (canvasid) {
+        resetCanvas();
+        this.canvas = document.getElementById(canvasid);
+        this.context = this.canvas.getContext("2d");
+        this.frameNo = 0;
+        this.interval = setInterval(update_main, 10, canvasid); //in milliseconds. Runs update every 20 millis (25 FPS). canvasid is passed to update_main
+    },
+    clear: function () {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+};
+
 function onLoad() {
     var filepath = "survey.json";
     var client = new XMLHttpRequest();
@@ -17,6 +36,12 @@ function onLoad() {
     client.send();
 }
 
+//Purges existing nodes and calls initializeNodes() to reset them
+function resetCanvas(){
+    allnodes = [];
+    initializeNodes();
+}
+
 function initializeNodes() {
     nodes = database_obj.nodes; 
     edges = database_obj.edges; 
@@ -27,7 +52,7 @@ function initializeNodes() {
     //Scaled coordinates
     var scaled_coord_array = scaleCoordinates(coord_array);
 
-    for (i = 0; i < nodes.length; i++) {
+    for (i = 0; i < nodes.length; i++) { //for every node in survey.json
         var itemheight = 40;
         //TODO
 
@@ -35,7 +60,7 @@ function initializeNodes() {
         var y_coord = scaled_coord_array[i][1];
         //placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord); //To be replaced by canvas draw
 
-        //TODO: Add node OBJECT to allnodes
+        allnodes.push(nodes[i]); 
     }
 
     //Draws edges between nodes
