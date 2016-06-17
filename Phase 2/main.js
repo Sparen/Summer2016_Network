@@ -105,7 +105,7 @@ function initializeNodes() {
                 this.y = parent.y + parent.height + this.offset*this.height;
             }
             nodes[i].columns[j].draw = function(){
-                //TODO
+                var ctx = myCanvas.context;
             }
         }
 
@@ -117,7 +117,12 @@ function initializeNodes() {
             }
         }
         nodes[i].draw = function(){
-            //TODO
+            var ctx = myCanvas.context;
+            ctx.fillStyle = "#ddddff";
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "black";
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke;
 
             var n;
             for (n = 0; n < this.columns.length; n++) {

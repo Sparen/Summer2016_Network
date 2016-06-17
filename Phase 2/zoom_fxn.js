@@ -2,7 +2,7 @@ var systemZoom = 1;
 
 window.setZoom = function(zoom, transformOrigin, el) {
     transformOrigin = transformOrigin || [ 0.5, 0.5 ];
-    el = document.getElementById(container);
+    el = document.getElementById("container");
     var p = [ "webkit", "moz", "ms", "o" ],
         s = "scale(" + zoom + ")",
         oString = (transformOrigin[0] * 100) + "% " + (transformOrigin[1] * 100) + "%";
