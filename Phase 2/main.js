@@ -45,6 +45,7 @@ function draw_main(canvasid) {
 }
 
 function onLoad() {
+    console.log("onLoad(): Running");
     var filepath = "survey.json";
     var client = new XMLHttpRequest();
     client.open("GET", filepath, true);
@@ -72,6 +73,7 @@ function resetCanvas(){
 /* ***** NODE HANDLING FUNCTIONS ***** */
 
 function initializeNodes() {
+    console.log("initializeNodes(): Running");
     nodes = database_obj.nodes; 
     edges = database_obj.edges; 
 
