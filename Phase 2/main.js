@@ -91,9 +91,39 @@ function initializeNodes() {
         nodes[i].x = x_coord;
         nodes[i].y = y_coord;
 
-        //Iterate through 
+        //Iterate through nodes and assign to columns
+        var j;
+        for (j = 0; j < nodes[i].columns.length; j++) {
+            nodes[i].columns[j].offset = j; //which item it is in relation to title.
+            nodes[i].columns[j].height = 20; //default height for column is 20
+            nodes[i].columns[j].width = nodes[i].width;
+            nodes[i].columns[j].x = x_coord;
+            nodes[i].columns[j].y = y_coord + nodes[i].height + j*nodes[i].columns[j].height; 
+            nodes[i].columns[j].parent = nodes[i];
+            nodes[i].columns[j].update = function(){
+                this.x = parent.x;
+                this.y = parent.y + parent.height + this.offset*this.height;
+            }
+            nodes[i].columns[j].draw = function(){
+                //TODO
+            }
+        }
 
         //Now define the draw and update for the nodes
+        nodes[i].update = function(){
+            var n;
+            for (n = 0; n < this.columns.length; n++) {
+                this.columns[n].update();
+            }
+        }
+        nodes[i].draw = function(){
+            //TODO
+
+            var n;
+            for (n = 0; n < this.columns.length; n++) {
+                this.columns[n].draw();
+            }
+        }
 
         allnodes.push(nodes[i]); //add node to list of nodes
     }
