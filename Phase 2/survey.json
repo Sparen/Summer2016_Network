@@ -1,0 +1,152 @@
+{
+    "nodes": [
+        {
+            "id": "sex_title",
+            "name": "Sex",
+            "type": "table",
+            "width": 80,
+            "columns": [
+                {
+                    "id": "sex.male",
+                    "name": "Male"
+                },
+                {
+                    "id": "sex.female",
+                    "name": "Female"
+                }
+            ]
+        },
+        {
+            "id": "usa_title",
+            "name": "Live in USA?",
+            "type": "table",
+            "width": 120,
+            "columns": [
+                {
+                    "id": "usa.yes",
+                    "name": "Yes"
+                },
+                {
+                    "id": "usa.no",
+                    "name": "No"
+                }
+            ]
+        },
+        {
+            "id": "married_title",
+            "name": "Married?",
+            "type": "table",
+            "width": 80,
+            "columns": [
+                {
+                    "id": "married.yes",
+                    "name": "Yes"
+                },
+                {
+                    "id": "married.no",
+                    "name": "No"
+                }
+            ]
+        },
+        {
+            "id": "pets_title",
+            "name": "Pets?",
+            "type": "table",
+            "width": 80,
+            "columns": [
+                {
+                    "id": "pets.cat",
+                    "name": "Cat"
+                },
+                {
+                    "id": "pets.dog",
+                    "name": "Dog"
+                },
+                {
+                    "id": "pets.rabbit",
+                    "name": "Rabbit"
+                },
+                {
+                    "id": "pets.fish",
+                    "name": "Fish"
+                },
+                {
+                    "id": "pets.mouse",
+                    "name": "Mouse"
+                },
+                {
+                    "id": "pets.rock",
+                    "name": "Rock"
+                }
+            ]
+        },
+        {
+            "id": "profession_title",
+            "name": "Profession?",
+            "type": "table",
+            "width": 120,
+            "columns": [
+                {
+                    "id": "profession.business",
+                    "name": "Businessman"
+                },
+                {
+                    "id": "profession.science",
+                    "name": "Scientist"
+                },
+                {
+                    "id": "profession.engineer",
+                    "name": "Engineer"
+                },
+                {
+                    "id": "profession.educator",
+                    "name": "Educator"
+                },
+                {
+                    "id": "profession.artist",
+                    "name": "Artist"
+                },
+                {
+                    "id": "profession.plumber",
+                    "name": "Plumber"
+                },
+                {
+                    "id": "profession.electrician",
+                    "name": "Electrician"
+                }
+            ]
+        }
+    ],
+    "edges": [
+        {
+            "source": "sex.male",
+            "target": "pets_title",
+            "color": "black"
+        },
+        {
+            "source": "sex.male",
+            "target": "married_title",
+            "color": "black"
+        },
+        {
+            "source": "usa.yes",
+            "target": "married_title",
+            "color": "black"
+        },
+        {
+            "source": "usa.no",
+            "target": "profession_title",
+            "color": "black"
+        },
+        {
+            "source": "profession.artist",
+            "target": "pets_title",
+            "color": "black"
+        },
+        {
+            "source": "profession.title",
+            "target": "pets_title",
+            "color": "blue"
+        }
+    ]
+}

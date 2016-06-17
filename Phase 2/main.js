@@ -1,0 +1,102 @@
+var database_obj;
+var allnodes = [];
+
+function onLoad() {
+    var filepath = "survey.json";
+    var client = new XMLHttpRequest();
+    client.open("GET", filepath, true);
+    client.onreadystatechange = function () { //callback
+        if (client.readyState == 4) {
+            if (client.status == 200 || client.status == 0) {
+                database_obj = JSON.parse(client.responseText);
+                initializeNodes();
+            }
+        }
+    };
+
+    client.send();
+}
+
+function initializeNodes() {
+    nodes = database_obj.nodes; 
+    edges = database_obj.edges; 
+
+    var grid_size = optimizeToGrid(nodes.length);
+    //Set of coordinates of each node onto plane (optimized)
+    var coord_array = setCoordinates();
+    //Scaled coordinates
+    var scaled_coord_array = scaleCoordinates(coord_array);
+
+    for (i = 0; i < nodes.length; i++) {
+        var itemheight = 40;
+        //TODO
+
+        var x_coord = scaled_coord_array[i][0];
+        var y_coord = scaled_coord_array[i][1];
+        //placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord); //To be replaced by canvas draw
+
+        //TODO: Add node OBJECT to allnodes
+    }
+
+    //Draws edges between nodes
+    connectNodes();
+}
+
+function connectNodes() {
+    for (i = 0; i < edges.length; i++) { 
+        //TODO
+    }    
+}
+
+//Determines optimized coordinates for each node in a network
+function setCoordinates() {
+        var grid_size = optimizeToGrid(nodes.length);
+        //Create 2D array
+        var coord_array = [];
+        for (i = 0; i < nodes.length; i++) {
+            coord_array[i] = [];
+            var x_coord = (i % grid_size[0]);
+            var y_coord = (Math.floor(i / grid_size[0]));    
+            coord_array[i][0] = x_coord;
+            coord_array[i][1] = y_coord;
+        }
+    return coord_array;
+}
+
+//Scales the coordinates relative to the center of canvas (plane)
+function scaleCoordinates(coord_array) {
+    var newCoordinates = [];
+    var x_max = 0;
+    var y_max = 0;
+
+    // return maximum values of x and y
+    for (i=0; i < coord_array.length; i++) {
+        newCoordinates[i] = [];
+        if (coord_array[i][0] >= x_max) {
+            x_max = coord_array[i][0];
+        }
+
+        if (coord_array[i][1] >= y_max) {
+            y_max = coord_array[i][1];
+        }
+    }
+
+    // scaling by proportion (by maximum valus of x and y)
+    for (i=0; i < coord_array.length; i++) {
+        newCoordinates[i][0] = coord_array[i][0]/x_max * 350 + 100; // random constant scaling
+        newCoordinates[i][1] = coord_array[i][1]/y_max * 150 + 50; // random constant scaling
+    }
+    return newCoordinates;
+}
+
+
+function hasTarget(id) {
+    var numSource = 0;
+    var numTarget = 0;
+    for (i = 0; i < edges.length; i++) { 
+        if (edges[i].source == id) {
+            return true;
+        }
+    }
+    return false;
+}
