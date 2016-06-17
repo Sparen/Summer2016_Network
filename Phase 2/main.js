@@ -86,10 +86,12 @@ function initializeNodes() {
         var itemheight = 40;
         //TODO
 
+        //top left coordinates
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
         //placeNodes(newState, itemheight, nodes[i].width, x_coord, y_coord); //To be replaced by canvas draw
-
+        nodes[i].x = x_coord;
+        nodes[i].y = y_coord;
         allnodes.push(nodes[i]); 
     }
 
