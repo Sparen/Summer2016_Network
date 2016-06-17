@@ -1,0 +1,46 @@
+.item {
+    height: 40px; width: 80px;
+    border: 2px solid black;
+    position: absolute;
+    float: left;
+    background-color: #ddddff;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    border: 1px solid red;
+    margin: 0px;
+}
+
+#main_box {
+    border: 1px solid gray;
+    min-width: 640px;
+    min-height: 480px;
+    width: 100%;
+    height: 90%;
+    background-color: gray;
+}
+      
+.title {
+    padding: 10px;
+    cursor: move;
+}
+
+.connect {
+    width: -moz-calc(100% - 2px);
+    width: -webkit-calc(100% - 2px);
+    width: -o-calc(100% - 2px);
+    width: calc(100% - 2px);
+    background-color: #ccffee;
+    border: 1px solid #bbeedd;
+    height: 20px;
+    cursor: pointer;
+}
+
+div, p {
+    text-align: center;
+    font-family: "Andale Mono", monospace;
+    font-size: 12px;
+}
