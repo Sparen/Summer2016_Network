@@ -1,5 +1,6 @@
 var database_obj;
 var allnodes = [];
+var jsonreceived = false; //whether or not the JSON file has been received.
 
 /* ***** INITIALIZATION AND CANVAS FUNCTIONS ***** */
 
@@ -52,6 +53,7 @@ function onLoad() {
             if (client.status == 200 || client.status == 0) {
                 database_obj = JSON.parse(client.responseText);
                 initializeNodes();
+                jsonreceived = true;
             }
         }
     };
@@ -62,7 +64,9 @@ function onLoad() {
 //Purges existing nodes and calls initializeNodes() to reset them
 function resetCanvas(){
     allnodes = [];
-    initializeNodes();
+    if (jsonreceived) { //do not run function immediately after opening webpage - only run block on reset
+        initializeNodes();
+    }
 }
 
 /* ***** NODE HANDLING FUNCTIONS ***** */
