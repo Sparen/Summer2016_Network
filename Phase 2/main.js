@@ -85,75 +85,9 @@ function initializeNodes() {
 
     var i;
     for (i = 0; i < nodes.length; i++) { //for every node in survey.json
-        nodes[i].height = 40; //for the title
-        nodes[i].totalheight = nodes[i].height + nodes[i].columns.length * 20;
-
-        //top left coordinates
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
-        nodes[i].x = x_coord;
-        nodes[i].y = y_coord;
-
-        //Iterate through nodes and assign to columns
-        var j;
-        for (j = 0; j < nodes[i].columns.length; j++) {
-            nodes[i].columns[j].offset = j; //which item it is in relation to title.
-            nodes[i].columns[j].height = 20; //default height for column is 20
-            nodes[i].columns[j].width = nodes[i].width;
-            nodes[i].columns[j].x = x_coord;
-            nodes[i].columns[j].y = y_coord + nodes[i].height + j*nodes[i].columns[j].height; 
-            nodes[i].columns[j].parent = nodes[i];
-            nodes[i].columns[j].update = function(){
-                this.x = parent.x;
-                this.y = parent.y + parent.height + this.offset*this.height;
-            }
-            nodes[i].columns[j].draw = function(){
-                var ctx = myCanvas.context;
-                ctx.beginPath();
-                ctx.fillStyle = "#CCFFEE";
-                ctx.lineWidth = "1";
-                ctx.strokeStyle = "#BBEEDD";
-                ctx.rect(this.x + 1, this.y, this.width - 2, this.height);
-                ctx.fill(); //draw rectangle inside
-                ctx.stroke(); //draw rectangle border
-
-                ctx.font = "14px Andale Mono, monospace";
-                ctx.fillStyle = "black";
-                ctx.textAlign = "center"; 
-                ctx.textBaseline = "middle";
-                ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
-            }
-        }
-
-        //Now define the draw and update for the nodes
-        nodes[i].update = function(){
-            var n;
-            for (n = 0; n < this.columns.length; n++) {
-                this.columns[n].update();
-            }
-        };
-        nodes[i].draw = function(){
-            var ctx = myCanvas.context;
-            ctx.beginPath();
-            ctx.fillStyle = "#DDDDFF";
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "black";
-            ctx.rect(this.x, this.y, this.width, this.totalheight);
-            ctx.fill(); //draw rectangle inside
-            ctx.stroke(); //draw rectangle border
-
-            ctx.font = "14px Andale Mono, monospace";
-            ctx.fillStyle = "black";
-            ctx.textAlign = "center"; 
-            ctx.textBaseline = "middle";
-            ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
-
-            var n;
-            for (n = 0; n < this.columns.length; n++) {
-                this.columns[n].draw();
-            }
-        };
-
+        setNodeParameters(nodes[i], x_coord, y_coord);
         allnodes.push(nodes[i]); //add node to list of nodes
     }
 
@@ -166,6 +100,79 @@ function connectNodes() {
     for (i = 0; i < edges.length; i++) { 
         //TODO
     }    
+}
+
+function setNodeParameters(node, x_coord, y_coord){
+    node.height = 40; //for the title
+    node.totalheight = node.height + node.columns.length * 20;
+
+    //top left coordinates
+    node.x = x_coord;
+    node.y = y_coord;
+
+    //Iterate through nodes and assign to columns
+    var j;
+    for (j = 0; j < node.columns.length; j++) {
+        setColumnParameters(node.columns[j], node, j);
+    }
+
+    //Now define the draw and update for the nodes
+    node.update = function(){
+        var n;
+        for (n = 0; n < this.columns.length; n++) {
+            this.columns[n].update();
+        }
+    };
+    node.draw = function(){
+        var ctx = myCanvas.context;
+        ctx.beginPath();
+        ctx.fillStyle = "#DDDDFF";
+        ctx.lineWidth = "2";
+        ctx.strokeStyle = "black";
+        ctx.rect(this.x, this.y, this.width, this.totalheight + 2); //+2 is to make the borders look nice
+        ctx.fill(); //draw rectangle inside
+        ctx.stroke(); //draw rectangle border
+
+        ctx.font = "14px Andale Mono, monospace";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center"; 
+        ctx.textBaseline = "middle";
+        ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
+            
+        var n;
+        for (n = 0; n < this.columns.length; n++) {
+            this.columns[n].draw();
+        }
+    };
+}
+
+function setColumnParameters(col, node, off){
+    col.offset = off; //which item it is in relation to title.
+    col.parent = node;
+    col.height = 20; //default height for column is 20
+    col.width = node.width;
+    col.x = node.x;
+    col.y = node.y + node.height + off*col.height; 
+    col.update = function(){
+        this.x = this.parent.x;
+        this.y = this.parent.y + this.parent.height + this.offset*this.height;
+    }
+    col.draw = function(){
+        var ctx = myCanvas.context;
+        ctx.beginPath();
+        ctx.fillStyle = "#CCFFEE";
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "#BBEEDD";
+        ctx.rect(this.x + 2, this.y, this.width - 4, this.height);
+        ctx.fill(); //draw rectangle inside
+        ctx.stroke(); //draw rectangle border
+
+        ctx.font = "14px Andale Mono, monospace";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "center"; 
+        ctx.textBaseline = "middle";
+        ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
+    }
 }
 
 //Determines optimized coordinates for each node in a network
