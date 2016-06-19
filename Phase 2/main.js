@@ -1,5 +1,6 @@
 var database_obj;
 var allnodes = [];
+var alledges = [];
 var jsonreceived = false; //whether or not the JSON file has been received.
 
 /* ***** INITIALIZATION AND CANVAS FUNCTIONS ***** */
@@ -98,8 +99,36 @@ function initializeNodes() {
 function connectNodes() {
     var i;
     for (i = 0; i < edges.length; i++) { 
-        //TODO
-    }    
+        var j;
+        for (j = 0; j < allnodes.length; j++) {            
+            //sourceObject assignment
+            if (edges[i].source == allnodes[j].id) {
+                edges[i].sourceObject = allnodes[j];
+            }
+            else {
+                var k;
+                for (k = 0; k < allnodes[j].columns.length; k++) {
+                    if (edges[i].source == allnodes[j].columns[k].id) {
+                        edges[i].sourceObject = allnodes[j].columns[k];
+                    }
+                }
+            }
+
+            //targetObject assignment
+            if (edges[i].target == allnodes[j].id) {
+                edges[i].targetObject = allnodes[j];
+            }
+            else {
+                var k;
+                for (k = 0; k < allnodes[j].columns.length; k++) {
+                    if (edges[i].target == allnodes[j].columns[k].id) {
+                        edges[i].targetObject = allnodes[j].columns[k];
+                    }            
+                }
+            }
+        }
+        alledges.push(edges[i]); //add node to list of nodes
+    }
 }
 
 function setNodeParameters(node, x_coord, y_coord){

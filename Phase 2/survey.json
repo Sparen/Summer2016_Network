@@ -1,7 +1,7 @@
 {
     "nodes": [
         {
-            "id": "sex_title",
+            "id": "sex",
             "name": "Sex",
             "type": "table",
             "width": 80,
@@ -17,7 +17,7 @@
             ]
         },
         {
-            "id": "usa_title",
+            "id": "usa",
             "name": "Live in USA?",
             "type": "table",
             "width": 120,
@@ -33,7 +33,7 @@
             ]
         },
         {
-            "id": "married_title",
+            "id": "married",
             "name": "Married?",
             "type": "table",
             "width": 80,
@@ -49,7 +49,7 @@
             ]
         },
         {
-            "id": "pets_title",
+            "id": "pets",
             "name": "Pets?",
             "type": "table",
             "width": 80,
@@ -81,7 +81,7 @@
             ]
         },
         {
-            "id": "profession_title",
+            "id": "profession",
             "name": "Profession?",
             "type": "table",
             "width": 120,
@@ -120,32 +120,32 @@
     "edges": [
         {
             "source": "sex.male",
-            "target": "pets_title",
+            "target": "pets",
             "color": "black"
         },
         {
             "source": "sex.male",
-            "target": "married_title",
+            "target": "married",
             "color": "black"
         },
         {
             "source": "usa.yes",
-            "target": "married_title",
+            "target": "married",
             "color": "black"
         },
         {
             "source": "usa.no",
-            "target": "profession_title",
+            "target": "profession",
             "color": "black"
         },
         {
             "source": "profession.artist",
-            "target": "pets_title",
+            "target": "pets",
             "color": "black"
         },
         {
             "source": "profession.title",
-            "target": "pets_title",
+            "target": "pets",
             "color": "blue"
         }
     ]
