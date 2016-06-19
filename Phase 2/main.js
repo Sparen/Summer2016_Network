@@ -33,6 +33,10 @@ function update_main(canvasid) {
     for (i = 0; i < allnodes.length; i += 1) {
         allnodes[i].update();
     }
+    var j;
+    for (j = 0; j < alledges.length; j += 1) {
+        alledges[j].update();
+    }
 
     draw_main(canvasid); //draw updated things 
 }
@@ -42,6 +46,10 @@ function draw_main(canvasid) {
     var i;
     for (i = 0; i < allnodes.length; i += 1) {
         allnodes[i].draw();
+    }
+    var j;
+    for (j = 0; j < alledges.length; j += 1) {
+        alledges[j].draw();
     }
 }
 
@@ -127,6 +135,7 @@ function connectNodes() {
                 }
             }
         }
+        setEdgeParameters(edges[i]);
         alledges.push(edges[i]); //add node to list of nodes
     }
 }
@@ -201,6 +210,31 @@ function setColumnParameters(col, node, off){
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
         ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
+    }
+}
+
+function setEdgeParameters(edge){
+    edge.update = function(){
+
+    }
+    edge.draw = function(){
+        //First, obtain values
+        var sourcex = this.sourceObject.x;
+        var sourcey = this.sourceObject.y + this.sourceObject.height/2;
+        var targetx = this.targetObject.x;
+        var targety = this.targetObject.y + this.targetObject.height/2;
+
+        //Determine which side to use
+        if (sourcex + this.sourceObject.width < targetx) {sourcex += this.sourceObject.width;}//source right side, target left side
+        else if (sourcex > targetx + this.targetObject.width) {targetx += this.targetObject.width;}//source left side, target right side
+
+        var ctx = myCanvas.context;
+        ctx.beginPath();
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = "2";
+        ctx.moveTo(sourcex, sourcey);
+        ctx.lineTo(targetx, targety);
+        ctx.stroke();
     }
 }
 
