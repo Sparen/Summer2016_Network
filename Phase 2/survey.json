@@ -144,9 +144,9 @@
             "color": "black"
         },
         {
-            "source": "profession.title",
+            "source": "profession",
             "target": "pets",
-            "color": "blue"
+            "color": "dodgerblue"
         }
     ]
 }
