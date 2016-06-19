@@ -86,6 +86,7 @@ function initializeNodes() {
     var i;
     for (i = 0; i < nodes.length; i++) { //for every node in survey.json
         nodes[i].height = 40; //for the title
+        nodes[i].totalheight = nodes[i].height + nodes[i].columns.length * 20;
 
         //top left coordinates
         var x_coord = scaled_coord_array[i][0];
@@ -108,6 +109,19 @@ function initializeNodes() {
             }
             nodes[i].columns[j].draw = function(){
                 var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.fillStyle = "#CCFFEE";
+                ctx.lineWidth = "1";
+                ctx.strokeStyle = "#BBEEDD";
+                ctx.rect(this.x + 1, this.y, this.width - 2, this.height);
+                ctx.fill(); //draw rectangle inside
+                ctx.stroke(); //draw rectangle border
+
+                ctx.font = "14px Andale Mono, monospace";
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center"; 
+                ctx.textBaseline = "middle";
+                ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
             }
         }
 
@@ -120,12 +134,13 @@ function initializeNodes() {
         };
         nodes[i].draw = function(){
             var ctx = myCanvas.context;
+            ctx.beginPath();
             ctx.fillStyle = "#DDDDFF";
             ctx.lineWidth = "2";
             ctx.strokeStyle = "black";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.fill(); //rectangle
-            ctx.stroke();
+            ctx.rect(this.x, this.y, this.width, this.totalheight);
+            ctx.fill(); //draw rectangle inside
+            ctx.stroke(); //draw rectangle border
 
             ctx.font = "14px Andale Mono, monospace";
             ctx.fillStyle = "black";
