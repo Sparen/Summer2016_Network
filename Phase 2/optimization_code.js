@@ -68,10 +68,25 @@ function hasTarget(id) {
     return false;
 }
 
+//returns true if directly adjacent or colliding
 function isCollidingNN(node1, node2) {
-    if ((node1.x + node1.width >= node2.x || node2.x + node2.width >= node1.x) && (node1.y + node1.height >= node2.height || node2.y + node2.height >= node1.y) {
+    if ((node1.x + node1.width >= node2.x || node2.x + node2.width >= node1.x) && (node1.y + node1.totalheight >= node2.totalheight || node2.y + node2.totalheight >= node1.y) {
         return true;
     } else {
         return false;
     }
+}
+
+//returns true if one crosses over the other. Running alongside does not count as a collision. Requires straight line segments
+function isCollidingNE(node1, edge1) {
+    //determine node bounds
+    var nodel = node1.x;
+    var nodet = node1.y;
+    var noder = node1.x + node1.width;
+    var nodeb = node1.y + node1.totalheight;
+
+    //determine edge points
+    var edgepoints = edge1.points;
+
+    //Iterate over edges and determine if there are any meaningful collisions.
 }
