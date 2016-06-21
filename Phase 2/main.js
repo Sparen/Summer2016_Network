@@ -236,5 +236,21 @@ function setEdgeParameters(edge){
         ctx.moveTo(sourcex, sourcey);
         ctx.lineTo(targetx, targety);
         ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = "2";
+        ctx.arc(sourcex, sourcey, 4, 0, 2*Math.PI);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = "2";
+        ctx.arc(targetx, targety, 4, 0, 2*Math.PI);
+        ctx.fill();
+        ctx.stroke();
     }
 }
