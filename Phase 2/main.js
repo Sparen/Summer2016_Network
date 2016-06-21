@@ -219,9 +219,6 @@ function setColumnParameters(col, node, off){
 
 function setEdgeParameters(edge){
     edge.update = function(){
-
-    }
-    edge.draw = function(){
         //First, obtain values
         var sourcex = this.sourceObject.x;
         var sourcey = this.sourceObject.y + this.sourceObject.height/2;
@@ -232,19 +229,28 @@ function setEdgeParameters(edge){
         if (sourcex + this.sourceObject.width < targetx) {sourcex += this.sourceObject.width;}//source right side, target left side
         else if (sourcex > targetx + this.targetObject.width) {targetx += this.targetObject.width;}//source left side, target right side
 
+        this.points = [];
+        this.points.push([sourcex, sourcey]);
+        this.points.push([targetx, targety]);
+
+    }
+    edge.draw = function(){
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.strokeStyle = this.color;
         ctx.lineWidth = "2";
-        ctx.moveTo(sourcex, sourcey);
-        ctx.lineTo(targetx, targety);
+        ctx.moveTo(this.points[0][0], this.points[0][1]);
+        var i;
+        for (i = 1; i < this.points.length; i += 1) {
+            ctx.lineTo(this.points[i][0], this.points[i][1]);
+        }
         ctx.stroke();
 
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.strokeStyle = this.color;
         ctx.lineWidth = "2";
-        ctx.arc(sourcex, sourcey, 4, 0, 2*Math.PI);
+        ctx.arc(this.points[0][0], this.points[0][1], 4, 0, 2*Math.PI); //circle at source
         ctx.fill();
         ctx.stroke();
 
@@ -252,7 +258,7 @@ function setEdgeParameters(edge){
         ctx.fillStyle = "white";
         ctx.strokeStyle = this.color;
         ctx.lineWidth = "2";
-        ctx.arc(targetx, targety, 4, 0, 2*Math.PI);
+        ctx.arc(this.points[this.points.length-1][0], this.points[this.points.length-1][1], 4, 0, 2*Math.PI); //circle at target
         ctx.fill();
         ctx.stroke();
     }
