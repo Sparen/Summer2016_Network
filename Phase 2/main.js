@@ -5,9 +5,12 @@ var jsonreceived = false; //whether or not the JSON file has been received.
 
 /* ***** INITIALIZATION AND CANVAS FUNCTIONS ***** */
 
+paper.install(window); //Inject paper.js into the window
+
 function start(canvasid) {
     console.log("start(): Running on canvas with id " + canvasid);
     myCanvas.start(canvasid); //set up canvas and interval, etc.
+    paper.setup(canvasid);
     onLoad();
 }
 
