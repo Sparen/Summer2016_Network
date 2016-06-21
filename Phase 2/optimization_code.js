@@ -67,3 +67,11 @@ function hasTarget(id) {
     }
     return false;
 }
+
+function isCollidingNN(node1, node2) {
+    if ((node1.x + node1.width >= node2.x || node2.x + node2.width >= node1.x) && (node1.y + node1.height >= node2.height || node2.y + node2.height >= node1.y) {
+        return true;
+    } else {
+        return false;
+    }
+}
