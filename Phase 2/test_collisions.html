@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="sample.css">
+    <title>Collision Testing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+    <div style="text-align: center; max-width: 640px;">
+    <h1>This is a testing suite for collisions.</h1>
+    <ul style="text-align: left;">
+      <li><a href="#id_1">Node to Node</a></li>
+      <li>Node to Edge</li>
+      <li>Edge to Edge</li>
+    </ul>
+    <h2>Summary</h2>
+    <p>Green is good, Red is bad</p>
+    <ul style="text-align: left;">
+      <li>Node to Node: <span id="res_1">1</span><span id="res_2">2</span><span id="res_3">3</span></li>
+    </ul>
+
+    <h3 id="id_1">1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    	<rect x="352" y="192" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node1_1 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var node1_2 = {"x": 352, "y": 192, "width": 64, "totalheight": 64};
+    return isCollidingNN(node1_1, node1_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_1"></p>
+
+    <h3 id="id_2">2</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    	<rect x="64" y="192" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node2_1 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var node2_2 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    return isCollidingNN(node2_1, node2_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_2"></p>
+
+    <h3 id="id_3">3</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    	<rect x="352" y="64" width="64" height="64" fill="white" stroke="blue" stroke-width="2"></rect>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node3_1 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var node3_2 = {"x": 352, "y": 64, "width": 64, "totalheight": 64};
+    return isCollidingNN(node3_1, node3_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_3"></p>
+
+    <p>Suite made by Andrew Fan</p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.25/paper-full.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="optimization_code.js"></script>
+    <script type="text/javascript" src="test_collisions.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  </body>
+
+</html>
