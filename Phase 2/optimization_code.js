@@ -102,13 +102,18 @@ function isCollidingNE(node1, edge1) {
 //returns true if two edges have an intersection
 function isCollidingEE(edge1, edge2) {
 var p1x = edge1.points[0][0],
-    p1y = edge1.points[0][1],
-    v1x = edge1.points[1][0],
-    v1y = edge1.points[1][1],
-    p2x = edge2.points[0][0],
-    p2y = edge2.points[0][1],
-    v2x = edge2.points[1][0],
-    v2y = edge2.points[1][1];
+p1y = edge1.points[0][1],
+v1x = edge1.points[1][0],
+v1y = edge1.points[1][1],
+p2x = edge2.points[0][0],
+p2y = edge2.points[0][1],
+v2x = edge2.points[1][0],
+v2y = edge2.points[1][1];
+
+v1x -= p1x;
+v1y -= p1y;
+v2x -= p2x;
+v2y -= p2y;
 
 // Q: what if they are identical?
 var cross = v1x * v2y - v1y * v2x;
@@ -121,10 +126,25 @@ if (cross !== 0) {
         uMin = -epsilon,
         uMax = 1 + epsilon;
     if (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax) {
-        // to return an intersecting point,
-        // u1 = u1 <= 0 ? 0 : u1 >= 1 ? 1 : u1;
-        // return [p1x + u1 * v1x, p1y + u1 * v1y];
-         return true;
+        u1 = u1 <= 0 ? 0 : u1 >= 1 ? 1 : u1;
+        var int_pt = [p1x + u1 * v1x, p1y + u1 * v1y];
+        var rounded_int_pt = [Math.ceil(int_pt[0]), Math.ceil(int_pt[1])];
+
+        //disregard source & target points as collisions
+        if (rounded_int_pt[0] === edge1.points[0][0] && rounded_int_pt[1] === edge1.points[0][1] || 
+            rounded_int_pt[0] === edge1.points[1][0] && rounded_int_pt[1] === edge1.points[1][1] ||
+            rounded_int_pt[0] === edge2.points[0][0] && rounded_int_pt[1] === edge2.points[0][1] ||
+            rounded_int_pt[0] === edge2.points[1][0] && rounded_int_pt[1] === edge2.points[1][1] ) {
+            return false;
+        }
+
+        var mycanvas = document.getElementById('maincanvas');
+        var ctx = mycanvas.getContext("2d");
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(int_pt[0], int_pt[1], 3, 0, 2*Math.PI);
+        ctx.fill();
+        return true;
     }
 }
 return false;
