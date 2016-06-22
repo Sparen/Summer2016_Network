@@ -7,13 +7,6 @@ var jsonreceived = false; //whether or not the JSON file has been received.
 
 paper.install(window); //Inject paper.js into the window
 
-function start(canvasid) {
-    console.log("start(): Running on canvas with id " + canvasid);
-    myCanvas.start(canvasid); //set up canvas and interval, etc.
-    paper.setup(canvasid);
-    onLoad();
-}
-
 var myCanvas = {
     start: function (canvasid) {
         resetCanvas();
@@ -26,6 +19,13 @@ var myCanvas = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 };
+
+function start(canvasid) {
+    console.log("start(): Running on canvas with id " + canvasid);
+    myCanvas.start(canvasid); //set up canvas and interval, etc.
+    paper.setup(canvasid);
+    onLoad();
+}
 
 //Main update loop. Calls the update loops of all objects
 function update_main(canvasid) {
@@ -40,8 +40,8 @@ function update_main(canvasid) {
     for (j = 0; j < alledges.length; j += 1) {
         alledges[j].update();
     }
-
     draw_main(canvasid); //draw updated things 
+    numCollisions(); // draws & returns number of collisions
 }
 
 //Main draw loop. Handles render order.
@@ -70,7 +70,6 @@ function onLoad() {
             }
         }
     };
-
     client.send();
 }
 
@@ -254,7 +253,6 @@ function setEdgeParameters(edge){
             ctx.lineTo(this.points[i][0], this.points[i][1]);
         }
         ctx.stroke();
-
         ctx.beginPath();
         ctx.fillStyle = "white";
         ctx.strokeStyle = this.color;
@@ -273,4 +271,19 @@ function setEdgeParameters(edge){
             ctx.stroke();
         }
     }
+}
+
+//draws intersecting points and returns number of collisions between edges
+function numCollisions() {
+    var num = 0;
+    var i;
+    for (i = 0; i < alledges.length; i++) {
+        var j;
+        for (j = i+1; j < alledges.length; j++) {
+            if (isCollidingEE(alledges[i], alledges[j])) {
+                num++;
+            }
+        }
+    }
+    return num;
 }

@@ -132,6 +132,12 @@
             "drawtarget": true
         },
         {
+            "source": "pets.fish",
+            "target": "usa.yes",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
             "source": "sex.male",
             "target": "married",
             "color": "black",
