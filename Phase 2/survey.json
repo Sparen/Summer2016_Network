@@ -115,38 +115,57 @@
                     "name": "Electrician"
                 }
             ]
+        },
+        {
+            "id": "profession.science.exp",
+            "name": "+",
+            "type": "+",
+            "width": 0,
+            "columns": []
         }
     ],
     "edges": [
         {
             "source": "sex.male",
             "target": "pets",
-            "color": "black"
+            "color": "black",
+            "drawtarget": true
         },
         {
             "source": "sex.male",
             "target": "married",
-            "color": "black"
+            "color": "black",
+            "drawtarget": true
         },
         {
             "source": "usa.yes",
             "target": "married",
-            "color": "black"
+            "color": "black",
+            "drawtarget": true
         },
         {
             "source": "usa.no",
             "target": "profession",
-            "color": "black"
+            "color": "black",
+            "drawtarget": true
         },
         {
             "source": "profession.artist",
             "target": "pets",
-            "color": "black"
+            "color": "black",
+            "drawtarget": true
         },
         {
             "source": "profession",
             "target": "pets",
-            "color": "dodgerblue"
+            "color": "dodgerblue",
+            "drawtarget": true
+        },
+        {
+            "source": "profession.science",
+            "target": "profession.science.exp",
+            "color": "black",
+            "drawtarget": false
         }
     ]
 }

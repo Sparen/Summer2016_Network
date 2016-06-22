@@ -171,12 +171,21 @@ function setNodeParameters(node, x_coord, y_coord){
         ctx.fillStyle = "#DDDDFF";
         ctx.lineWidth = "2";
         ctx.strokeStyle = "black";
-        ctx.rect(this.x, this.y, this.width, this.totalheight + 2); //+2 is to make the borders look nice
-        ctx.fill(); //draw rectangle inside
-        ctx.stroke(); //draw rectangle border
+        if (this.type == "table" || this.type == "track") {
+            ctx.rect(this.x, this.y, this.width, this.totalheight + 2); //+2 is to make the borders look nice
+        } else {
+            ctx.fillStyle = "black";
+            ctx.arc(this.x, this.y + 20, 6, 0, 2*Math.PI); //circle at source. 20 is default title height. +4 makes things align nicely.
+        }
+        ctx.fill(); //draw inside
+        ctx.stroke(); //draw border
 
         ctx.font = "14px Andale Mono, monospace";
-        ctx.fillStyle = "black";
+        if (this.type == "table" || this.type == "track") {
+            ctx.fillStyle = "black";
+        } else {
+            ctx.fillStyle = "white";
+        }
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
         ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
@@ -254,12 +263,14 @@ function setEdgeParameters(edge){
         ctx.fill();
         ctx.stroke();
 
-        ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = "2";
-        ctx.arc(this.points[this.points.length-1][0], this.points[this.points.length-1][1], 4, 0, 2*Math.PI); //circle at target
-        ctx.fill();
-        ctx.stroke();
+        if (this.drawtarget) {
+            ctx.beginPath();
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = "2";
+            ctx.arc(this.points[this.points.length-1][0], this.points[this.points.length-1][1], 4, 0, 2*Math.PI); //circle at target
+            ctx.fill();
+            ctx.stroke();
+        }
     }
 }

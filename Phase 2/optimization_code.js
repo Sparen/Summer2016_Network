@@ -87,6 +87,12 @@ function isCollidingNE(node1, edge1) {
 
     //determine edge points
     var edgepoints = edge1.points;
+    var i = 0;
+    for (i = 0; i < edgepoints.length - 1; i++) { //for each segment
+        //first get the two points 
+        var point1 = edgepoints[i];
+        var point2 = edgepoints[i+1];
 
-    //Iterate over edges and determine if there are any meaningful collisions.
+        //Call numCollisionsEE to determine whether or not there is a collision
+    }
 }
