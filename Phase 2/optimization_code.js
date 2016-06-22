@@ -98,3 +98,34 @@ function isCollidingNE(node1, edge1) {
         //Call numCollisionsEE to determine whether or not there is a collision
     }
 }
+
+//returns true if two edges have an intersection
+function isCollidingEE(edge1, edge2) {
+var p1x = edge1.points[0][0],
+    p1y = edge1.points[0][1],
+    v1x = edge1.points[1][0],
+    v1y = edge1.points[1][1],
+    p2x = edge2.points[0][0],
+    p2y = edge2.points[0][1],
+    v2x = edge2.points[1][0],
+    v2y = edge2.points[1][1];
+
+// Q: what if they are identical?
+var cross = v1x * v2y - v1y * v2x;
+if (cross !== 0) {
+    var dx = p1x - p2x,
+        dy = p1y - p2y,
+        u1 = (v2x * dy - v2y * dx) / cross,
+        u2 = (v1x * dy - v1y * dx) / cross,
+        epsilon = 1e-12,
+        uMin = -epsilon,
+        uMax = 1 + epsilon;
+    if (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax) {
+        // to return an intersecting point,
+        // u1 = u1 <= 0 ? 0 : u1 >= 1 ? 1 : u1;
+        // return [p1x + u1 * v1x, p1y + u1 * v1y];
+         return true;
+    }
+}
+return false;
+}
