@@ -14,7 +14,7 @@
     <ul style="text-align: left;">
       <li><a href="#id_1">Node to Node (No collisions)</a></li>
       <li><a href="#id_6">Node to Node (Direct collisions)</a></li>
-      <li>Node to Node (Edge cases)</li>
+      <li><a href="#id_16">Node to Node (Edge cases)</a></li>
       <li>Node to Edge</li>
       <li>Edge to Edge</li>
     </ul>
@@ -22,7 +22,7 @@
     <p>Green is good, Red is bad</p>
     <ul style="text-align: left;">
       <li>Node to Node (No collisions): <span id="res_1">1</span> <span id="res_2">2</span> <span id="res_3">3</span> <span id="res_4">4</span> <span id="res_5">5</span></li>
-      <li>Node to Node (Direct collisions): <span id="res_6">6</span></li>
+      <li>Node to Node (Direct collisions): <span id="res_6">6</span> <span id="res_7">7</span> <span id="res_8">8</span> <span id="res_9">9</span> <span id="res_10">10</span> <span id="res_11">11</span> <span id="res_12">12</span> <span id="res_13">13</span> <span id="res_14">14</span> <span id="res_15">15</span></li>
       <li>Node to Node (Edge cases): </li>
       <li>Node to Edge: </li>
       <li>Edge to Edge: </li>
@@ -146,6 +146,147 @@
     return isCollidingNN(node7_1, node7_2);</code></pre>
     <p>Expected: <span style="color: blue">TRUE</span>
     <p id="test_7"></p>
+
+    <h3 id="id_8">8</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="96" y="128" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    	<rect x="128" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="224" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node8_1 = {"x": 128, "y": 96, "width": 128, "totalheight": 128};
+    var node8_2 = {"x": 64, "y": 64, "width": 128, "totalheight": 128};
+    return isCollidingNN(node8_1, node8_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_8"></p>
+
+    <h3 id="id_9">9</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="128" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="96" y="192" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    	<rect x="128" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="224" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node9_1 = {"x": 128, "y": 96, "width": 128, "totalheight": 128};
+    var node9_2 = {"x": 64, "y": 128, "width": 128, "totalheight": 128};
+    return isCollidingNN(node9_1, node9_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_9"></p>
+
+    <h3 id="id_10">10</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="272" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="112" y="128" width="128" height="64" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="144" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node10_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node10_2 = {"x": 112, "y": 128, "width": 128, "totalheight": 64};
+    return isCollidingNN(node10_1, node10_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_10"></p>
+
+    <h3 id="id_11">11</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="208" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="240" y="128" width="128" height="64" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="336" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node11_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node11_2 = {"x": 240, "y": 128, "width": 128, "totalheight": 64};
+    return isCollidingNN(node11_1, node11_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_11"></p>
+
+    <h3 id="id_12">12</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="192" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="208" y="32" width="64" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="64" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node12_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node12_2 = {"x": 208, "y": 32, "width": 64, "totalheight": 128};
+    return isCollidingNN(node12_1, node12_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_12"></p>
+
+    <h3 id="id_13">13</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="128" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="208" y="160" width="64" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="256" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node13_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node13_2 = {"x": 208, "y": 160, "width": 64, "totalheight": 128};
+    return isCollidingNN(node13_1, node13_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_13"></p>
+
+    <h3 id="id_14">14</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="32" width="128" height="256" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="144" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="112" y="96" width="256" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="256" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node14_1 = {"x": 176, "y": 32, "width": 128, "totalheight": 256};
+    var node14_2 = {"x": 112, "y": 96, "width": 256, "totalheight": 128};
+    return isCollidingNN(node14_1, node14_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_14"></p>
+
+    <h3 id="id_15">15</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="208" y="128" width="64" height="64" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="160" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">1</text>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="208" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">2</text>
+    	<rect x="144" y="64" width="192" height="192" fill="none" stroke="red" stroke-width="2"></rect>
+	<text x="240" y="240" font-family="Andale Mono, monospace" font-size="16px" fill="black"
+          text-anchor="middle" dominant-baseline="central">3</text>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var node15_1 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var node15_2 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node15_3 = {"x": 144, "y": 64, "width": 192, "totalheight": 192};
+    return isCollidingNN(node15_1, node15_2) && isCollidingNN(node15_1, node15_3) &&
+           isCollidingNN(node15_2, node15_3);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_15"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>
