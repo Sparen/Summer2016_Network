@@ -209,3 +209,33 @@
         document.getElementById("res_" + testno).style.color = "red";
         console.log("Test " + testno + ": Node " + testno + ".1, Node " + testno + ".2, and Node " + testno + ".3 are all colliding");
     }
+
+    testno = "16";
+    var node16_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node16_2 = {"x": 304, "y": 96, "width": 64, "totalheight": 128};
+    var node16_3 = {"x": 112, "y": 96, "width": 64, "totalheight": 128};
+    var result16 = isCollidingNN(node16_1, node16_2) && isCollidingNN(node16_1, node16_3) && isCollidingNN(node16_2, node16_3);
+    if (result16 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
+    }
+
+    testno = "17";
+    var node17_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node17_2 = {"x": 176, "y": 32, "width": 128, "totalheight": 64};
+    var node17_3 = {"x": 176, "y": 224, "width": 128, "totalheight": 64};
+    var result17 = isCollidingNN(node17_1, node17_2) && isCollidingNN(node17_1, node17_3) && isCollidingNN(node17_2, node17_3);
+    if (result17 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
+    }
