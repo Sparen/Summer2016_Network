@@ -6,11 +6,9 @@
     if (result1 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "2";
@@ -20,11 +18,9 @@
     if (result2 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "3";
@@ -34,11 +30,9 @@
     if (result3 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "4";
@@ -48,11 +42,9 @@
     if (result4 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "5";
@@ -62,11 +54,9 @@
     if (result5 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "6";
@@ -76,11 +66,9 @@
     if (result6 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "7";
@@ -90,11 +78,9 @@
     if (result7 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "8";
@@ -104,11 +90,9 @@
     if (result8 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "9";
@@ -118,11 +102,9 @@
     if (result9 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "10";
@@ -132,11 +114,9 @@
     if (result10 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "11";
@@ -146,11 +126,9 @@
     if (result11 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "12";
@@ -160,11 +138,9 @@
     if (result12 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "13";
@@ -174,11 +150,9 @@
     if (result13 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "14";
@@ -188,11 +162,9 @@
     if (result14 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "15";
@@ -203,11 +175,9 @@
     if (result15 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1, Node " + testno + ".2, and Node " + testno + ".3 are NOT all colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1, Node " + testno + ".2, and Node " + testno + ".3 are all colliding");
     }
 
     testno = "16";
@@ -218,11 +188,9 @@
     if (result16 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
     }
 
     testno = "17";
@@ -233,9 +201,22 @@
     if (result17 == true) { //Expected: true
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are NOT colliding");
     } else {
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
-        console.log("Test " + testno + ": Node " + testno + ".1 and Node " + testno + ".2 are colliding");
+    }
+
+    testno = "18";
+    var node18_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node18_2 = {"x": 304, "y": 32, "width": 64, "totalheight": 64};
+    var node18_3 = {"x": 304, "y": 224, "width": 64, "totalheight": 64};
+    var node18_4 = {"x": 112, "y": 32, "width": 64, "totalheight": 64};
+    var node18_5 = {"x": 112, "y": 224, "width": 64, "totalheight": 64};
+    var result18 = isCollidingNN(node18_1, node18_2) || isCollidingNN(node18_1, node18_3) || isCollidingNN(node18_1, node18_4) || isCollidingNN(node18_1, node18_5);
+    if (result18 == false) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
     }
