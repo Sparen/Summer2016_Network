@@ -68,7 +68,7 @@ function hasTarget(id) {
     return false;
 }
 
-//returns true if directly adjacent or colliding. COMPLETELY WRONG.
+//returns true if directly adjacent or colliding. From Mozilla
 function isCollidingNN(node1, node2) {
     if (node1.x < node2.x + node2.width && node1.x + node1.width > node2.x && node1.y < node2.y + node2.totalheight && node1.totalheight + node1.y > node2.y) {
         return true;
