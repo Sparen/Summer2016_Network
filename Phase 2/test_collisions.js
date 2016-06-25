@@ -220,3 +220,51 @@
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
+
+    testno = "19";
+    var node19_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node19_2 = {"x": 208, "y": 160, "width": 64, "totalheight": 64};
+    var result19 = isCollidingNN(node19_1, node19_2);
+    if (result19 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "20";
+    var node20_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node20_2 = {"x": 208, "y": 96, "width": 64, "totalheight": 128};
+    var result20 = isCollidingNN(node20_1, node20_2);
+    if (result20 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "21";
+    var node21_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node21_2 = {"x": 176, "y": 128, "width": 64, "totalheight": 128};
+    var result21 = isCollidingNN(node20_1, node20_2);
+    if (result21 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "22";
+    var node22_1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var node22_2 = {"x": 240, "y": 128, "width": 64, "totalheight": 128};
+    var result22 = isCollidingNN(node22_1, node22_2);
+    if (result22 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
