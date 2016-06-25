@@ -1,3 +1,4 @@
+var iterationNum = 0;
 var database_obj;
 var allnodes = [];
 var alledges = [];
@@ -31,7 +32,6 @@ function start(canvasid) {
 function update_main(canvasid) {
     myCanvas.clear(); //Begin by clearing everything
     myCanvas.frameNo += 1; //Increment the master counter
-
     var i;
     for (i = 0; i < allnodes.length; i += 1) {
         allnodes[i].update();
@@ -94,21 +94,37 @@ function initializeNodes() {
     //Scaled coordinates
     var scaled_coord_array = scaleCoordinates(coord_array);
 
-    //pushAllNodes
+    if (iterationNum++ != 0) {
+        randomGridArrangement(scaled_coord_array);  
+    }
+
+    pushAllNodes(scaled_coord_array);
+    pushAllEdges();
+
+//NEED TO ACCESS numCollision() function but seems like edges.points aren't declared here yet!
+//    var noiseLevel = numCollisions();
+//    alert(noiseLevel);
+}
+
+function shuffleNetwork() {
+    pushAllNodes(scaled_coord_array);
+}
+
+function pushAllNodes(scaled_coord_array) {
     var i;
+    var tempNodes = [];
     for (i = 0; i < nodes.length; i++) { //for every node in survey.json
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
         setNodeParameters(nodes[i], x_coord, y_coord);
-        allnodes.push(nodes[i]); //add node to list of nodes
+        tempNodes.push(nodes[i]); //add node to list of nodes
     }
-
-    //Draws edges between nodes
-    pushAllEdges();
+    allnodes = tempNodes;
 }
 
 function pushAllEdges() {
     var i;
+    var tempEdges = [];
     for (i = 0; i < edges.length; i++) { 
         var j;
         for (j = 0; j < allnodes.length; j++) {            
