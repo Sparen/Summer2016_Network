@@ -304,3 +304,27 @@
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
+
+    testno = "B4";
+    var nodeB4 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var edgeB4 = {"points": [[64, 256], [256, 256], [256, 64]]};
+    var resultB4 = isCollidingNE(nodeB4, edgeB4);
+    if (resultB4 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "B5";
+    var nodeB5 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var edgeB5 = {"points": [[32, 256], [256, 256], [256, 32], [32, 32], [32, 256]]};
+    var resultB5 = isCollidingNE(nodeB5, edgeB5);
+    if (resultB5 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
