@@ -122,7 +122,7 @@ function shuffleNetwork() {
             lowestEdgeNoise = currentEdgeNoise;
             optimalGridAssignment = scaled_coord_array;
             pushAllNodes(optimalGridAssignment);
-            update_main();
+            update_main("maincanvas");
         }
     }
 }
@@ -137,7 +137,6 @@ function pushAllNodes(scaled_coord_array) {
         tempNodes.push(nodes[i]); //add node to list of nodes
     }
     allnodes = tempNodes;
-    var i;
     for (i = 0; i < allnodes.length; i += 1) {
         allnodes[i].update();
     }
