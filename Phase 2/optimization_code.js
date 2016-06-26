@@ -155,9 +155,9 @@ function isCollidingEE(edge1, edge2) {
 return false;
 }
 
-function randomGridArrangement(coordinates) {
+function shuffleCoordArray(coordinates) {
     var maxIndex = coordinates.length;
-    var randomNumIteration = Math.floor(Math.random()*10);
+    var randomNumIteration = Math.floor(Math.random()*maxIndex);
     var i;
 
     for (i = 0; i < randomNumIteration; i++) {

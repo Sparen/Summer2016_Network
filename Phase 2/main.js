@@ -2,7 +2,6 @@ var iterationNum = 0;
 var database_obj;
 var nodes;
 var edges;
-var optimalGridAssignment = [];
 var allnodes = [];
 var alledges = [];
 var jsonreceived = false; //whether or not the JSON file has been received.
@@ -27,36 +26,7 @@ var myCanvas = {
 function start(canvasid) {
     console.log("start(): Running on canvas with id " + canvasid);
     myCanvas.start(canvasid); //set up canvas and interval, etc.
-    paper.setup(canvasid);
     onLoad();
-}
-
-//Main update loop. Calls the update loops of all objects
-function update_main(canvasid) {
-    myCanvas.clear(); //Begin by clearing everything
-    myCanvas.frameNo += 1; //Increment the master counter
-    var i;
-    for (i = 0; i < allnodes.length; i += 1) {
-        allnodes[i].update();
-    }
-    var j;
-    for (j = 0; j < alledges.length; j += 1) {
-        alledges[j].update();
-    }
-    draw_main(canvasid); //draw updated things 
-}
-
-//Main draw loop. Handles render order.
-function draw_main(canvasid) {
-    var i;
-    for (i = 0; i < allnodes.length; i += 1) {
-        allnodes[i].draw();
-    }
-    var j;
-    for (j = 0; j < alledges.length; j += 1) {
-        alledges[j].draw();
-    }
-    numCollisions();
 }
 
 function onLoad() {
@@ -76,6 +46,33 @@ function onLoad() {
     client.send();
 }
 
+//Main update loop. Calls the update loops of all objects
+function update_main(canvasid) {
+    myCanvas.frameNo++; //Increment the master counter
+    var i;
+    for (i = 0; i < allnodes.length; i++) {
+        allnodes[i].update();
+    }
+    var j;
+    for (j = 0; j < alledges.length; j++) {
+        alledges[j].update();
+    }
+    draw_main(canvasid); //draw updated things
+}
+
+//Main draw loop. Handles render order.
+function draw_main(canvasid) {
+    myCanvas.clear();
+    var i;
+    for (i = 0; i < allnodes.length; i++) {
+        allnodes[i].draw();
+    }
+    var j;
+    for (j = 0; j < alledges.length; j++) {
+        alledges[j].draw();
+    }
+}
+
 //Purges existing nodes and calls initializeNodes() to reset them
 function resetCanvas(){
     allnodes = [];
@@ -92,53 +89,50 @@ function initializeNodes() {
     edges = database_obj.edges; 
 
     var grid_size = optimizeToGrid(nodes.length);
-    //Set of coordinates of each node onto plane (optimized)
     var coord_array = setCoordinates();
-    //Scaled coordinates
     var scaled_coord_array = scaleCoordinates(coord_array);
 
     pushAllNodes(scaled_coord_array);
     pushAllEdges();
-
-//NEED TO ACCESS numCollision() function but seems like edges.points aren't declared here yet!
-//    var noiseLevel = numCollisions();
-//    alert(noiseLevel);
 }
 
-function shuffleNetwork() {
-    console.log("shuffleNetwork(): Running");
+function optimizeNetworkByGrid() {
+    console.log("optimizeNetworkByGrid(): Running");
     var grid_size = optimizeToGrid(nodes.length);
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
     var lowestEdgeNoise = 1000;
     var currentEdgeNoise;
+    var optimalGridAssignment = [];
 
     var i;
     for (i = 0; i < 100; i ++) {
-        randomGridArrangement(scaled_coord_array);
+        shuffleCoordArray(scaled_coord_array);
         pushAllNodes(scaled_coord_array);
         currentEdgeNoise = numCollisions();
         if (currentEdgeNoise < lowestEdgeNoise) {
             lowestEdgeNoise = currentEdgeNoise;
             optimalGridAssignment = scaled_coord_array;
             pushAllNodes(optimalGridAssignment);
-            update_main("maincanvas");
+            draw_main("maincanvas");
         }
     }
+    alert("done!");
 }
 
 function pushAllNodes(scaled_coord_array) {
     var i;
-    var tempNodes = [];
+    allnodes = [];
     for (i = 0; i < nodes.length; i++) { //for every node in survey.json
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
         setNodeParameters(nodes[i], x_coord, y_coord);
-        tempNodes.push(nodes[i]); //add node to list of nodes
+        allnodes.push(nodes[i]); //add node to list of nodes
     }
-    allnodes = tempNodes;
-    for (i = 0; i < allnodes.length; i += 1) {
-        allnodes[i].update();
+
+    var j;
+    for (j = 0; j < allnodes.length; j += 1) {
+        allnodes[j].update();
     }
 }
 
@@ -159,7 +153,6 @@ function pushAllEdges() {
                     }
                 }
             }
-
             //targetObject assignment
             if (edges[i].target == allnodes[j].id) {
                 edges[i].targetObject = allnodes[j];
@@ -175,10 +168,6 @@ function pushAllEdges() {
         }
         setEdgeParameters(edges[i]);
         alledges.push(edges[i]); //add node to list of nodes
-    }
-    var j;
-    for (j = 0; j < alledges.length; j += 1) {
-        alledges[j].update();
     }
 }
 
@@ -318,6 +307,7 @@ function numCollisions() {
     for (j = 0; j < alledges.length; j += 1) {
         alledges[j].update();
     }
+
     var num = 0;
     var i;
     for (i = 0; i < alledges.length; i++) {
