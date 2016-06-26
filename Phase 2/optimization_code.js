@@ -85,16 +85,16 @@ function isCollidingNE(node1, edge1) {
     var noder = node1.x + node1.width;
     var nodeb = node1.y + node1.totalheight;
 
-    //determine edge points
-    var edgepoints = edge1.points;
-    var i = 0;
-    for (i = 0; i < edgepoints.length - 1; i++) { //for each segment
-        //first get the two points 
-        var point1 = edgepoints[i];
-        var point2 = edgepoints[i+1];
+    //Make a path for the rect.
+    var rectEdge = {};
+    rectEdge.points = [];
+    rectEdge.points.push([nodel, nodet]);
+    rectEdge.points.push([noder, nodet]);
+    rectEdge.points.push([noder, nodeb]);
+    rectEdge.points.push([nodel, nodeb]);
+    rectEdge.points.push([nodel, nodet]);
 
-        //Call numCollisionsEE to determine whether or not there is a collision
-    }
+    return isCollidingEE(rectEdge, edge1);
 }
 
 //returns true if two edges have an intersection
