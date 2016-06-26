@@ -85,6 +85,13 @@ function isCollidingNE(node1, edge1) {
     var noder = node1.x + node1.width;
     var nodeb = node1.y + node1.totalheight;
 
+    //Check if the source of the edge is located inside the node (no need to check target as long as one is checked). 
+    //Used for edge case where edge is located within node and does not intersect with any of the sides.
+    var pt = edge1.points[0];
+    if(pt[0] > nodel && pt[0] < noder && pt[1] > nodet && pt[1] < nodeb){
+        return true;
+    }
+
     //Make a path for the rect.
     var rectEdge = {};
     rectEdge.points = [];
