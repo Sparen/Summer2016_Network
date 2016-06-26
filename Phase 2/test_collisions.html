@@ -15,17 +15,25 @@
       <li><a href="#id_1">Node to Node (No collisions)</a></li>
       <li><a href="#id_6">Node to Node (Direct collisions)</a></li>
       <li><a href="#id_16">Node to Node (Edge cases)</a></li>
-      <li>Node to Edge</li>
-      <li>Edge to Edge</li>
+      <li><a href="#id_B1">Node to Edge (No collisions)</a></li>
+      <li>Node to Edge (Direct collisions)</li>
+      <li>Node to Edge (Edge cases)</li>
+      <li>Edge to Edge (No collisions)</li>
+      <li>Edge to Edge (Direct collisions)</li>
+      <li>Edge to Edge (Edge cases)</li>
     </ul>
     <h2>Summary</h2>
     <p>Green is good, Red is bad</p>
     <ul style="text-align: left;">
-      <li>Node to Node (No collisions): <span id="res_1">1</span> <span id="res_2">2</span> <span id="res_3">3</span> <span id="res_4">4</span> <span id="res_5">5</span></li>
-      <li>Node to Node (Direct collisions): <span id="res_6">6</span> <span id="res_7">7</span> <span id="res_8">8</span> <span id="res_9">9</span> <span id="res_10">10</span> <span id="res_11">11</span> <span id="res_12">12</span> <span id="res_13">13</span> <span id="res_14">14</span> <span id="res_15">15</span></li>
-      <li>Node to Node (Edge cases): <span id="res_16">16</span> <span id="res_17">17</span> <span id="res_18">18</span> <span id="res_19">19</span> <span id="res_20">20</span> <span id="res_21">21</span> <span id="res_22">22</span></li>
-      <li>Node to Edge: </li>
-      <li>Edge to Edge: </li>
+      <li>Node to Node (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_1">1</span>&nbsp;&nbsp;<span id="res_2">2</span>&nbsp;&nbsp;<span id="res_3">3</span>&nbsp;&nbsp;<span id="res_4">4</span>&nbsp;&nbsp;<span id="res_5">5</span></li>
+      <li>Node to Node (Direct collisions): <span id="res_6">6</span>&nbsp;&nbsp;<span id="res_7">7</span>&nbsp;&nbsp;<span id="res_8">8</span>&nbsp;&nbsp;<span id="res_9">9</span>&nbsp;&nbsp;<span id="res_10">10</span> <span id="res_11">11</span> <span id="res_12">12</span> <span id="res_13">13</span> <span id="res_14">14</span> <span id="res_15">15</span></li>
+      <li>Node to Node (Edge cases):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_16">16</span> <span id="res_17">17</span> <span id="res_18">18</span> <span id="res_19">19</span> <span id="res_20">20</span> <span id="res_21">21</span> <span id="res_22">22</span></li>
+      <li>Node to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_B1">B1</span>&nbsp;&nbsp;<span id="res_B2">B2</span></li>
+      <li>Node to Edge (Direct collisions): </li>
+      <li>Node to Edge (Edge cases): </li>
+      <li>Edge to Edge (No collisions): </li>
+      <li>Edge to Edge (Direct collisions): </li>
+      <li>Edge to Edge (Edge cases): </li>
     </ul>
 
     <h3 id="id_1">1</h3>
@@ -429,6 +437,32 @@
     return isCollidingNN(node22_1, node22_2);</code></pre>
     <p>Expected: <span style="color: blue">TRUE</span>
     <p id="test_22"></p>
+
+    <h3 id="id_B1">B1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
+    	<path d="M 240 64 V 256" fill="none" stroke="blue" stroke-width="2"></rect>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeB1 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var edgeB1 = {"points": [[240, 64], [240, 256]]};
+    return isCollidingNE(nodeB1, edgeB1);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_B1"></p>
+
+    <h3 id="id_B2">B2</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
+    	<path d="M 64 160 H 256" fill="none" stroke="blue" stroke-width="2"></rect>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeB2 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
+    var edgeB2 = {"points": [[64, 160], [256, 160]]};
+    return isCollidingNE(nodeB2, edgeB2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_B2"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>
