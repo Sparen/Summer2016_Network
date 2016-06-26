@@ -1,5 +1,8 @@
 var iterationNum = 0;
 var database_obj;
+var nodes;
+var edges;
+var optimalGridAssignment = [];
 var allnodes = [];
 var alledges = [];
 var jsonreceived = false; //whether or not the JSON file has been received.
@@ -41,7 +44,6 @@ function update_main(canvasid) {
         alledges[j].update();
     }
     draw_main(canvasid); //draw updated things 
-    numCollisions(); // draws & returns number of collisions
 }
 
 //Main draw loop. Handles render order.
@@ -54,6 +56,7 @@ function draw_main(canvasid) {
     for (j = 0; j < alledges.length; j += 1) {
         alledges[j].draw();
     }
+    numCollisions();
 }
 
 function onLoad() {
@@ -94,10 +97,6 @@ function initializeNodes() {
     //Scaled coordinates
     var scaled_coord_array = scaleCoordinates(coord_array);
 
-    if (iterationNum++ != 0) {
-        randomGridArrangement(scaled_coord_array);  
-    }
-
     pushAllNodes(scaled_coord_array);
     pushAllEdges();
 
@@ -107,7 +106,25 @@ function initializeNodes() {
 }
 
 function shuffleNetwork() {
-    pushAllNodes(scaled_coord_array);
+    console.log("shuffleNetwork(): Running");
+    var grid_size = optimizeToGrid(nodes.length);
+    var coord_array = setCoordinates();
+    var scaled_coord_array = scaleCoordinates(coord_array);
+    var lowestEdgeNoise = 1000;
+    var currentEdgeNoise;
+
+    var i;
+    for (i = 0; i < 100; i ++) {
+        randomGridArrangement(scaled_coord_array);
+        pushAllNodes(scaled_coord_array);
+        currentEdgeNoise = numCollisions();
+        if (currentEdgeNoise < lowestEdgeNoise) {
+            lowestEdgeNoise = currentEdgeNoise;
+            optimalGridAssignment = scaled_coord_array;
+            pushAllNodes(optimalGridAssignment);
+            update_main();
+        }
+    }
 }
 
 function pushAllNodes(scaled_coord_array) {
@@ -120,11 +137,14 @@ function pushAllNodes(scaled_coord_array) {
         tempNodes.push(nodes[i]); //add node to list of nodes
     }
     allnodes = tempNodes;
+    var i;
+    for (i = 0; i < allnodes.length; i += 1) {
+        allnodes[i].update();
+    }
 }
 
 function pushAllEdges() {
     var i;
-    var tempEdges = [];
     for (i = 0; i < edges.length; i++) { 
         var j;
         for (j = 0; j < allnodes.length; j++) {            
@@ -156,6 +176,10 @@ function pushAllEdges() {
         }
         setEdgeParameters(edges[i]);
         alledges.push(edges[i]); //add node to list of nodes
+    }
+    var j;
+    for (j = 0; j < alledges.length; j += 1) {
+        alledges[j].update();
     }
 }
 
@@ -291,6 +315,10 @@ function setEdgeParameters(edge){
 
 //draws intersecting points and returns number of collisions between edges
 function numCollisions() {
+    var j;
+    for (j = 0; j < alledges.length; j += 1) {
+        alledges[j].update();
+    }
     var num = 0;
     var i;
     for (i = 0; i < alledges.length; i++) {

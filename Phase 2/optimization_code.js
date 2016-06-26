@@ -148,6 +148,7 @@ function isCollidingEE(edge1, edge2) {
             ctx.fillStyle = 'red';
             ctx.arc(int_pt[0], int_pt[1], 3, 0, 2*Math.PI);
             ctx.fill();
+
             return true;
         }
     }
