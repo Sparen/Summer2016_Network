@@ -47,7 +47,7 @@ function onLoad() {
 }
 
 //Main update loop. Calls the update loops of all objects
-function update_main(canvasid) {
+function update_main() {
     myCanvas.frameNo++; //Increment the master counter
     var i;
     for (i = 0; i < allnodes.length; i++) {
@@ -57,11 +57,11 @@ function update_main(canvasid) {
     for (j = 0; j < alledges.length; j++) {
         alledges[j].update();
     }
-    draw_main(canvasid); //draw updated things
+    draw_main(); //draw updated things
 }
 
 //Main draw loop. Handles render order.
-function draw_main(canvasid) {
+function draw_main() {
     myCanvas.clear();
     var i;
     for (i = 0; i < allnodes.length; i++) {
@@ -71,6 +71,7 @@ function draw_main(canvasid) {
     for (j = 0; j < alledges.length; j++) {
         alledges[j].draw();
     }
+    numCollisions();
 }
 
 //Purges existing nodes and calls initializeNodes() to reset them
@@ -106,18 +107,22 @@ function optimizeNetworkByGrid() {
     var optimalGridAssignment = [];
 
     var i;
-    for (i = 0; i < 100; i ++) {
+    for (i = 0; i < 1000; i ++) {        
         shuffleCoordArray(scaled_coord_array);
-        pushAllNodes(scaled_coord_array);
+        updateCoordinates(scaled_coord_array);
         currentEdgeNoise = numCollisions();
         if (currentEdgeNoise < lowestEdgeNoise) {
             lowestEdgeNoise = currentEdgeNoise;
-            optimalGridAssignment = scaled_coord_array;
-            pushAllNodes(optimalGridAssignment);
-            draw_main("maincanvas");
+            var j;
+            for (j = 0; j < scaled_coord_array.length; j++) {
+                optimalGridAssignment[j] = scaled_coord_array[j];
+
+            }
         }
     }
-    alert("done!");
+
+    updateCoordinates(optimalGridAssignment);
+    update_main();
 }
 
 function pushAllNodes(scaled_coord_array) {
@@ -133,6 +138,15 @@ function pushAllNodes(scaled_coord_array) {
     var j;
     for (j = 0; j < allnodes.length; j += 1) {
         allnodes[j].update();
+    }
+}
+
+function updateCoordinates(scaled_coord_array) {
+    var i;
+    for (i = 0; i < allnodes.length; i++) {
+        allnodes[i].x = scaled_coord_array[i][0];
+        allnodes[i].y = scaled_coord_array[i][1];
+        allnodes[i].update();
     }
 }
 
