@@ -28,7 +28,7 @@
       <li>Node to Node (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_1">1</span>&nbsp;&nbsp;<span id="res_2">2</span>&nbsp;&nbsp;<span id="res_3">3</span>&nbsp;&nbsp;<span id="res_4">4</span>&nbsp;&nbsp;<span id="res_5">5</span></li>
       <li>Node to Node (Direct collisions): <span id="res_6">6</span>&nbsp;&nbsp;<span id="res_7">7</span>&nbsp;&nbsp;<span id="res_8">8</span>&nbsp;&nbsp;<span id="res_9">9</span>&nbsp;&nbsp;<span id="res_10">10</span> <span id="res_11">11</span> <span id="res_12">12</span> <span id="res_13">13</span> <span id="res_14">14</span> <span id="res_15">15</span></li>
       <li>Node to Node (Edge cases):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_16">16</span> <span id="res_17">17</span> <span id="res_18">18</span> <span id="res_19">19</span> <span id="res_20">20</span> <span id="res_21">21</span> <span id="res_22">22</span></li>
-      <li>Node to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_B1">B1</span>&nbsp;&nbsp;<span id="res_B2">B2</span>&nbsp;&nbsp;<span id="res_B3">B3</span>&nbsp;&nbsp;<span id="res_B4">B4</span>&nbsp;&nbsp;<span id="res_B5">B5</span></li>
+      <li>Node to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_B1">B1</span>&nbsp;&nbsp;<span id="res_B2">B2</span>&nbsp;&nbsp;<span id="res_B3">B3</span>&nbsp;&nbsp;<span id="res_B4">B4</span>&nbsp;&nbsp;<span id="res_B5">B5</span>&nbsp;&nbsp;<span id="res_B6">B6</span></li>
       <li>Node to Edge (Direct collisions): </li>
       <li>Node to Edge (Edge cases): </li>
       <li>Edge to Edge (No collisions): </li>
@@ -443,7 +443,7 @@
 	    width="480" height="320" version="1.1">
     	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
     	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
-    	<path d="M 240 64 V 256" fill="none" stroke="blue" stroke-width="1"></rect>
+    	<path d="M 240 64 V 256" fill="none" stroke="blue" stroke-width="1"></path>
     </svg>
     <pre class="prettyprint" style="text-align: left;"><code>    var nodeB1 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
     var edgeB1 = {"points": [[240, 64], [240, 256]]};
@@ -456,7 +456,7 @@
 	    width="480" height="320" version="1.1">
     	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
     	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
-    	<path d="M 64 160 H 256" fill="none" stroke="blue" stroke-width="1"></rect>
+    	<path d="M 64 160 H 256" fill="none" stroke="blue" stroke-width="1"></path>
     </svg>
     <pre class="prettyprint" style="text-align: left;"><code>    var nodeB2 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
     var edgeB2 = {"points": [[64, 160], [256, 160]]};
@@ -469,7 +469,7 @@
 	    width="480" height="320" version="1.1">
     	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
     	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
-    	<path d="M 64 256 L 256 64" fill="none" stroke="blue" stroke-width="1"></rect>
+    	<path d="M 64 256 L 256 64" fill="none" stroke="blue" stroke-width="1"></path>
     </svg>
     <pre class="prettyprint" style="text-align: left;"><code>    var nodeB3 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
     var edgeB3 = {"points": [[64, 256], [256, 64]]};
@@ -482,7 +482,7 @@
 	    width="480" height="320" version="1.1">
     	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
     	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
-    	<path d="M 64 256 H 256 V 64" fill="none" stroke="blue" stroke-width="1"></rect>
+    	<path d="M 64 256 H 256 V 64" fill="none" stroke="blue" stroke-width="1"></path>
     </svg>
     <pre class="prettyprint" style="text-align: left;"><code>    var nodeB4 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
     var edgeB4 = {"points": [[64, 256], [256, 256], [256, 64]]};
@@ -495,13 +495,37 @@
 	    width="480" height="320" version="1.1">
     	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
     	<rect x="64" y="64" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
-    	<path d="M 32 256 H 256 V 32 H 32 V 256" fill="none" stroke="blue" stroke-width="1"></rect>
+    	<path d="M 32 256 H 256 V 32 H 32 V 256" fill="none" stroke="blue" stroke-width="1"></path>
     </svg>
     <pre class="prettyprint" style="text-align: left;"><code>    var nodeB5 = {"x": 64, "y": 64, "width": 64, "totalheight": 64};
     var edgeB5 = {"points": [[32, 256], [256, 256], [256, 32], [32, 32], [32, 256]]};
     return isCollidingNE(nodeB5, edgeB5);</code></pre>
     <p>Expected: <span style="color: blue">FALSE</span>
     <p id="test_B5"></p>
+
+    <h3 id="id_B6">B6</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="208" y="128" width="64" height="64" fill="none" stroke="blue" stroke-width="2"></rect>
+    	<path d="M 240 128 V 64" fill="none" stroke="blue" stroke-width="1"></path>
+	<circle cx="240" cy="128" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+    	<path d="M 240 192 V 256" fill="none" stroke="blue" stroke-width="1"></path>
+	<circle cx="240" cy="192" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+    	<path d="M 208 160 H 144" fill="none" stroke="blue" stroke-width="1"></path>
+	<circle cx="208" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+    	<path d="M 272 160 H 336" fill="none" stroke="blue" stroke-width="1"></path>
+	<circle cx="272" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeB6 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeB6_1 = {"points": [[240, 128], [240, 64]]};
+    var edgeB6_2 = {"points": [[240, 192], [240, 256]]};
+    var edgeB6_3 = {"points": [[208, 160], [144, 160]]};
+    var edgeB6_4 = {"points": [[272, 160], [336, 160]]};
+    return isCollidingNE(nodeB6, edgeB6_1) || isCollidingNE(nodeB6, edgeB6_2) || 
+           isCollidingNE(nodeB6, edgeB6_3) || isCollidingNE(nodeB6, edgeB6_4);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_B6"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>

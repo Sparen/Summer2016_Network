@@ -328,3 +328,18 @@
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
+
+    testno = "B6";
+    var nodeB6 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeB6_1 = {"points": [[240, 128], [240, 64]]};
+    var edgeB6_2 = {"points": [[240, 192], [240, 256]]};
+    var edgeB6_3 = {"points": [[208, 160], [144, 160]]};
+    var edgeB6_4 = {"points": [[272, 160], [336, 160]]};
+    var resultB6 = isCollidingNE(nodeB6, edgeB6_1) || isCollidingNE(nodeB6, edgeB6_2) || isCollidingNE(nodeB6, edgeB6_3) || isCollidingNE(nodeB6, edgeB6_4);
+    if (resultB6 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
