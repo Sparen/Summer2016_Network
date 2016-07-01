@@ -206,11 +206,11 @@ function setNodeParameters(node, x_coord, y_coord){
     node.draw = function(){
         var ctx = myCanvas.context;
         ctx.beginPath();
-        ctx.fillStyle = "#DDDDFF";
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = "black";
+        ctx.fillStyle = "#CCFFEE";
+        ctx.lineWidth = "1";
+        ctx.strokeStyle = "#AAAAAA";
         if (this.type == "table" || this.type == "track") {
-            ctx.rect(this.x, this.y, this.rowWidth, this.totalheight + 2); //+2 is to make the borders look nice
+            ctx.rect(this.x, this.y, this.rowWidth, this.totalheight);
         } else {
             ctx.fillStyle = "black";
             ctx.arc(this.x, this.y + this.questionRowHeight, 6, 0, 2*Math.PI); //circle at source. +4 makes things align nicely.
@@ -249,10 +249,10 @@ function setColumnParameters(col, node, off){
     col.draw = function(){
         var ctx = myCanvas.context;
         ctx.beginPath();
-        ctx.fillStyle = "#CCFFEE";
+        ctx.fillStyle = "#EEEEEE";
         ctx.lineWidth = "1";
-        ctx.strokeStyle = "#BBEEDD";
-        ctx.rect(this.x + 2, this.y, this.rowWidth - 4, this.questionRowHeight);
+        ctx.strokeStyle = "#AAAAAA";
+        ctx.rect(this.x, this.y, this.rowWidth, this.questionRowHeight);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
 
