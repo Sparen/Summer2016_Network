@@ -159,9 +159,9 @@ function pushAllEdges() {
             }
             else {
                 var k;
-                for (k = 0; k < allquestions[j].columns.length; k++) {
-                    if (edges[i].source == allquestions[j].columns[k].nodeID) {
-                        edges[i].sourceObject = allquestions[j].columns[k];
+                for (k = 0; k < allquestions[j].responses.length; k++) {
+                    if (edges[i].source == allquestions[j].responses[k].nodeID) {
+                        edges[i].sourceObject = allquestions[j].responses[k];
                     }
                 }
             }
@@ -171,9 +171,9 @@ function pushAllEdges() {
             }
             else {
                 var k;
-                for (k = 0; k < allquestions[j].columns.length; k++) {
-                    if (edges[i].target == allquestions[j].columns[k].nodeID) {
-                        edges[i].targetObject = allquestions[j].columns[k];
+                for (k = 0; k < allquestions[j].responses.length; k++) {
+                    if (edges[i].target == allquestions[j].responses[k].nodeID) {
+                        edges[i].targetObject = allquestions[j].responses[k];
                     }            
                 }
             }
@@ -184,23 +184,23 @@ function pushAllEdges() {
 }
 
 function setQuestionParameters(question, x_coord, y_coord){
-    question.totalheight = question.questionRowHeight + question.columns.length * question.questionRowHeight;
+    question.totalheight = question.questionRowHeight + question.responses.length * question.questionRowHeight;
 
     //top left coordinates
     question.x = x_coord;
     question.y = y_coord;
 
-    //Iterate through questions and assign to columns
+    //Iterate through questions and assign to responses
     var j;
-    for (j = 0; j < question.columns.length; j++) {
-        setColumnParameters(question.columns[j], question, j);
+    for (j = 0; j < question.responses.length; j++) {
+        setColumnParameters(question.responses[j], question, j);
     }
 
     //Now define the draw and update for the questions
     question.update = function(){
         var n;
-        for (n = 0; n < this.columns.length; n++) {
-            this.columns[n].update();
+        for (n = 0; n < this.responses.length; n++) {
+            this.responses[n].update();
         }
     };
     question.draw = function(){
@@ -229,8 +229,8 @@ function setQuestionParameters(question, x_coord, y_coord){
         ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.questionRowHeight/2);
             
         var n;
-        for (n = 0; n < this.columns.length; n++) {
-            this.columns[n].draw();
+        for (n = 0; n < this.responses.length; n++) {
+            this.responses[n].draw();
         }
     };
 }

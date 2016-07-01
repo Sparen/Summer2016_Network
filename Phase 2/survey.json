@@ -6,7 +6,7 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "columns": [
+            "responses": [
                 {
                     "nodeID": "sex.male",
                     "name": "Male"
@@ -23,7 +23,7 @@
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
-            "columns": [
+            "responses": [
                 {
                     "nodeID": "usa.yes",
                     "name": "Yes"
@@ -40,7 +40,7 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "columns": [
+            "responses": [
                 {
                     "nodeID": "married.yes",
                     "name": "Yes"
@@ -57,7 +57,7 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "columns": [
+            "responses": [
                 {
                     "nodeID": "pets.cat",
                     "name": "Cat"
@@ -90,7 +90,7 @@
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
-            "columns": [
+            "responses": [
                 {
                     "nodeID": "profession.business",
                     "name": "Businessman"
@@ -127,7 +127,7 @@
             "type": "+",
             "rowWidth": 0,
             "questionRowHeight": 0,
-            "columns": []
+            "responses": []
         }
     ],
     "edges": [
