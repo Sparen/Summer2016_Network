@@ -70,7 +70,7 @@ function hasTarget(id) {
 
 //returns true if directly adjacent or colliding. From Mozilla
 function isCollidingNN(node1, node2) {
-    if (node1.x < node2.x + node2.width && node1.x + node1.width > node2.x && node1.y < node2.y + node2.totalheight && node1.totalheight + node1.y > node2.y) {
+    if (node1.x < node2.x + node2.rowWidth && node1.x + node1.rowWidth > node2.x && node1.y < node2.y + node2.totalheight && node1.totalheight + node1.y > node2.y) {
         return true;
     } else {
         return false;
@@ -82,7 +82,7 @@ function isCollidingNE(node1, edge1) {
     //determine node bounds
     var nodel = node1.x;
     var nodet = node1.y;
-    var noder = node1.x + node1.width;
+    var noder = node1.x + node1.rowWidth;
     var nodeb = node1.y + node1.totalheight;
 
     //Check if the source of the edge is located inside the node (no need to check target as long as one is checked). 

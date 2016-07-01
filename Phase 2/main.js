@@ -211,7 +211,7 @@ function setNodeParameters(node, x_coord, y_coord){
         ctx.lineWidth = "2";
         ctx.strokeStyle = "black";
         if (this.type == "table" || this.type == "track") {
-            ctx.rect(this.x, this.y, this.width, this.totalheight + 2); //+2 is to make the borders look nice
+            ctx.rect(this.x, this.y, this.rowWidth, this.totalheight + 2); //+2 is to make the borders look nice
         } else {
             ctx.fillStyle = "black";
             ctx.arc(this.x, this.y + 20, 6, 0, 2*Math.PI); //circle at source. 20 is default title height. +4 makes things align nicely.
@@ -227,7 +227,7 @@ function setNodeParameters(node, x_coord, y_coord){
         }
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
+        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.height/2);
             
         var n;
         for (n = 0; n < this.columns.length; n++) {
@@ -240,7 +240,7 @@ function setColumnParameters(col, node, off){
     col.offset = off; //which item it is in relation to title.
     col.parent = node;
     col.height = 20; //default height for column is 20
-    col.width = node.width;
+    col.rowWidth = node.rowWidth;
     col.x = node.x;
     col.y = node.y + node.height + off*col.height; 
     col.update = function(){
@@ -253,7 +253,7 @@ function setColumnParameters(col, node, off){
         ctx.fillStyle = "#CCFFEE";
         ctx.lineWidth = "1";
         ctx.strokeStyle = "#BBEEDD";
-        ctx.rect(this.x + 2, this.y, this.width - 4, this.height);
+        ctx.rect(this.x + 2, this.y, this.rowWidth - 4, this.height);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
 
@@ -261,7 +261,7 @@ function setColumnParameters(col, node, off){
         ctx.fillStyle = "black";
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.width/2, this.y + this.height/2);
+        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.height/2);
     }
 }
 
@@ -274,8 +274,8 @@ function setEdgeParameters(edge){
         var targety = this.targetObject.y + this.targetObject.height/2;
 
         //Determine which side to use
-        if (sourcex + this.sourceObject.width < targetx) {sourcex += this.sourceObject.width;}//source right side, target left side
-        else if (sourcex > targetx + this.targetObject.width) {targetx += this.targetObject.width;}//source left side, target right side
+        if (sourcex + this.sourceObject.rowWidth < targetx) {sourcex += this.sourceObject.rowWidth;}//source right side, target left side
+        else if (sourcex > targetx + this.targetObject.rowWidth) {targetx += this.targetObject.rowWidth;}//source left side, target right side
 
         this.points = [];
         this.points.push([sourcex, sourcey]);
