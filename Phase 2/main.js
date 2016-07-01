@@ -271,13 +271,6 @@ function setEdgeParameters(edge){
             ctx.lineTo(this.points[i][0], this.points[i][1]);
         }
         ctx.stroke();
-        ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = "2";
-        ctx.arc(this.points[0][0], this.points[0][1], 4, 0, 2*Math.PI); //circle at source
-        ctx.fill();
-        ctx.stroke();
 
         if (this.drawtarget) {
             ctx.beginPath();
