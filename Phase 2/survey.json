@@ -96,6 +96,23 @@
                     "nodeID": "aae.aag"
                 }
             ]
+        },
+        {
+            "questionID": "aaf",
+            "type": "table",
+            "rowWidth": 160,
+            "questionRowHeight": 24,
+            "responses": [
+                {
+                    "nodeID": "aaf.aaa"
+                },
+                {
+                    "nodeID": "aaf.aab"
+                },
+                {
+                    "nodeID": "aaf.aac"
+                }
+            ]
         }
     ],
     "pluspoints": [
@@ -141,8 +158,26 @@
             "drawtarget": true
         },
         {
+            "source": "aaf.aaa",
+            "target": "aab",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
+            "source": "aaf.aac",
+            "target": "aaa",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
             "source": "aae",
             "target": "aad",
+            "color": "dodgerblue",
+            "drawtarget": true
+        },
+        {
+            "source": "aaf",
+            "target": "aac",
             "color": "dodgerblue",
             "drawtarget": true
         }
