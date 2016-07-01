@@ -14,11 +14,11 @@ function optimizeToGrid(num_nodes) {
 
 //Determines optimized coordinates for each node in a network
 function setCoordinates() {
-    var grid_size = optimizeToGrid(nodes.length);
+    var grid_size = optimizeToGrid(questions.length);
     //Create 2D array
     var coord_array = [];
     var i;
-    for (i = 0; i < nodes.length; i++) {
+    for (i = 0; i < questions.length; i++) {
         coord_array[i] = [];
         var x_coord = (i % grid_size[0]);
         var y_coord = (Math.floor(i / grid_size[0]));    

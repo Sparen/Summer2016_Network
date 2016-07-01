@@ -1,8 +1,8 @@
 var iterationNum = 0;
 var database_obj;
-var nodes;
+var questions;
 var edges;
-var allnodes = [];
+var allquestions = [];
 var alledges = [];
 var jsonreceived = false; //whether or not the JSON file has been received.
 
@@ -38,7 +38,7 @@ function onLoad() {
         if (client.readyState == 4) {
             if (client.status == 200 || client.status == 0) {
                 database_obj = JSON.parse(client.responseText);
-                initializeNodes();
+                initializeQuestions();
                 jsonreceived = true;
             }
         }
@@ -50,8 +50,8 @@ function onLoad() {
 function update_main() {
     myCanvas.frameNo++; //Increment the master counter
     var i;
-    for (i = 0; i < allnodes.length; i++) {
-        allnodes[i].update();
+    for (i = 0; i < allquestions.length; i++) {
+        allquestions[i].update();
     }
     var j;
     for (j = 0; j < alledges.length; j++) {
@@ -64,8 +64,8 @@ function update_main() {
 function draw_main() {
     myCanvas.clear();
     var i;
-    for (i = 0; i < allnodes.length; i++) {
-        allnodes[i].draw();
+    for (i = 0; i < allquestions.length; i++) {
+        allquestions[i].draw();
     }
     var j;
     for (j = 0; j < alledges.length; j++) {
@@ -74,32 +74,32 @@ function draw_main() {
     numCollisions();
 }
 
-//Purges existing nodes and calls initializeNodes() to reset them
+//Purges existing questions and calls initializeQuestions() to reset them
 function resetCanvas(){
-    allnodes = [];
+    allquestions = [];
     if (jsonreceived) { //do not run function immediately after opening webpage - only run block on reset
-        initializeNodes();
+        initializeQuestions();
     }
 }
 
-/* ***** NODE HANDLING FUNCTIONS ***** */
+/* ***** QUESTION HANDLING FUNCTIONS ***** */
 
-function initializeNodes() {
-    console.log("initializeNodes(): Running");
-    nodes = database_obj.nodes; 
+function initializeQuestions() {
+    console.log("initializeQuestions(): Running");
+    questions = database_obj.questions; 
     edges = database_obj.edges; 
 
-    var grid_size = optimizeToGrid(nodes.length);
+    var grid_size = optimizeToGrid(questions.length);
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
 
-    pushAllNodes(scaled_coord_array);
+    pushAllquestions(scaled_coord_array);
     pushAllEdges();
 }
 
 function optimizeNetworkByGrid() {
     console.log("optimizeNetworkByGrid(): Running");
-    var grid_size = optimizeToGrid(nodes.length);
+    var grid_size = optimizeToGrid(questions.length);
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
     var lowestEdgeNoise = 1000;
@@ -123,28 +123,28 @@ function optimizeNetworkByGrid() {
     update_main();
 }
 
-function pushAllNodes(scaled_coord_array) {
+function pushAllquestions(scaled_coord_array) {
     var i;
-    allnodes = [];
-    for (i = 0; i < nodes.length; i++) { //for every node in survey.json
+    allquestions = [];
+    for (i = 0; i < questions.length; i++) { //for every question in survey.json
         var x_coord = scaled_coord_array[i][0];
         var y_coord = scaled_coord_array[i][1];
-        setNodeParameters(nodes[i], x_coord, y_coord);
-        allnodes.push(nodes[i]); //add node to list of nodes
+        setQuestionParameters(questions[i], x_coord, y_coord);
+        allquestions.push(questions[i]); //add question to list of questions
     }
 
     var j;
-    for (j = 0; j < allnodes.length; j += 1) {
-        allnodes[j].update();
+    for (j = 0; j < allquestions.length; j += 1) {
+        allquestions[j].update();
     }
 }
 
 function updateCoordinates(scaled_coord_array) {
     var i;
-    for (i = 0; i < allnodes.length; i++) {
-        allnodes[i].x = scaled_coord_array[i][0];
-        allnodes[i].y = scaled_coord_array[i][1];
-        allnodes[i].update();
+    for (i = 0; i < allquestions.length; i++) {
+        allquestions[i].x = scaled_coord_array[i][0];
+        allquestions[i].y = scaled_coord_array[i][1];
+        allquestions[i].update();
     }
 }
 
@@ -152,58 +152,58 @@ function pushAllEdges() {
     var i;
     for (i = 0; i < edges.length; i++) { 
         var j;
-        for (j = 0; j < allnodes.length; j++) {            
+        for (j = 0; j < allquestions.length; j++) {            
             //sourceObject assignment
-            if (edges[i].source == allnodes[j].questionID) {
-                edges[i].sourceObject = allnodes[j];
+            if (edges[i].source == allquestions[j].questionID) {
+                edges[i].sourceObject = allquestions[j];
             }
             else {
                 var k;
-                for (k = 0; k < allnodes[j].columns.length; k++) {
-                    if (edges[i].source == allnodes[j].columns[k].nodeID) {
-                        edges[i].sourceObject = allnodes[j].columns[k];
+                for (k = 0; k < allquestions[j].columns.length; k++) {
+                    if (edges[i].source == allquestions[j].columns[k].nodeID) {
+                        edges[i].sourceObject = allquestions[j].columns[k];
                     }
                 }
             }
             //targetObject assignment
-            if (edges[i].target == allnodes[j].questionID) {
-                edges[i].targetObject = allnodes[j];
+            if (edges[i].target == allquestions[j].questionID) {
+                edges[i].targetObject = allquestions[j];
             }
             else {
                 var k;
-                for (k = 0; k < allnodes[j].columns.length; k++) {
-                    if (edges[i].target == allnodes[j].columns[k].nodeID) {
-                        edges[i].targetObject = allnodes[j].columns[k];
+                for (k = 0; k < allquestions[j].columns.length; k++) {
+                    if (edges[i].target == allquestions[j].columns[k].nodeID) {
+                        edges[i].targetObject = allquestions[j].columns[k];
                     }            
                 }
             }
         }
         setEdgeParameters(edges[i]);
-        alledges.push(edges[i]); //add node to list of nodes
+        alledges.push(edges[i]); //add question to list of questions
     }
 }
 
-function setNodeParameters(node, x_coord, y_coord){
-    node.totalheight = node.questionRowHeight + node.columns.length * node.questionRowHeight;
+function setQuestionParameters(question, x_coord, y_coord){
+    question.totalheight = question.questionRowHeight + question.columns.length * question.questionRowHeight;
 
     //top left coordinates
-    node.x = x_coord;
-    node.y = y_coord;
+    question.x = x_coord;
+    question.y = y_coord;
 
-    //Iterate through nodes and assign to columns
+    //Iterate through questions and assign to columns
     var j;
-    for (j = 0; j < node.columns.length; j++) {
-        setColumnParameters(node.columns[j], node, j);
+    for (j = 0; j < question.columns.length; j++) {
+        setColumnParameters(question.columns[j], question, j);
     }
 
-    //Now define the draw and update for the nodes
-    node.update = function(){
+    //Now define the draw and update for the questions
+    question.update = function(){
         var n;
         for (n = 0; n < this.columns.length; n++) {
             this.columns[n].update();
         }
     };
-    node.draw = function(){
+    question.draw = function(){
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.fillStyle = "#CCFFEE";
@@ -235,13 +235,13 @@ function setNodeParameters(node, x_coord, y_coord){
     };
 }
 
-function setColumnParameters(col, node, off){
+function setColumnParameters(col, question, off){
     col.offset = off; //which item it is in relation to title.
-    col.parent = node;
-    col.questionRowHeight = node.questionRowHeight;
-    col.rowWidth = node.rowWidth;
-    col.x = node.x;
-    col.y = node.y + node.questionRowHeight + off*col.questionRowHeight; 
+    col.parent = question;
+    col.questionRowHeight = question.questionRowHeight;
+    col.rowWidth = question.rowWidth;
+    col.x = question.x;
+    col.y = question.y + question.questionRowHeight + off*col.questionRowHeight; 
     col.update = function(){
         this.x = this.parent.x;
         this.y = this.parent.y + this.parent.questionRowHeight + this.offset*this.questionRowHeight;
