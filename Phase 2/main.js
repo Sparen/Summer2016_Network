@@ -184,8 +184,7 @@ function pushAllEdges() {
 }
 
 function setNodeParameters(node, x_coord, y_coord){
-    node.height = 40; //for the title
-    node.totalheight = node.height + node.columns.length * 20;
+    node.totalheight = node.questionRowHeight + node.columns.length * node.questionRowHeight;
 
     //top left coordinates
     node.x = x_coord;
@@ -214,7 +213,7 @@ function setNodeParameters(node, x_coord, y_coord){
             ctx.rect(this.x, this.y, this.rowWidth, this.totalheight + 2); //+2 is to make the borders look nice
         } else {
             ctx.fillStyle = "black";
-            ctx.arc(this.x, this.y + 20, 6, 0, 2*Math.PI); //circle at source. 20 is default title height. +4 makes things align nicely.
+            ctx.arc(this.x, this.y + this.questionRowHeight, 6, 0, 2*Math.PI); //circle at source. +4 makes things align nicely.
         }
         ctx.fill(); //draw inside
         ctx.stroke(); //draw border
@@ -227,7 +226,7 @@ function setNodeParameters(node, x_coord, y_coord){
         }
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.height/2);
+        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.questionRowHeight/2);
             
         var n;
         for (n = 0; n < this.columns.length; n++) {
@@ -239,13 +238,13 @@ function setNodeParameters(node, x_coord, y_coord){
 function setColumnParameters(col, node, off){
     col.offset = off; //which item it is in relation to title.
     col.parent = node;
-    col.height = 20; //default height for column is 20
+    col.questionRowHeight = node.questionRowHeight;
     col.rowWidth = node.rowWidth;
     col.x = node.x;
-    col.y = node.y + node.height + off*col.height; 
+    col.y = node.y + node.questionRowHeight + off*col.questionRowHeight; 
     col.update = function(){
         this.x = this.parent.x;
-        this.y = this.parent.y + this.parent.height + this.offset*this.height;
+        this.y = this.parent.y + this.parent.questionRowHeight + this.offset*this.questionRowHeight;
     }
     col.draw = function(){
         var ctx = myCanvas.context;
@@ -253,7 +252,7 @@ function setColumnParameters(col, node, off){
         ctx.fillStyle = "#CCFFEE";
         ctx.lineWidth = "1";
         ctx.strokeStyle = "#BBEEDD";
-        ctx.rect(this.x + 2, this.y, this.rowWidth - 4, this.height);
+        ctx.rect(this.x + 2, this.y, this.rowWidth - 4, this.questionRowHeight);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
 
@@ -261,7 +260,7 @@ function setColumnParameters(col, node, off){
         ctx.fillStyle = "black";
         ctx.textAlign = "center"; 
         ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.height/2);
+        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.questionRowHeight/2);
     }
 }
 
@@ -269,9 +268,9 @@ function setEdgeParameters(edge){
     edge.update = function(){
         //First, obtain values
         var sourcex = this.sourceObject.x;
-        var sourcey = this.sourceObject.y + this.sourceObject.height/2;
+        var sourcey = this.sourceObject.y + this.sourceObject.questionRowHeight/2;
         var targetx = this.targetObject.x;
-        var targety = this.targetObject.y + this.targetObject.height/2;
+        var targety = this.targetObject.y + this.targetObject.questionRowHeight/2;
 
         //Determine which side to use
         if (sourcex + this.sourceObject.rowWidth < targetx) {sourcex += this.sourceObject.rowWidth;}//source right side, target left side

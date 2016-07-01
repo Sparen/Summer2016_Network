@@ -5,6 +5,7 @@
             "name": "Sex",
             "type": "table",
             "rowWidth": 80,
+            "questionRowHeight": 20,
             "columns": [
                 {
                     "id": "sex.male",
@@ -21,6 +22,7 @@
             "name": "Live in USA?",
             "type": "table",
             "rowWidth": 120,
+            "questionRowHeight": 20,
             "columns": [
                 {
                     "id": "usa.yes",
@@ -37,6 +39,7 @@
             "name": "Married?",
             "type": "table",
             "rowWidth": 80,
+            "questionRowHeight": 20,
             "columns": [
                 {
                     "id": "married.yes",
@@ -53,6 +56,7 @@
             "name": "Pets?",
             "type": "table",
             "rowWidth": 80,
+            "questionRowHeight": 20,
             "columns": [
                 {
                     "id": "pets.cat",
@@ -85,6 +89,7 @@
             "name": "Profession?",
             "type": "table",
             "rowWidth": 120,
+            "questionRowHeight": 20,
             "columns": [
                 {
                     "id": "profession.business",
@@ -121,6 +126,7 @@
             "name": "+",
             "type": "+",
             "rowWidth": 0,
+            "questionRowHeight": 0,
             "columns": []
         }
     ],
