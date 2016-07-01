@@ -451,3 +451,39 @@
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
+
+    testno = "C1";
+    var nodeC1 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeC1 = {"points": [[272, 160], [272, 64]]};
+    var resultC1 = isCollidingNE(nodeC1, edgeC1);
+    if (resultC1 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "C2";
+    var nodeC2 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeC2 = {"points": [[208, 160], [272, 160]]};
+    var resultC2 = isCollidingNE(nodeC2, edgeC2);
+    if (resultC2 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "D1";
+    var nodeD1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var edgeD1 = {"points": [[304, 128], [320, 128], [320, 160], [64, 160], [64, 192]]};
+    var resultD1 = isCollidingNE(nodeD1, edgeD1);
+    if (resultD1 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }

@@ -17,7 +17,8 @@
       <li><a href="#id_16">Node to Node (Edge cases)</a></li>
       <li><a href="#id_B1">Node to Edge (No collisions)</a></li>
       <li><a href="#id_B7">Node to Edge (Direct collisions)</a></li>
-      <li>Node to Edge (Edge cases)</li>
+      <li><a href="#id_C1">Node to Edge (Edge cases)</a></li>
+      <li><a href="#id_D1">Node to Edge (Complex Edges)</a></li>
       <li>Edge to Edge (No collisions)</li>
       <li>Edge to Edge (Direct collisions)</li>
       <li>Edge to Edge (Edge cases)</li>
@@ -30,7 +31,8 @@
       <li>Node to Node (Edge cases):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_16">16</span> <span id="res_17">17</span> <span id="res_18">18</span> <span id="res_19">19</span> <span id="res_20">20</span> <span id="res_21">21</span> <span id="res_22">22</span></li>
       <li>Node to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_B1">B1</span>&nbsp;&nbsp;<span id="res_B2">B2</span>&nbsp;&nbsp;<span id="res_B3">B3</span>&nbsp;&nbsp;<span id="res_B4">B4</span>&nbsp;&nbsp;<span id="res_B5">B5</span>&nbsp;&nbsp;<span id="res_B6">B6</span></li>
       <li>Node to Edge (Direct collisions): <span id="res_B7">B7</span>&nbsp;&nbsp;<span id="res_B8">B8</span>&nbsp;&nbsp;<span id="res_B9">B9</span>&nbsp;&nbsp;<span id="res_B10">B10</span>&nbsp;<span id="res_B11">B11</span>&nbsp;<span id="res_B12">B12</span>&nbsp;<span id="res_B13">B13</span>&nbsp;<span id="res_B14">B14</span>&nbsp;<span id="res_B15">B15</span></li>
-      <li>Node to Edge (Edge cases): </li>
+      <li>Node to Edge (Edge cases):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_C1">C1</span>&nbsp;&nbsp;<span id="res_C2">C2</span></li>
+      <li>Node to Edge (Complex Edges):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_D1">D1</span></li>
       <li>Edge to Edge (No collisions): </li>
       <li>Edge to Edge (Direct collisions): </li>
       <li>Edge to Edge (Edge cases): </li>
@@ -643,6 +645,51 @@
     return isCollidingNE(nodeB15, edgeB15);</code></pre>
     <p>Expected: <span style="color: blue">TRUE</span>
     <p id="test_B15"></p>
+
+    <h3 id="id_C1">C1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="208" y="128" width="64" height="64" fill="none" stroke="red" stroke-width="2"></rect>
+    	<path d="M 272 160 V 64" fill="none" stroke="red" stroke-width="1"></path>
+	<circle cx="272" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeC1 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeC1 = {"points": [[272, 160], [272, 64]]};
+    return isCollidingNE(nodeC1, edgeC1);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_C1"></p>
+
+    <h3 id="id_C2">C2</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="208" y="128" width="64" height="64" fill="none" stroke="red" stroke-width="2"></rect>
+    	<path d="M 208 160 H 272" fill="none" stroke="red" stroke-width="1"></path>
+	<circle cx="208" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+	<circle cx="272" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeC2 = {"x": 208, "y": 128, "width": 64, "totalheight": 64};
+    var edgeC2 = {"points": [[208, 160], [272, 160]]};
+    return isCollidingNE(nodeC2, edgeC2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_C2"></p>
+
+    <h3 id="id_D1">D1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<rect x="176" y="96" width="128" height="128" fill="none" stroke="red" stroke-width="2"></rect>
+	<rect x="32" y="192" width="64" height="64" fill="none" stroke="black" stroke-width="2"></rect>
+    	<path d="M 304 128 H 320 V 160 H 64 V 192" fill="none" stroke="red" stroke-width="1"></path>
+	<circle cx="304" cy="128" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+	<circle cx="64" cy="192" r="4" fill="white" stroke="black" stroke-width="1"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var nodeD1 = {"x": 176, "y": 96, "width": 128, "totalheight": 128};
+    var edgeD1 = {"points": [[304, 128], [320, 128], [320, 160], [64, 160], [64, 192]]};
+    return isCollidingNE(nodeD1, edgeD1);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_D1"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>
