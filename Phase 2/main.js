@@ -208,7 +208,7 @@ function setQuestionParameters(question, x_coord, y_coord){
         ctx.beginPath();
         ctx.fillStyle = "#CCFFEE";
         ctx.lineWidth = "1";
-        ctx.strokeStyle = "#AAAAAA";
+        ctx.strokeStyle = "#CCCCCC";
         if (this.type == "table" || this.type == "track") {
             ctx.rect(this.x, this.y, this.rowWidth, this.totalheight);
         } else {
@@ -251,7 +251,7 @@ function setColumnParameters(col, question, off){
         ctx.beginPath();
         ctx.fillStyle = "#EEEEEE";
         ctx.lineWidth = "1";
-        ctx.strokeStyle = "#AAAAAA";
+        ctx.strokeStyle = "#CCCCCC";
         ctx.rect(this.x, this.y, this.rowWidth, this.questionRowHeight);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
