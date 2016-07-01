@@ -1,128 +1,128 @@
 {
     "nodes": [
         {
-            "id": "sex",
+            "questionID": "sex",
             "name": "Sex",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "columns": [
                 {
-                    "id": "sex.male",
+                    "nodeID": "sex.male",
                     "name": "Male"
                 },
                 {
-                    "id": "sex.female",
+                    "nodeID": "sex.female",
                     "name": "Female"
                 }
             ]
         },
         {
-            "id": "usa",
+            "questionID": "usa",
             "name": "Live in USA?",
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
             "columns": [
                 {
-                    "id": "usa.yes",
+                    "nodeID": "usa.yes",
                     "name": "Yes"
                 },
                 {
-                    "id": "usa.no",
+                    "nodeID": "usa.no",
                     "name": "No"
                 }
             ]
         },
         {
-            "id": "married",
+            "questionID": "married",
             "name": "Married?",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "columns": [
                 {
-                    "id": "married.yes",
+                    "nodeID": "married.yes",
                     "name": "Yes"
                 },
                 {
-                    "id": "married.no",
+                    "nodeID": "married.no",
                     "name": "No"
                 }
             ]
         },
         {
-            "id": "pets",
+            "questionID": "pets",
             "name": "Pets?",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "columns": [
                 {
-                    "id": "pets.cat",
+                    "nodeID": "pets.cat",
                     "name": "Cat"
                 },
                 {
-                    "id": "pets.dog",
+                    "nodeID": "pets.dog",
                     "name": "Dog"
                 },
                 {
-                    "id": "pets.rabbit",
+                    "nodeID": "pets.rabbit",
                     "name": "Rabbit"
                 },
                 {
-                    "id": "pets.fish",
+                    "nodeID": "pets.fish",
                     "name": "Fish"
                 },
                 {
-                    "id": "pets.mouse",
+                    "nodeID": "pets.mouse",
                     "name": "Mouse"
                 },
                 {
-                    "id": "pets.rock",
+                    "nodeID": "pets.rock",
                     "name": "Rock"
                 }
             ]
         },
         {
-            "id": "profession",
+            "questionID": "profession",
             "name": "Profession?",
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
             "columns": [
                 {
-                    "id": "profession.business",
+                    "nodeID": "profession.business",
                     "name": "Businessman"
                 },
                 {
-                    "id": "profession.science",
+                    "nodeID": "profession.science",
                     "name": "Scientist"
                 },
                 {
-                    "id": "profession.engineer",
+                    "nodeID": "profession.engineer",
                     "name": "Engineer"
                 },
                 {
-                    "id": "profession.educator",
+                    "nodeID": "profession.educator",
                     "name": "Educator"
                 },
                 {
-                    "id": "profession.artist",
+                    "nodeID": "profession.artist",
                     "name": "Artist"
                 },
                 {
-                    "id": "profession.plumber",
+                    "nodeID": "profession.plumber",
                     "name": "Plumber"
                 },
                 {
-                    "id": "profession.electrician",
+                    "nodeID": "profession.electrician",
                     "name": "Electrician"
                 }
             ]
         },
         {
-            "id": "profession.science.exp",
+            "questionID": "profession.science.exp",
             "name": "+",
             "type": "+",
             "rowWidth": 0,

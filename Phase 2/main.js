@@ -154,25 +154,25 @@ function pushAllEdges() {
         var j;
         for (j = 0; j < allnodes.length; j++) {            
             //sourceObject assignment
-            if (edges[i].source == allnodes[j].id) {
+            if (edges[i].source == allnodes[j].questionID) {
                 edges[i].sourceObject = allnodes[j];
             }
             else {
                 var k;
                 for (k = 0; k < allnodes[j].columns.length; k++) {
-                    if (edges[i].source == allnodes[j].columns[k].id) {
+                    if (edges[i].source == allnodes[j].columns[k].nodeID) {
                         edges[i].sourceObject = allnodes[j].columns[k];
                     }
                 }
             }
             //targetObject assignment
-            if (edges[i].target == allnodes[j].id) {
+            if (edges[i].target == allnodes[j].questionID) {
                 edges[i].targetObject = allnodes[j];
             }
             else {
                 var k;
                 for (k = 0; k < allnodes[j].columns.length; k++) {
-                    if (edges[i].target == allnodes[j].columns[k].id) {
+                    if (edges[i].target == allnodes[j].columns[k].nodeID) {
                         edges[i].targetObject = allnodes[j].columns[k];
                     }            
                 }
