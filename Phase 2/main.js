@@ -116,11 +116,9 @@ function optimizeNetworkByGrid() {
             var j;
             for (j = 0; j < scaled_coord_array.length; j++) {
                 optimalGridAssignment[j] = scaled_coord_array[j];
-
             }
         }
     }
-
     updateCoordinates(optimalGridAssignment);
     update_main();
 }

@@ -169,4 +169,11 @@ function shuffleCoordArray(coordinates) {
         coordinates[randomNumOne] = coordinates[randomNumTwo];
         coordinates[randomNumTwo] = temp;
     }
+
+    var randomNoise = 0.5;
+    for (i = 0; i < coordinates.length; i++) {
+        coordinates[i][0] += randomNoise*(Math.random()-0.5);
+        coordinates[i][1] += randomNoise*(Math.random()-0.5);
+    }
+
 }
