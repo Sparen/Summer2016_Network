@@ -209,25 +209,10 @@ function setQuestionParameters(question, x_coord, y_coord){
         ctx.fillStyle = "#CCFFEE";
         ctx.lineWidth = "1";
         ctx.strokeStyle = "#CCCCCC";
-        if (this.type == "table" || this.type == "track") {
-            ctx.rect(this.x, this.y, this.rowWidth, this.totalheight);
-        } else {
-            ctx.fillStyle = "black";
-            ctx.arc(this.x, this.y + this.questionRowHeight, 6, 0, 2*Math.PI); //circle at source. +4 makes things align nicely.
-        }
+        ctx.rect(this.x, this.y, this.rowWidth, this.totalheight);
         ctx.fill(); //draw inside
         ctx.stroke(); //draw border
 
-        ctx.font = "14px Andale Mono, monospace";
-        if (this.type == "table" || this.type == "track") {
-            ctx.fillStyle = "black";
-        } else {
-            ctx.fillStyle = "white";
-        }
-        ctx.textAlign = "center"; 
-        ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.questionRowHeight/2);
-            
         var n;
         for (n = 0; n < this.responses.length; n++) {
             this.responses[n].draw();
@@ -255,12 +240,6 @@ function setColumnParameters(col, question, off){
         ctx.rect(this.x, this.y, this.rowWidth, this.questionRowHeight);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
-
-        ctx.font = "14px Andale Mono, monospace";
-        ctx.fillStyle = "black";
-        ctx.textAlign = "center"; 
-        ctx.textBaseline = "middle";
-        ctx.fillText(this.name, this.x + this.rowWidth/2, this.y + this.questionRowHeight/2);
     }
 }
 

@@ -2,132 +2,105 @@
     "questions": [
         {
             "questionID": "sex",
-            "name": "Sex",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "responses": [
                 {
-                    "nodeID": "sex.male",
-                    "name": "Male"
+                    "nodeID": "sex.male"
                 },
                 {
-                    "nodeID": "sex.female",
-                    "name": "Female"
+                    "nodeID": "sex.female"
                 }
             ]
         },
         {
             "questionID": "usa",
-            "name": "Live in USA?",
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
             "responses": [
                 {
-                    "nodeID": "usa.yes",
-                    "name": "Yes"
+                    "nodeID": "usa.yes"
                 },
                 {
-                    "nodeID": "usa.no",
-                    "name": "No"
+                    "nodeID": "usa.no"
                 }
             ]
         },
         {
             "questionID": "married",
-            "name": "Married?",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "responses": [
                 {
-                    "nodeID": "married.yes",
-                    "name": "Yes"
+                    "nodeID": "married.yes"
                 },
                 {
-                    "nodeID": "married.no",
-                    "name": "No"
+                    "nodeID": "married.no"
                 }
             ]
         },
         {
             "questionID": "pets",
-            "name": "Pets?",
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
             "responses": [
                 {
-                    "nodeID": "pets.cat",
-                    "name": "Cat"
+                    "nodeID": "pets.cat"
                 },
                 {
-                    "nodeID": "pets.dog",
-                    "name": "Dog"
+                    "nodeID": "pets.dog"
                 },
                 {
-                    "nodeID": "pets.rabbit",
-                    "name": "Rabbit"
+                    "nodeID": "pets.rabbit"
                 },
                 {
-                    "nodeID": "pets.fish",
-                    "name": "Fish"
+                    "nodeID": "pets.fish"
                 },
                 {
-                    "nodeID": "pets.mouse",
-                    "name": "Mouse"
+                    "nodeID": "pets.mouse"
                 },
                 {
-                    "nodeID": "pets.rock",
-                    "name": "Rock"
+                    "nodeID": "pets.rock"
                 }
             ]
         },
         {
             "questionID": "profession",
-            "name": "Profession?",
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
             "responses": [
                 {
-                    "nodeID": "profession.business",
-                    "name": "Businessman"
+                    "nodeID": "profession.business"
                 },
                 {
-                    "nodeID": "profession.science",
-                    "name": "Scientist"
+                    "nodeID": "profession.science"
                 },
                 {
-                    "nodeID": "profession.engineer",
-                    "name": "Engineer"
+                    "nodeID": "profession.engineer"
                 },
                 {
-                    "nodeID": "profession.educator",
-                    "name": "Educator"
+                    "nodeID": "profession.educator"
                 },
                 {
-                    "nodeID": "profession.artist",
-                    "name": "Artist"
+                    "nodeID": "profession.artist"
                 },
                 {
-                    "nodeID": "profession.plumber",
-                    "name": "Plumber"
+                    "nodeID": "profession.plumber"
                 },
                 {
-                    "nodeID": "profession.electrician",
-                    "name": "Electrician"
+                    "nodeID": "profession.electrician"
                 }
             ]
-        },
+        }
+    ],
+    "pluspoints": [
         {
-            "questionID": "profession.science.exp",
-            "name": "+",
-            "type": "+",
-            "rowWidth": 0,
-            "questionRowHeight": 0,
-            "responses": []
+            "ID": "profession.science.exp"
         }
     ],
     "edges": [
@@ -172,12 +145,6 @@
             "target": "pets",
             "color": "dodgerblue",
             "drawtarget": true
-        },
-        {
-            "source": "profession.science",
-            "target": "profession.science.exp",
-            "color": "black",
-            "drawtarget": false
         }
     ]
 }
