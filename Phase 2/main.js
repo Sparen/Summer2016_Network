@@ -296,7 +296,7 @@ function numCollisions() {
     for (i = 0; i < alledges.length; i++) {
         var j;
         for (j = i+1; j < alledges.length; j++) {
-            if (isCollidingEE(alledges[i], alledges[j])) {
+            if (isCollidingEE(alledges[i], alledges[j], false, false)) {
                 num++;
             }
         }
