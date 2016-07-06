@@ -113,6 +113,34 @@
                     "nodeID": "aaf.aac"
                 }
             ]
+        },
+        {
+            "questionID": "aag",
+            "type": "table",
+            "rowWidth": 120,
+            "questionRowHeight": 24,
+            "responses": [
+                {
+                    "nodeID": "aag.aaa"
+                },
+                {
+                    "nodeID": "aag.aab"
+                }
+            ]
+        },
+        {
+            "questionID": "aah",
+            "type": "table",
+            "rowWidth": 80,
+            "questionRowHeight": 24,
+            "responses": [
+                {
+                    "nodeID": "aah.aaa"
+                },
+                {
+                    "nodeID": "aah.aab"
+                }
+            ]
         }
     ],
     "pluspoints": [
@@ -166,6 +194,18 @@
         {
             "source": "aaf.aac",
             "target": "aaa",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
+            "source": "aag.aaa",
+            "target": "aah",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
+            "source": "aah.aab",
+            "target": "aac",
             "color": "black",
             "drawtarget": true
         },
