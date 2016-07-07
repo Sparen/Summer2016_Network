@@ -93,7 +93,7 @@ function initializeQuestions() {
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
 
-    pushAllquestions(scaled_coord_array);
+    pushAllQuestions(scaled_coord_array);
     pushAllEdges();
 }
 
@@ -123,7 +123,7 @@ function optimizeNetworkByGrid() {
     update_main();
 }
 
-function pushAllquestions(scaled_coord_array) {
+function pushAllQuestions(scaled_coord_array) {
     var i;
     allquestions = [];
     for (i = 0; i < questions.length; i++) { //for every question in survey.json
@@ -148,6 +148,7 @@ function updateCoordinates(scaled_coord_array) {
     }
 }
 
+//Requires that setQuestionParameters has already been run.
 function pushAllEdges() {
     var i;
     for (i = 0; i < edges.length; i++) { 
@@ -183,17 +184,21 @@ function pushAllEdges() {
     }
 }
 
+//Note: This function creates the response objects
 function setQuestionParameters(question, x_coord, y_coord){
-    question.totalheight = question.questionRowHeight + question.responses.length * question.questionRowHeight;
+    question.totalheight = question.questionRowHeight + question.responseRowIDs.length * question.questionRowHeight;
 
     //top left coordinates
     question.x = x_coord;
     question.y = y_coord;
 
-    //Iterate through questions and assign to responses
+    //Iterate through questions and assign to responseRowIDs
+    question.responses = [];
     var j;
-    for (j = 0; j < question.responses.length; j++) {
-        setColumnParameters(question.responses[j], question, j);
+    for (j = 0; j < question.responseRowIDs.length; j++) {
+        var newresponseobj = {nodeID: question.responseRowIDs[j]};
+        setColumnParameters(newresponseobj, question, j);
+        question.responses.push(newresponseobj);
     }
 
     //Now define the draw and update for the questions
@@ -286,13 +291,26 @@ function setEdgeParameters(edge){
 
 //draws intersecting points and returns number of collisions between edges
 function numCollisions() {
+    var i;
+    for (i = 0; i < allquestions.length; i += 1) {
+        allquestions[i].update();
+    }
+
+    var num = 0;
+/*    for (i = 0; i < allquestions.length; i++) { //preventing node to node collision entirely
+        var j;
+        for (j = i+1; j < allquestions.length; j++) {
+            if (isCollidingNN(allquestions[i], allquestions[j])) {
+                return Number.MAX_VALUE;
+            }
+        }
+    }
+*/
     var j;
     for (j = 0; j < alledges.length; j += 1) {
         alledges[j].update();
     }
 
-    var num = 0;
-    var i;
     for (i = 0; i < alledges.length; i++) {
         var j;
         for (j = i+1; j < alledges.length; j++) {

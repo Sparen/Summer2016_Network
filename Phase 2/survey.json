@@ -5,13 +5,9 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aaa.aaa"
-                },
-                {
-                    "nodeID": "aaa.aab"
-                }
+            "responseRowIDs": [
+                "aaa.aaa",
+                "aaa.aab"
             ]
         },
         {
@@ -19,13 +15,9 @@
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aab.aaa"
-                },
-                {
-                    "nodeID": "aab.aab"
-                }
+            "responseRowIDs": [
+                "aab.aaa",
+                "aab.aab"
             ]
         },
         {
@@ -33,13 +25,9 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aac.aaa"
-                },
-                {
-                    "nodeID": "aac.aab"
-                }
+            "responseRowIDs": [
+                "aac.aaa",
+                "aac.aab"
             ]
         },
         {
@@ -47,25 +35,13 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aad.aaa"
-                },
-                {
-                    "nodeID": "aad.aab"
-                },
-                {
-                    "nodeID": "aad.aac"
-                },
-                {
-                    "nodeID": "aad.aad"
-                },
-                {
-                    "nodeID": "aad.aae"
-                },
-                {
-                    "nodeID": "aad.aaf"
-                }
+            "responseRowIDs": [
+                "aad.aaa",
+                "aad.aab",
+                "aad.aac",
+                "aad.aad",
+                "aad.aae",
+                "aad.aaf"
             ]
         },
         {
@@ -73,28 +49,14 @@
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aae.aaa"
-                },
-                {
-                    "nodeID": "aae.aab"
-                },
-                {
-                    "nodeID": "aae.aac"
-                },
-                {
-                    "nodeID": "aae.aad"
-                },
-                {
-                    "nodeID": "aae.aae"
-                },
-                {
-                    "nodeID": "aae.aaf"
-                },
-                {
-                    "nodeID": "aae.aag"
-                }
+            "responseRowIDs": [
+                "aae.aaa",
+                "aae.aab",
+                "aae.aac",
+                "aae.aad",
+                "aae.aae",
+                "aae.aaf",
+                "aae.aag"
             ]
         },
         {
@@ -102,16 +64,10 @@
             "type": "table",
             "rowWidth": 160,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aaf.aaa"
-                },
-                {
-                    "nodeID": "aaf.aab"
-                },
-                {
-                    "nodeID": "aaf.aac"
-                }
+            "responseRowIDs": [
+                "aaf.aaa",
+                "aaf.aab",
+                "aaf.aac"
             ]
         },
         {
@@ -119,13 +75,9 @@
             "type": "table",
             "rowWidth": 120,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aag.aaa"
-                },
-                {
-                    "nodeID": "aag.aab"
-                }
+            "responseRowIDs": [
+                "aag.aaa",
+                "aag.aab"
             ]
         },
         {
@@ -133,13 +85,9 @@
             "type": "table",
             "rowWidth": 80,
             "questionRowHeight": 24,
-            "responses": [
-                {
-                    "nodeID": "aah.aaa"
-                },
-                {
-                    "nodeID": "aah.aab"
-                }
+            "responseRowIDs": [
+                "aah.aaa",
+                "aah.aab"
             ]
         }
     ],
