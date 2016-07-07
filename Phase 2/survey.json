@@ -3,7 +3,7 @@
         {
             "questionID": "aaa",
             "type": "table",
-            "rowWidth": 80,
+            "rowWidth": 72,
             "questionRowHeight": 24,
             "responseRowIDs": [
                 "aaa.aaa",
@@ -23,7 +23,7 @@
         {
             "questionID": "aac",
             "type": "table",
-            "rowWidth": 80,
+            "rowWidth": 72,
             "questionRowHeight": 24,
             "responseRowIDs": [
                 "aac.aaa",
@@ -33,7 +33,7 @@
         {
             "questionID": "aad",
             "type": "table",
-            "rowWidth": 80,
+            "rowWidth": 72,
             "questionRowHeight": 24,
             "responseRowIDs": [
                 "aad.aaa",
@@ -62,7 +62,7 @@
         {
             "questionID": "aaf",
             "type": "table",
-            "rowWidth": 160,
+            "rowWidth": 168,
             "questionRowHeight": 24,
             "responseRowIDs": [
                 "aaf.aaa",
@@ -83,7 +83,7 @@
         {
             "questionID": "aah",
             "type": "table",
-            "rowWidth": 80,
+            "rowWidth": 72,
             "questionRowHeight": 24,
             "responseRowIDs": [
                 "aah.aaa",
