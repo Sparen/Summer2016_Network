@@ -1,4 +1,4 @@
-function optimizeToGrid(num_nodes) {
+function placeOnToGrid(num_nodes) {
 	var n = 1;
 	while (num_nodes > Math.pow(n,2)) {
 		n++;
@@ -14,7 +14,7 @@ function optimizeToGrid(num_nodes) {
 
 //Determines optimized coordinates for each node in a network
 function setCoordinates() {
-    var grid_size = optimizeToGrid(questions.length);
+    var grid_size = placeOnToGrid(questions.length);
     //Create 2D array
     var coord_array = [];
     var i;
@@ -33,6 +33,9 @@ function scaleCoordinates(coord_array) {
     var newCoordinates = [];
     var x_max = 0;
     var y_max = 0;
+    var canvas_size = getCanvasSize('maincanvas');
+    var x_canvas = canvas_size[0];
+    var y_canvas = canvas_size[1];
 
     // return maximum values of x and y
     var i;
@@ -55,6 +58,12 @@ function scaleCoordinates(coord_array) {
     return newCoordinates;
 }
 
+function getCanvasSize(canvasid) {
+    var canvas = document.getElementById(canvasid);
+    var width = canvas.width;
+    var height = canvas.height;
+    return [width, height];
+}
 
 function hasTarget(id) {
     var numSource = 0;
@@ -146,14 +155,14 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
                         rounded_int_pt[0] === edge2.points[edge2.points.length-1][0] && rounded_int_pt[1] === edge2.points[edge2.points.length-1][1] && !corners2 ) {
                     } else {
 
-                        /*
+                        
                         var mycanvas = document.getElementById('maincanvas');
                         var ctx = mycanvas.getContext("2d");
                         ctx.beginPath();
                         ctx.fillStyle = 'red';
                         ctx.arc(int_pt[0], int_pt[1], 3, 0, 2*Math.PI);
                         ctx.fill();
-                        */
+                        
             
                         return true; //collision found
                     }

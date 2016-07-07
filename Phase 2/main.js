@@ -89,7 +89,7 @@ function initializeQuestions() {
     questions = database_obj.questions; 
     edges = database_obj.edges; 
 
-    var grid_size = optimizeToGrid(questions.length);
+    var grid_size = placeOnToGrid(questions.length);
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
 
@@ -99,13 +99,14 @@ function initializeQuestions() {
 
 function optimizeNetworkByGrid() {
     console.log("optimizeNetworkByGrid(): Running");
-    var grid_size = optimizeToGrid(questions.length);
+    var grid_size = placeOnToGrid(questions.length);
     var coord_array = setCoordinates();
     var scaled_coord_array = scaleCoordinates(coord_array);
     var lowestEdgeNoise = 1000;
     var currentEdgeNoise;
     var optimalGridAssignment = [];
 
+    //Iterates through and finds the optimal result (least number of collisions)
     var i;
     for (i = 0; i < 1000; i ++) {        
         shuffleCoordArray(scaled_coord_array);
