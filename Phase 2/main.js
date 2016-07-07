@@ -124,6 +124,7 @@ function optimizeNetworkByGrid() {
 }
 
 function pushAllQuestions(scaled_coord_array) {
+    console.log("pushAllQuestions(): Running");
     var i;
     allquestions = [];
     for (i = 0; i < questions.length; i++) { //for every question in survey.json
@@ -150,6 +151,7 @@ function updateCoordinates(scaled_coord_array) {
 
 //Requires that setQuestionParameters has already been run.
 function pushAllEdges() {
+    console.log("pushAllEdges(): Running");
     var i;
     for (i = 0; i < edges.length; i++) { 
         var j;
@@ -186,6 +188,7 @@ function pushAllEdges() {
 
 //Note: This function creates the response objects
 function setQuestionParameters(question, x_coord, y_coord){
+    console.log("setQuestionParameters(): Running");
     question.totalheight = question.questionRowHeight + question.responseRowIDs.length * question.questionRowHeight;
 
     //top left coordinates
@@ -226,6 +229,7 @@ function setQuestionParameters(question, x_coord, y_coord){
 }
 
 function setColumnParameters(col, question, off){
+    console.log("setColumnParameters(): Running");
     col.offset = off; //which item it is in relation to title.
     col.parent = question;
     col.questionRowHeight = question.questionRowHeight;
@@ -249,6 +253,7 @@ function setColumnParameters(col, question, off){
 }
 
 function setEdgeParameters(edge){
+    console.log("setEdgeParameters(): Running");
     edge.update = function(){
         //First, obtain values
         var sourcex = this.sourceObject.x;
