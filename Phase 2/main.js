@@ -91,7 +91,7 @@ function initializeQuestions() {
 
     var grid_size = placeOnToGrid(questions.length);
     var coord_array = setCoordinates();
-    var scaled_coord_array = scaleCoordinates(coord_array);
+    var scaled_coord_array = scaleCoordinates(grid_size, coord_array, questions);
 
     pushAllQuestions(scaled_coord_array);
     pushAllEdges();
@@ -101,7 +101,7 @@ function optimizeNetworkByGrid() {
     console.log("optimizeNetworkByGrid(): Running");
     var grid_size = placeOnToGrid(questions.length);
     var coord_array = setCoordinates();
-    var scaled_coord_array = scaleCoordinates(coord_array);
+    var scaled_coord_array = scaleCoordinates(grid_size, coord_array, questions);
     var lowestEdgeNoise = 1000;
     var currentEdgeNoise;
     var optimalGridAssignment = [];

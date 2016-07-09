@@ -8,8 +8,8 @@ function placeOnToGrid(num_nodes) {
 		m--;
 	}
 	m++;
-	var gridArray = [n,m];
-	return gridArray;
+	var grid_size = [n,m];
+	return grid_size;
 }
 
 //Determines optimized coordinates for each node in a network
@@ -29,34 +29,52 @@ function setCoordinates() {
 }
 
 //Scales the coordinates relative to the center of canvas (plane)
-function scaleCoordinates(coord_array) {
+function scaleCoordinates(grid_size, coord_array, questions) {
     var newCoordinates = [];
-    var x_max = 0;
-    var y_max = 0;
-    var canvas_size = getCanvasSize('maincanvas');
-    var x_canvas = canvas_size[0];
-    var y_canvas = canvas_size[1];
 
-    // return maximum values of x and y
+    var x_max = grid_size[0];
+    var y_max = grid_size[1];
+
+    var x_additive = 0;
+    var y_additive = 0;
+    var current_rowMaxHeight = 0;
+    var current_questionHeight = 0;
+
     var i;
-    for (i = 0; i < coord_array.length; i++) {
-        newCoordinates[i] = [];
-        if (coord_array[i][0] >= x_max) {
-            x_max = coord_array[i][0];
-        }
+    var j;
+    var index = 0;
 
-        if (coord_array[i][1] >= y_max) {
-            y_max = coord_array[i][1];
-        }
-    }
+    for (i = 0; i < y_max && index < questions.length; i++) {
+        for (j = 0; j < x_max && index < questions.length; j++) {
+            newCoordinates[index] = [];
+            newCoordinates[index][0] = x_additive;
+            newCoordinates[index][1] = y_additive;
 
-    // scaling by proportion (by maximum valus of x and y)
-    for (i = 0; i < coord_array.length; i++) {
-        newCoordinates[i][0] = coord_array[i][0]/x_max * 350 + 100; // random constant scaling
-        newCoordinates[i][1] = coord_array[i][1]/y_max * 200 + 50; // random constant scaling
+            current_questionHeight = (questions[index].questionRowHeight)*(questions[index].responseRowIDs.length+1);
+
+            x_additive += (questions[index].rowWidth + questions[0].questionRowHeight*4);
+
+            if (current_rowMaxHeight < current_questionHeight) {
+                current_rowMaxHeight = current_questionHeight;
+            }
+
+            index++;
+        }
+        y_additive += (current_rowMaxHeight + questions[0].questionRowHeight*4);
+        current_rowMaxHeight = 0;
+        x_additive = 0;
     }
     return newCoordinates;
 }
+
+
+// function that centralizes the network to the center of canvas
+function centralizeCoordinates() {
+    var canvas_size = getCanvasSize('maincanvas');
+    var x_canvas = canvas_size[0];
+    var y_canvas = canvas_size[1];
+}
+
 
 function getCanvasSize(canvasid) {
     var canvas = document.getElementById(canvasid);
@@ -174,22 +192,22 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
 }
 
 function shuffleCoordArray(coordinates) {
-    var maxIndex = coordinates.length;
-    var randomNumIteration = Math.floor(Math.random()*maxIndex);
+    var maxi = coordinates.length;
+    var randomNumIteration = Math.floor(Math.random()*maxi);
     var i;
 
     for (i = 0; i < randomNumIteration; i++) {
-        var randomNumOne = Math.floor(Math.random()*maxIndex);
-        var randomNumTwo = Math.floor(Math.random()*maxIndex);
+        var randomNumOne = Math.floor(Math.random()*maxi);
+        var randomNumTwo = Math.floor(Math.random()*maxi);
         temp = coordinates[randomNumOne];
         coordinates[randomNumOne] = coordinates[randomNumTwo];
         coordinates[randomNumTwo] = temp;
     }
-
-    var randomNoise = 0.5;
+/*
+    var randomNoise = 0;
     for (i = 0; i < coordinates.length; i++) {
         coordinates[i][0] += randomNoise*(Math.random()-0.5);
         coordinates[i][1] += randomNoise*(Math.random()-0.5);
     }
-
+*/
 }
