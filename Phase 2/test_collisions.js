@@ -487,3 +487,51 @@
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
+
+    testno = "E1";
+    var edgeE1_1 = {"points": [[208, 128], [272, 128]]};
+    var edgeE1_2 = {"points": [[208, 192], [272, 192]]};
+    var resultE1 = isCollidingEE(edgeE1_1, edgeE1_2, false, false);
+    if (resultE1 == false) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "E2";
+    var edgeE2_1 = {"points": [[208, 128], [208, 192]]};
+    var edgeE2_2 = {"points": [[272, 128], [272, 192]]};
+    var resultE2 = isCollidingEE(edgeE2_1, edgeE2_2, false, false);
+    if (resultE2 == false) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "E3";
+    var edgeE3_1 = {"points": [[80, 64], [336, 256]]};
+    var edgeE3_2 = {"points": [[144, 64], [400, 256]]};
+    var resultE3 = isCollidingEE(edgeE3_1, edgeE3_2, false, false);
+    if (resultE3 == false) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "E4";
+    var edgeE4_1 = {"points": [[240, 64], [240, 224]]};
+    var edgeE4_2 = {"points": [[120, 256], [360, 256]]};
+    var resultE4 = isCollidingEE(edgeE4_1, edgeE4_2, false, false);
+    if (resultE4 == false) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }

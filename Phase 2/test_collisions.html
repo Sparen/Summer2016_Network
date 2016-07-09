@@ -19,7 +19,7 @@
       <li><a href="#id_B7">Node to Edge (Direct collisions)</a></li>
       <li><a href="#id_C1">Node to Edge (Edge cases)</a></li>
       <li><a href="#id_D1">Node to Edge (Complex Edges)</a></li>
-      <li>Edge to Edge (No collisions)</li>
+      <li><a href="#id_E1">Edge to Edge (No collisions)</a></li>
       <li>Edge to Edge (Direct collisions)</li>
       <li>Edge to Edge (Edge cases)</li>
     </ul>
@@ -33,7 +33,7 @@
       <li>Node to Edge (Direct collisions): <span id="res_B7">B7</span>&nbsp;&nbsp;<span id="res_B8">B8</span>&nbsp;&nbsp;<span id="res_B9">B9</span>&nbsp;&nbsp;<span id="res_B10">B10</span>&nbsp;<span id="res_B11">B11</span>&nbsp;<span id="res_B12">B12</span>&nbsp;<span id="res_B13">B13</span>&nbsp;<span id="res_B14">B14</span>&nbsp;<span id="res_B15">B15</span></li>
       <li>Node to Edge (Edge cases):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_C1">C1</span>&nbsp;&nbsp;<span id="res_C2">C2</span></li>
       <li>Node to Edge (Complex Edges):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_D1">D1</span></li>
-      <li>Edge to Edge (No collisions): </li>
+      <li>Edge to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_E1">E1</span>&nbsp;&nbsp;<span id="res_E2">E2</span>&nbsp;&nbsp;<span id="res_E3">E3</span>&nbsp;&nbsp;<span id="res_E4">E4</span></li>
       <li>Edge to Edge (Direct collisions): </li>
       <li>Edge to Edge (Edge cases): </li>
     </ul>
@@ -688,6 +688,58 @@
     return isCollidingNE(nodeD1, edgeD1);</code></pre>
     <p>Expected: <span style="color: blue">TRUE</span>
     <p id="test_D1"></p>
+
+    <h3 id="id_E1">E1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 208 128 H 272" fill="none" stroke="blue" stroke-width="1"></path>
+    	<path d="M 208 192 H 272" fill="none" stroke="blue" stroke-width="1"></path>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeE1_1 = {"points": [[208, 128], [272, 128]]};
+    var edgeE1_2 = {"points": [[208, 192], [272, 192]]};
+    return isCollidingEE(nodeE1_1, edgeE1_2, false, false);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_E1"></p>
+
+    <h3 id="id_E2">E2</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 208 128 V 192" fill="none" stroke="blue" stroke-width="1"></path>
+    	<path d="M 272 128 V 192" fill="none" stroke="blue" stroke-width="1"></path>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeE2_1 = {"points": [[208, 128], [208, 192]]};
+    var edgeE2_2 = {"points": [[272, 128], [272, 192]]};
+    return isCollidingEE(nodeE2_1, edgeE2_2, false, false);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_E2"></p>
+
+    <h3 id="id_E3">E3</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 80 64 L 336 256" fill="none" stroke="blue" stroke-width="1"></path>
+    	<path d="M 144 64 L 400 256" fill="none" stroke="blue" stroke-width="1"></path>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeE3_1 = {"points": [[80, 64], [336, 256]]};
+    var edgeE3_2 = {"points": [[144, 64], [400, 256]]};
+    return isCollidingEE(nodeE3_1, edgeE3_2, false, false);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_E3"></p>
+
+    <h3 id="id_E4">E4</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 240 64 V 224" fill="none" stroke="blue" stroke-width="1"></path>
+    	<path d="M 120 256 H 360" fill="none" stroke="blue" stroke-width="1"></path>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeE4_1 = {"points": [[240, 64], [240, 224]]};
+    var edgeE4_2 = {"points": [[120, 256], [360, 256]]};
+    return isCollidingEE(nodeE4_1, edgeE4_2, false, false);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_E4"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>
