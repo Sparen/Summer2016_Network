@@ -12,24 +12,8 @@ function placeOnToGrid(num_nodes) {
 	return grid_size;
 }
 
-//Determines optimized coordinates for each node in a network
-function setCoordinates() {
-    var grid_size = placeOnToGrid(questions.length);
-    //Create 2D array
-    var coord_array = [];
-    var i;
-    for (i = 0; i < questions.length; i++) {
-        coord_array[i] = [];
-        var x_coord = (i % grid_size[0]);
-        var y_coord = (Math.floor(i / grid_size[0]));    
-        coord_array[i][0] = x_coord;
-        coord_array[i][1] = y_coord;
-    }
-    return coord_array;
-}
-
 //Scales the coordinates relative to the center of canvas (plane)
-function scaleCoordinates(grid_size, coord_array, questions) {
+function scaleCoordinates(grid_size, questions) {
     var newCoordinates = [];
 
     var x_max = grid_size[0];
