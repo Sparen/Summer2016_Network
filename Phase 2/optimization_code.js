@@ -13,7 +13,7 @@ function placeOnToGrid(num_nodes) {
 }
 
 //Scales the coordinates relative to the center of canvas (plane)
-function scaleCoordinates(grid_size, questions) {
+function scaleCoordinates(grid_size, inputQuestions) {
     var newCoordinates = [];
 
     var x_max = grid_size[0];
@@ -28,15 +28,15 @@ function scaleCoordinates(grid_size, questions) {
     var j;
     var index = 0;
 
-    for (i = 0; i < y_max && index < questions.length; i++) {
-        for (j = 0; j < x_max && index < questions.length; j++) {
+    for (i = 0; i < y_max && index < inputQuestions.length; i++) {
+        for (j = 0; j < x_max && index < inputQuestions.length; j++) {
             newCoordinates[index] = [];
             newCoordinates[index][0] = x_additive;
             newCoordinates[index][1] = y_additive;
 
-            current_questionHeight = (questions[index].questionRowHeight)*(questions[index].responseRowIDs.length+1);
+            current_questionHeight = (inputQuestions[index].questionRowHeight)*(inputQuestions[index].responseRowIDs.length+1);
 
-            x_additive += (questions[index].rowWidth + questions[0].questionRowHeight*4);
+            x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight*4);
 
             if (current_rowMaxHeight < current_questionHeight) {
                 current_rowMaxHeight = current_questionHeight;
@@ -44,7 +44,7 @@ function scaleCoordinates(grid_size, questions) {
 
             index++;
         }
-        y_additive += (current_rowMaxHeight + questions[0].questionRowHeight*4);
+        y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight*4);
         current_rowMaxHeight = 0;
         x_additive = 0;
     }
@@ -175,23 +175,25 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
     return false;
 }
 
-function shuffleCoordArray(coordinates) {
-    var maxi = coordinates.length;
+function shuffleQuestions(inputQuestions) {
+    var maxi = inputQuestions.length;
+
     var randomNumIteration = Math.floor(Math.random()*maxi);
+
     var i;
 
     for (i = 0; i < randomNumIteration; i++) {
         var randomNumOne = Math.floor(Math.random()*maxi);
         var randomNumTwo = Math.floor(Math.random()*maxi);
-        temp = coordinates[randomNumOne];
-        coordinates[randomNumOne] = coordinates[randomNumTwo];
-        coordinates[randomNumTwo] = temp;
+        temp = inputQuestions[randomNumOne];
+        inputQuestions[randomNumOne] = inputQuestions[randomNumTwo];
+        inputQuestions[randomNumTwo] = temp;
     }
 /*
     var randomNoise = 0;
-    for (i = 0; i < coordinates.length; i++) {
-        coordinates[i][0] += randomNoise*(Math.random()-0.5);
-        coordinates[i][1] += randomNoise*(Math.random()-0.5);
+    for (i = 0; i < questions.length; i++) {
+        questions[i][0] += randomNoise*(Math.random()-0.5);
+        questions[i][1] += randomNoise*(Math.random()-0.5);
     }
 */
 }
