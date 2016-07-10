@@ -103,7 +103,7 @@ function optimizeNetworkByGrid() {
     var lowestEdgeNoise = 1000;
     var currentEdgeNoise;
     var optimalGridAssignment = [];
-    var optimalQuestionsAssignment = allquestions;
+    var optimalQuestionsAssignment = [];
 
     //Iterates through and finds the optimal result (least number of collisions)
     var i;
@@ -115,19 +115,18 @@ function optimizeNetworkByGrid() {
         if (currentEdgeNoise < lowestEdgeNoise) {
             lowestEdgeNoise = currentEdgeNoise;
             var j;
-            for (j = 0; j < scaled_coord_array.length; j++) {
+            for (j = 0; j < allquestions.length; j++) {
+                optimalQuestionsAssignment[j] = allquestions[j];
                 optimalGridAssignment[j] = scaled_coord_array[j];
-            }
-            var k;
-            for(k = 0; k < allquestions.length; k++) {
-                optimalQuestionsAssignment[k] = allquestions[k];
             }
         }
     }
+
     var n;
     for(n = 0; n < allquestions.length; n++) {
         allquestions[n] = optimalQuestionsAssignment[n];
     }
+
     updateCoordinates(optimalGridAssignment);
     update_main();
 }
