@@ -127,6 +127,7 @@ function optimizeNetworkByGrid() {
         allquestions[n] = optimalQuestionsAssignment[n];
     }
 
+    centralizeCoordinates(optimalGridAssignment);
     updateCoordinates(optimalGridAssignment);
     update_main();
 }

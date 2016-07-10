@@ -53,10 +53,15 @@ function scaleCoordinates(grid_size, inputQuestions) {
 
 
 // function that centralizes the network to the center of canvas
-function centralizeCoordinates() {
+function centralizeCoordinates(old_coordinates) {
     var canvas_size = getCanvasSize('maincanvas');
     var x_canvas = canvas_size[0];
     var y_canvas = canvas_size[1];
+    var i;
+    for (i = 0; i < old_coordinates.length; i++) {
+        old_coordinates[i][0] += x_canvas/4;
+        //old_coordinates[i][1] += y_canvas/4;
+    }
 }
 
 
