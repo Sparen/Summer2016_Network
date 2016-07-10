@@ -100,7 +100,7 @@ function optimizeNetworkByGrid() {
     console.log("optimizeNetworkByGrid(): Running");
     var grid_size = placeOnToGrid(questions.length);
     var scaled_coord_array = scaleCoordinates(grid_size, questions);
-    var lowestEdgeNoise = 1000;
+    var lowestEdgeNoise = Number.MAX_VALUE;
     var currentEdgeNoise;
     var optimalGridAssignment = [];
     var optimalQuestionsAssignment = [];
@@ -304,30 +304,40 @@ function setEdgeParameters(edge){
 
 //draws intersecting points and returns number of collisions between edges
 function numCollisions() {
-    var i;
+    var i; //questions
+    var j; //edges
+    var k; //edges
+    var num = 0; //number of collisions. NOT A COUNTER
+
     for (i = 0; i < allquestions.length; i += 1) {
         allquestions[i].update();
     }
 
-    var num = 0;
-/*    for (i = 0; i < allquestions.length; i++) { //preventing node to node collision entirely
-        var j;
-        for (j = i+1; j < allquestions.length; j++) {
+    //node to node
+    /*for (i = 0; i < allquestions.length; i++) { //preventing node to node collision entirely
+        for (j = i + 1; j < allquestions.length; j++) {
             if (isCollidingNN(allquestions[i], allquestions[j])) {
                 return Number.MAX_VALUE;
             }
         }
-    }
-*/
-    var j;
+    }*/
+
     for (j = 0; j < alledges.length; j += 1) {
         alledges[j].update();
     }
 
-    for (i = 0; i < alledges.length; i++) {
-        var j;
-        for (j = i+1; j < alledges.length; j++) {
-            if (isCollidingEE(alledges[i], alledges[j], false, false)) {
+    //node to edge
+    for (i = 0; i < allquestions.length; i++) {
+        for (j = 0; j < alledges.length; j++) {
+            if (isCollidingNE(allquestions[i], alledges[j])) {
+                num += 1; //counts as two collisions, may be changed in the future
+            }
+        }
+    }
+
+    for (j = 0; j < alledges.length; j++) {
+        for (k = j+1; k < alledges.length; k++) {
+            if (isCollidingEE(alledges[j], alledges[k], false, false)) {
                 num++;
             }
         }
