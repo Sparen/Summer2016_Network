@@ -194,11 +194,13 @@ function shuffleQuestions(inputQuestions) {
         inputQuestions[randomNumOne] = inputQuestions[randomNumTwo];
         inputQuestions[randomNumTwo] = temp;
     }
-/*
-    var randomNoise = 0;
-    for (i = 0; i < questions.length; i++) {
-        questions[i][0] += randomNoise*(Math.random()-0.5);
-        questions[i][1] += randomNoise*(Math.random()-0.5);
+}
+
+function randomOffsetGenerator(inputQuestions) {
+    var i;
+    var offsetunit = inputQuestions[0].questionRowHeight;
+    for (i = 0; i < inputQuestions.length; i++) {
+        inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
+        //inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
     }
-*/
 }

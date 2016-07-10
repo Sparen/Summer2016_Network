@@ -129,6 +129,7 @@ function optimizeNetworkByGrid() {
 
     centralizeCoordinates(optimalGridAssignment);
     updateCoordinates(optimalGridAssignment);
+    randomOffsetGenerator(allquestions);
     update_main();
 }
 
