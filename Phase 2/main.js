@@ -268,15 +268,27 @@ function setEdgeParameters(edge){
         var sourcey = this.sourceObject.y + this.sourceObject.questionRowHeight/2;
         var targetx = this.targetObject.x;
         var targety = this.targetObject.y + this.targetObject.questionRowHeight/2;
+        var sourcestub = -1; //left
+        var targetstub = -1; //left
 
         //Determine which side to use
-        if (sourcex + this.sourceObject.rowWidth < targetx) {sourcex += this.sourceObject.rowWidth;}//source right side, target left side
-        else if (sourcex > targetx + this.targetObject.rowWidth) {targetx += this.targetObject.rowWidth;}//source left side, target right side
+        if (sourcex + this.sourceObject.rowWidth < targetx) {sourcex += this.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
+        else if (sourcex > targetx + this.targetObject.rowWidth) {targetx += this.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
 
         this.points = [];
-        this.points.push([sourcex, sourcey]);
-        this.points.push([targetx, targety]);
-
+        this.points.push([sourcex, sourcey]); //source
+        if (sourcestub === -1) {
+            this.points.push([sourcex - this.sourceObject.questionRowHeight/2, sourcey]);
+        } else {
+            this.points.push([sourcex + this.sourceObject.questionRowHeight/2, sourcey]);
+        }
+        //other points
+        if (targetstub === -1) {
+            this.points.push([targetx - this.targetObject.questionRowHeight/2, targety]);
+        } else {
+            this.points.push([targetx + this.targetObject.questionRowHeight/2, targety]);
+        }
+        this.points.push([targetx, targety]); //target
     }
     edge.draw = function(){
         var ctx = myCanvas.context;
