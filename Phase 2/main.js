@@ -265,32 +265,7 @@ function setColumnParameters(col, question, off){
 function setEdgeParameters(edge){
     console.log("setEdgeParameters(): Running");
     edge.update = function(){
-        //First, obtain values
-        var sourcex = this.sourceObject.x;
-        var sourcey = this.sourceObject.y + this.sourceObject.questionRowHeight/2;
-        var targetx = this.targetObject.x;
-        var targety = this.targetObject.y + this.targetObject.questionRowHeight/2;
-        var sourcestub = -1; //left
-        var targetstub = -1; //left
-
-        //Determine which side to use
-        if (sourcex + this.sourceObject.rowWidth < targetx) {sourcex += this.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
-        else if (sourcex > targetx + this.targetObject.rowWidth) {targetx += this.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
-
-        this.points = [];
-        this.points.push([sourcex, sourcey]); //source
-        if (sourcestub === -1) {
-            this.points.push([sourcex - this.sourceObject.questionRowHeight/2, sourcey]);
-        } else {
-            this.points.push([sourcex + this.sourceObject.questionRowHeight/2, sourcey]);
-        }
-        //other points
-        if (targetstub === -1) {
-            this.points.push([targetx - this.targetObject.questionRowHeight/2, targety]);
-        } else {
-            this.points.push([targetx + this.targetObject.questionRowHeight/2, targety]);
-        }
-        this.points.push([targetx, targety]); //target
+        updateEdge(this);
     }
     edge.draw = function(){
         var ctx = myCanvas.context;
@@ -314,6 +289,36 @@ function setEdgeParameters(edge){
             ctx.stroke();
         }
     }
+}
+
+//obtains points on an edge
+function updateEdge(curr_edge) {
+    //First, obtain values
+    var sourcex = curr_edge.sourceObject.x;
+    var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight/2;
+    var targetx = curr_edge.targetObject.x;
+    var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight/2;
+    var sourcestub = -1; //left
+    var targetstub = -1; //left
+
+    //Determine which side to use
+    if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex += curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
+    else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx += curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
+
+    curr_edge.points = [];
+    curr_edge.points.push([sourcex, sourcey]); //source
+    if (sourcestub === -1) {
+        curr_edge.points.push([sourcex - curr_edge.sourceObject.questionRowHeight/2, sourcey]);
+    } else {
+        curr_edge.points.push([sourcex + curr_edge.sourceObject.questionRowHeight/2, sourcey]);
+    }
+    //other points
+    if (targetstub === -1) {
+        curr_edge.points.push([targetx - curr_edge.targetObject.questionRowHeight/2, targety]);
+    } else {
+        curr_edge.points.push([targetx + curr_edge.targetObject.questionRowHeight/2, targety]);
+    }
+    curr_edge.points.push([targetx, targety]); //target
 }
 
 //draws intersecting points and returns number of collisions between edges
