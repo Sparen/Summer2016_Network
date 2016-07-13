@@ -292,31 +292,54 @@ function setEdgeParameters(edge){
 }
 
 //obtains points on an edge
+//BLUE EDGES: Must start at right side
+//RED EDGES: Must start at right side and end at left side
+//No edges should end at the right side
 function updateEdge(curr_edge) {
     //First, obtain values
     var sourcex = curr_edge.sourceObject.x;
     var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight/2;
     var targetx = curr_edge.targetObject.x;
     var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight/2;
-    var sourcestub = -1; //left
-    var targetstub = -1; //left
+    var sourcestub = -1; //-1 is left, 1 is right
+    var targetstub = -1; //-1 is left, 0 is top, 1 is right
 
     //Determine which side to use
     if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex += curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
     else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx += curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
 
+    //overrides for blue and red edges
+    if (curr_edge.color === "dodgerblue" || curr_edge.color === "red") {
+        sourcex = curr_edge.sourceObject.x +  curr_edge.sourceObject.rowWidth; sourcestub = 1;
+    }
+    if (curr_edge.color === "red") {
+        targetx = curr_edge.targetObject.x; targetstub = -1;
+    }
+
+    //store last point added
+    var currx;
+    var curry;
+
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
     if (sourcestub === -1) {
-        curr_edge.points.push([sourcex - curr_edge.sourceObject.questionRowHeight/2, sourcey]);
+        currx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
+        curry = sourcey;
+        curr_edge.points.push([currx, sourcey]);
     } else {
-        curr_edge.points.push([sourcex + curr_edge.sourceObject.questionRowHeight/2, sourcey]);
+        currx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
+        curry = sourcey;
+        curr_edge.points.push([currx, sourcey]);
     }
     //other points
+
+
     if (targetstub === -1) {
-        curr_edge.points.push([targetx - curr_edge.targetObject.questionRowHeight/2, targety]);
+        currx = targetx - curr_edge.targetObject.questionRowHeight/2;
+        curr_edge.points.push([currx, targety]);
     } else {
-        curr_edge.points.push([targetx + curr_edge.targetObject.questionRowHeight/2, targety]);
+        currx = targetx + curr_edge.targetObject.questionRowHeight/2;
+        curr_edge.points.push([currx, targety]);
     }
     curr_edge.points.push([targetx, targety]); //target
 }
