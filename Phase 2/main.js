@@ -310,7 +310,7 @@ function updateEdge(curr_edge) {
 
     //overrides for blue and red edges
     if (curr_edge.color === "dodgerblue" || curr_edge.color === "red") {
-        sourcex = curr_edge.sourceObject.x +  curr_edge.sourceObject.rowWidth; sourcestub = 1;
+        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
     }
     if (curr_edge.color === "red") {
         targetx = curr_edge.targetObject.x; targetstub = -1;
@@ -345,7 +345,29 @@ function updateEdge(curr_edge) {
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
-    //other points
+    
+    var multiple = 1;
+    var mincollisions = Number.MAX_VALUE; 
+    var bestmultiple = 1;//stores which multiple is best
+    while (multiple < 8) { //8 attempts before givin up
+        var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
+        var i;
+        for (i = 0; i < alledges.length; i++) { //Iterate through all edges and make sure it's not overlapping any of them.
+            var numcollisions = 0;
+            if (alledges[i].points !== undefined && alledges[i].points !== null) {
+                if (isCollidingEE(segment, alledges[i], false, false)) {
+                    numcollisions++;
+                }
+            }
+        }
+        if (numcollisions < mincollisions) {
+            mincollisions = numcollisions;
+            bestmultiple = multiple;
+        }
+        multiple++;
+    }
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby])
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby])
 
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); //target

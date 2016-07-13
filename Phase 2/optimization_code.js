@@ -163,12 +163,12 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
                     } else {
 
                         
-                        var mycanvas = document.getElementById('maincanvas');
+                        /*var mycanvas = document.getElementById('maincanvas');
                         var ctx = mycanvas.getContext("2d");
                         ctx.beginPath();
                         ctx.fillStyle = 'red';
                         ctx.arc(int_pt[0], int_pt[1], 3, 0, 2*Math.PI);
-                        ctx.fill();
+                        ctx.fill();*/
                         
             
                         return true; //collision found
