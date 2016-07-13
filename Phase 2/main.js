@@ -316,31 +316,38 @@ function updateEdge(curr_edge) {
         targetx = curr_edge.targetObject.x; targetstub = -1;
     }
 
+    var sourcestubx;
+    var sourcestuby;
+    var targetstubx;
+    var targetstuby;
+
     //store last point added
     var currx;
     var curry;
 
+    //Handle determination of source and target stub locations
+    if (sourcestub === -1) {
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
+    } else {
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
+    }
+    sourcestuby = sourcey;
+    if (targetstub === -1) {
+        targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
+    } else {
+        targetstubx = targetx + curr_edge.targetObject.questionRowHeight/2;
+    }
+    targetstuby = targety;
+    currx = sourcestubx;
+    curry = sourcestuby;
+
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
-    if (sourcestub === -1) {
-        currx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
-        curry = sourcey;
-        curr_edge.points.push([currx, sourcey]);
-    } else {
-        currx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
-        curry = sourcey;
-        curr_edge.points.push([currx, sourcey]);
-    }
+    curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
+
     //other points
 
-
-    if (targetstub === -1) {
-        currx = targetx - curr_edge.targetObject.questionRowHeight/2;
-        curr_edge.points.push([currx, targety]);
-    } else {
-        currx = targetx + curr_edge.targetObject.questionRowHeight/2;
-        curr_edge.points.push([currx, targety]);
-    }
+    curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); //target
 }
 
