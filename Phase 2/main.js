@@ -325,6 +325,35 @@ function updateEdge(curr_edge) {
         targetx = curr_edge.targetObject.x; targetstub = -1;
     }
 
+    var mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+
+    //If there was a collision with a node or there was overlap... first, try the other side if black
+    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+        sourcestub *= -1;
+        targetstub *= -1;
+        if (sourcestub == -1) {
+            sourcex = curr_edge.sourceObject.x;
+        } else {
+            sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
+        }
+        if (targetstub == -1) {
+            targetx = curr_edge.targetObject.x;
+        } else if (targetstub == 1){
+            targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth;
+        } else {
+            //TODO case where it comes from above
+        }
+        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+    }
+
+    //If it still fails or not a black edge, have the edge move around nodes
+    if (mincollisions === Number.MAX_VALUE) {
+        //TODO
+    }
+}
+
+//Helper function for updateEdge. Handles setting the points of an edge
+function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub) {
     //coordinates for the stubs
     var sourcestubx;
     var sourcestuby;
@@ -355,7 +384,6 @@ function updateEdge(curr_edge) {
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
-    
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
@@ -368,15 +396,14 @@ function updateEdge(curr_edge) {
         }
         multiple++;
     }
-    if (mincollisions === Number.MAX_VALUE) {
-        //First, let's see if switching the side does any good.
-        //handle moving around nodes
-    }
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby])
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby])
+
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]);
 
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); //target
+
+    return mincollisions;
 }
 
 //Helper function for updateEdge
