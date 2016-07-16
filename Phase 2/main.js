@@ -285,14 +285,14 @@ function setEdgeParameters(edge){
         if (this.drawtarget) {
             var prev_coord = this.points[this.points.length-2];
             var target_coord = this.points[this.points.length-1];
-            var arrow_size = 5;
+            var arrow_size = 4;
             ctx.beginPath();
             ctx.fillStyle = "white";
             ctx.strokeStyle = this.color;
             ctx.lineWidth = "1.5";
             ctx.moveTo(target_coord[0], target_coord[1]);
-            ctx.lineTo(prev_coord[0], prev_coord[1] + arrow_size);
-            ctx.arcTo(target_coord[0], target_coord[1], prev_coord[0], prev_coord[1] - arrow_size, arrow_size);
+            ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] + arrow_size);
+            ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] - arrow_size);
             ctx.lineTo(target_coord[0], target_coord[1]);
             ctx.fill();
             ctx.stroke();
