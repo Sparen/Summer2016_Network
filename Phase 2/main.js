@@ -361,35 +361,45 @@ function updateEdge(curr_edge) {
     var bestmultiple = 0;//stores which multiple is best
     while (multiple < 8) { //8 attempts before givin up
         var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
-        var i;
-        var numcollisions = 0;
-        for (i = 0; i < alledges.length; i++) { //Iterate through all edges and make sure it's not overlapping any of them.
-            if (alledges[i].points !== undefined && alledges[i].points !== null) {
-                if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
-                    numcollisions = Number.MAX_VALUE;
-                    break; //stop bothering with this multiple
-                } else if (isCollidingEE(segment, alledges[i], false, false)) {
-                    numcollisions++;
-                }
-            }
-        }
-        for (i = 0; i < allquestions.length; i++) { //Iterate through all nodes
-            if (isCollidingNE(allquestions[i], segment)) {
-                numcollisions = Number.MAX_VALUE;
-                break; //stop bothering with this multiple
-            }
-        }
+        var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
             bestmultiple = multiple;
         }
         multiple++;
     }
+    if (mincollisions === Number.MAX_VALUE) {
+        //First, let's see if switching the side does any good.
+        //handle moving around nodes
+    }
     curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby])
     curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby])
 
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); //target
+}
+
+//Helper function for updateEdge
+function testSegmentCollision(segment) {
+    var i;
+    var numcollisions = 0;
+    for (i = 0; i < alledges.length; i++) { //Iterate through all edges and make sure it's not overlapping any of them.
+        if (alledges[i].points !== undefined && alledges[i].points !== null) {
+            if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
+                numcollisions = Number.MAX_VALUE;
+                break; //stop bothering with this multiple
+            } else if (isCollidingEE(segment, alledges[i], false, false)) {
+                numcollisions++;
+            }
+        }
+    }
+    for (i = 0; i < allquestions.length; i++) { //Iterate through all nodes
+        if (isCollidingNE(allquestions[i], segment)) {
+            numcollisions = Number.MAX_VALUE;
+            break; //stop bothering with this multiple
+        }
+    }
+    return numcollisions;
 }
 
 //draws intersecting points and returns number of collisions between edges
