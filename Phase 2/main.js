@@ -353,8 +353,35 @@ function updateEdge(curr_edge) {
         }
         mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
+    //Try alternate possibilities
+    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+        sourcestub *= -1;
+        if (sourcestub == -1) {
+            sourcex = curr_edge.sourceObject.x;
+        } else {
+            sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
+        }
+        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+    }
+    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+        sourcestub *= -1;
+        targetstub *= -1;
+        if (sourcestub == -1) {
+            sourcex = curr_edge.sourceObject.x;
+        } else {
+            sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
+        }
+        if (targetstub == -1) {
+            targetx = curr_edge.targetObject.x;
+        } else if (targetstub == 1){
+            targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth;
+        } else {
+            //TODO case where it comes from above
+        }
+        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+    }
 
-    //If it still fails or not a black edge, have the edge move around nodes
+    //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
     if (mincollisions === Number.MAX_VALUE) {
         //TODO
     }
