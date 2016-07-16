@@ -160,13 +160,13 @@
         {
             "source": "aae",
             "target": "aad",
-            "color": "dodgerblue",
+            "color": "blue",
             "drawtarget": true
         },
         {
             "source": "aaf",
             "target": "aac",
-            "color": "dodgerblue",
+            "color": "blue",
             "drawtarget": true
         }
     ]

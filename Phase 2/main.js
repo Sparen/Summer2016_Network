@@ -309,7 +309,7 @@ function updateEdge(curr_edge) {
     else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx += curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
 
     //overrides for blue and red edges
-    if (curr_edge.color === "dodgerblue" || curr_edge.color === "red") {
+    if (curr_edge.color === "blue" || curr_edge.color === "red") {
         sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
     }
     if (curr_edge.color === "red") {
