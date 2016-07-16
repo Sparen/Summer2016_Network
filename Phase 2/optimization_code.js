@@ -180,6 +180,50 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
     return false;
 }
 
+//returns true if two edges overlap but segments are not exactly the same. Requires edges to be orthogonal
+function isOverlappingEE(edge1, edge2) {
+    var i;
+    var j;
+    for (i = 0; i < edge1.points.length - 1; i++) {
+        for (j = 0; j < edge2.points.length - 1; j++) {
+            var p1x = edge1.points[i][0],
+                p1y = edge1.points[i][1],
+                p2x = edge1.points[i+1][0],
+                p2y = edge1.points[i+1][1],
+                p3x = edge2.points[j][0],
+                p3y = edge2.points[j][1],
+                p4x = edge2.points[j+1][0],
+                p4y = edge2.points[j+1][1];
+
+            var min1x = Math.min(p1x, p2x);
+            var max1x = Math.max(p1x, p2x);
+            var min2x = Math.min(p3x, p4x);
+            var max2x = Math.max(p3x, p4x);
+            var min1y = Math.min(p1y, p2y);
+            var max1y = Math.max(p1y, p2y);
+            var min2y = Math.min(p3y, p4y);
+            var max2y = Math.max(p3y, p4y);
+
+            if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear
+
+            } else if (min1x === min2x === max1x === max2x) { //x coordinates are same
+                if((min1y < min2y && max1y < max2y && min2y < max1y) || (min2y < min1y && max2y < max1y && min1y < max2y)){ //one portion is shared
+                    return true;
+                } else if ((min1y < min2y && max1y > max2y) || (min2y < min1y && max2y > max1y)) { //one encompasses the other
+                    return true;
+                }
+            } else if (min1y === min2y === max1y === max2y) { //y coordinates are same
+                if((min1x < min2x && max1x < max2x && min2x < max1x) || (min2x < min1x && max2x < max1x && min1x < max2x)){ //one portion is shared
+                    return true;
+                } else if ((min1x < min2x && max1x > max2x) || (min2x < min1x && max2x > max1x)) { //one encompasses the other
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 function shuffleQuestions(inputQuestions) {
     var maxi = inputQuestions.length;
 

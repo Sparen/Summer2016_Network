@@ -305,8 +305,8 @@ function updateEdge(curr_edge) {
     var targetstub = -1; //-1 is left, 0 is top, 1 is right
 
     //Determine which side to use
-    if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex += curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
-    else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx += curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
+    if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
+    else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
 
     //overrides for blue and red edges
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
@@ -316,6 +316,7 @@ function updateEdge(curr_edge) {
         targetx = curr_edge.targetObject.x; targetstub = -1;
     }
 
+    //coordinates for the stubs
     var sourcestubx;
     var sourcestuby;
     var targetstubx;
@@ -346,18 +347,27 @@ function updateEdge(curr_edge) {
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
     
-    var multiple = 1;
+    var multiple = 0;
     var mincollisions = Number.MAX_VALUE; 
-    var bestmultiple = 1;//stores which multiple is best
+    var bestmultiple = 0;//stores which multiple is best
     while (multiple < 8) { //8 attempts before givin up
         var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
         var i;
+        var numcollisions = 0;
         for (i = 0; i < alledges.length; i++) { //Iterate through all edges and make sure it's not overlapping any of them.
-            var numcollisions = 0;
             if (alledges[i].points !== undefined && alledges[i].points !== null) {
-                if (isCollidingEE(segment, alledges[i], false, false)) {
+                if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
+                    numcollisions = Number.MAX_VALUE;
+                    break; //stop bothering with this multiple
+                } else if (isCollidingEE(segment, alledges[i], false, false)) {
                     numcollisions++;
                 }
+            }
+        }
+        for (i = 0; i < allquestions.length; i++) { //Iterate through all nodes
+            if (isCollidingNE(allquestions[i], segment)) {
+                numcollisions = Number.MAX_VALUE;
+                break; //stop bothering with this multiple
             }
         }
         if (numcollisions < mincollisions) {
