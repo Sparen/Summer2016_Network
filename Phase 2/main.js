@@ -325,7 +325,15 @@ function updateEdge(curr_edge) {
         targetx = curr_edge.targetObject.x; targetstub = -1;
     }
 
-    var mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+    var i;
+    var largestRowWidth = 0;
+    for (i = 0; i < allquestions.length; i++) {
+        if (allquestions[i].rowWidth > largestRowWidth) {
+            largestRowWidth = allquestions[i].rowWidth;
+        }
+    }
+
+    var mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth);
 
     //If there was a collision with a node or there was overlap... first, try the other side if black
     if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
@@ -353,7 +361,7 @@ function updateEdge(curr_edge) {
 }
 
 //Helper function for updateEdge. Handles setting the points of an edge
-function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub) {
+function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth) {
     //coordinates for the stubs
     var sourcestubx;
     var sourcestuby;
@@ -387,7 +395,7 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
-    while (multiple < 8) { //8 attempts before givin up
+    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)/2) { //Number of attempts is based on largest possible buffer between nodes
         var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
