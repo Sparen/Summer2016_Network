@@ -117,7 +117,7 @@ function isCollidingNE(node1, edge1) {
     rectEdge.points.push([nodel, nodeb]);
     rectEdge.points.push([nodel, nodet]);
 
-    return isCollidingEE(rectEdge, edge1, true, false);
+    return (isCollidingEE(rectEdge, edge1, true, false) || isOverlappingEE(rectEdge, edge1));
 }
 
 //returns true if two edges have an intersection
