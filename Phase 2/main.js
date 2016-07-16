@@ -107,7 +107,7 @@ function optimizeNetworkByGrid() {
 
     //Iterates through and finds the optimal result (least number of collisions)
     var i;
-    for (i = 0; i < 1000; i ++) {
+    for (i = 0; i < 100; i ++) {
         shuffleQuestions(allquestions);
         scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         updateCoordinates(scaled_coord_array);
@@ -279,12 +279,21 @@ function setEdgeParameters(edge){
         }
         ctx.stroke();
 
+
+
+        // Drawing an arrow at the end of the edge
         if (this.drawtarget) {
+            var prev_coord = this.points[this.points.length-2];
+            var target_coord = this.points[this.points.length-1];
+            var arrow_size = 5;
             ctx.beginPath();
             ctx.fillStyle = "white";
             ctx.strokeStyle = this.color;
-            ctx.lineWidth = "2";
-            ctx.arc(this.points[this.points.length-1][0], this.points[this.points.length-1][1], 4, 0, 2*Math.PI); //circle at target
+            ctx.lineWidth = "1.5";
+            ctx.moveTo(target_coord[0], target_coord[1]);
+            ctx.lineTo(prev_coord[0], prev_coord[1] + arrow_size);
+            ctx.arcTo(target_coord[0], target_coord[1], prev_coord[0], prev_coord[1] - arrow_size, arrow_size);
+            ctx.lineTo(target_coord[0], target_coord[1]);
             ctx.fill();
             ctx.stroke();
         }
@@ -411,7 +420,7 @@ function numCollisions() {
     for (i = 0; i < allquestions.length; i++) {
         for (j = 0; j < alledges.length; j++) {
             if (isCollidingNE(allquestions[i], alledges[j])) {
-                num += 1; //counts as two collisions, may be changed in the future
+                num += 10; //counts as two collisions, may be changed in the future
             }
         }
     }
