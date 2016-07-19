@@ -337,10 +337,11 @@ function updateEdge(curr_edge) {
         }
     }
 
-    var mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth);
+    //bad: if there was a collision with a node or there was no place to put the edge, bad is true
+    var bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth);
 
     //If there was a collision with a node or there was overlap... first, try the other side if black
-    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+    if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         //targetstub *= -1; //change to testing top/left
         if (sourcestub == -1) {
@@ -353,19 +354,19 @@ function updateEdge(curr_edge) {
         } else {
             //TODO case where it comes from above
         }
-        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
     //Try alternate possibilities
-    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+    if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         if (sourcestub == -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
-    if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
+    if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         //targetstub *= -1; //change to testing top/left
         if (sourcestub == -1) {
@@ -378,11 +379,11 @@ function updateEdge(curr_edge) {
         } else {
             //TODO case where it comes from above
         }
-        mincollisions = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
 
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
-    if (mincollisions === Number.MAX_VALUE) {
+    if (bad) {
         //TODO
     }
 }
@@ -438,7 +439,7 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); //target
 
-    return mincollisions;
+    return mincollisions === Number.MAX_VALUE;
 }
 
 //Helper function for updateEdge
