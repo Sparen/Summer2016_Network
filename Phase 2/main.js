@@ -380,6 +380,17 @@ function updateEdge(curr_edge) {
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
     if (bad) {
         //TODO
+        var mycanvas = document.getElementById('maincanvas');
+        var ctx = mycanvas.getContext("2d");
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(targetx, targety, 3, 0, 2*Math.PI);
+        ctx.fill();
+
+        var targetx = curr_edge.targetObject.x;
+        var targety = curr_edge.targetObject.y;
+
+        // add new midpoints that goes around the node here
     }
 }
 
