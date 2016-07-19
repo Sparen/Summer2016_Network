@@ -340,23 +340,7 @@ function updateEdge(curr_edge) {
     //bad: if there was a collision with a node or there was no place to put the edge, bad is true
     var bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth);
 
-    //If there was a collision with a node or there was overlap... first, try the other side if black
-    if (bad && curr_edge.color === "black") {
-        sourcestub *= -1;
-        //targetstub *= -1; //change to testing top/left
-        if (sourcestub == -1) {
-            sourcex = curr_edge.sourceObject.x;
-        } else {
-            sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
-        }
-        if (targetstub == -1) {
-            targetx = curr_edge.targetObject.x;
-        } else {
-            //TODO case where it comes from above
-        }
-        bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
-    }
-    //Try alternate possibilities
+    //If there was a collision with a node or there was overlap... first, try the other side
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         if (sourcestub == -1) {
@@ -366,19 +350,30 @@ function updateEdge(curr_edge) {
         }
         bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
+    //Try original side with top as option
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
-        //targetstub *= -1; //change to testing top/left
+        targetstub = 0;
         if (sourcestub == -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        if (targetstub == -1) {
-            targetx = curr_edge.targetObject.x;
+        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
+        targety = curr_edge.targetObject.y;
+        bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+    }
+    //Other side with top as an option
+    if (bad && curr_edge.color === "black") {
+        sourcestub *= -1;
+        targetstub = 0;
+        if (sourcestub == -1) {
+            sourcex = curr_edge.sourceObject.x;
         } else {
-            //TODO case where it comes from above
+            sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
+        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
+        targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
     }
 
@@ -396,10 +391,6 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     var targetstubx;
     var targetstuby;
 
-    //store last point added
-    var currx;
-    var curry;
-
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
         sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
@@ -409,12 +400,11 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     sourcestuby = sourcey;
     if (targetstub === -1) {
         targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
-    } else {
-        targetstubx = targetx + curr_edge.targetObject.questionRowHeight/2;
+        targetstuby = targety;
+    } else { //top
+        targetstubx = targetx; //the targetx passed in is the midpoint
+        targetstuby = targety - curr_edge.targetObject.questionRowHeight/2;
     }
-    targetstuby = targety;
-    currx = sourcestubx;
-    curry = sourcestuby;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -433,13 +423,30 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
         multiple++;
     }
 
+    //Now that which x coordinate is chosen, choose a y coordinate.
+    var multipleTOP = 0;
+    var mincollisionsTOP = Number.MAX_VALUE; 
+    var bestmultipleTOP = 0;//stores which multiple is best. Defaults to 0 (for left/right)
+    if (targetstub === 0) {
+        while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
+            var segment = {points: [[sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2], [targetstubx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2]]};
+            var numcollisions = testSegmentCollision(segment);
+            if (numcollisions < mincollisionsTOP) {
+                mincollisionsTOP = numcollisions;
+                bestmultipleTOP = multipleTOP;
+            }
+            multipleTOP++;
+        }
+    }
+
     curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
+    curr_edge.points.push([targetstubx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
 
     curr_edge.points.push([targetstubx, targetstuby]);
-    curr_edge.points.push([targetx, targety]); //target
+    curr_edge.points.push([targetx, targety]);
 
-    return mincollisions === Number.MAX_VALUE;
+    return Math.max(mincollisions, mincollisionsTOP) === Number.MAX_VALUE;
 }
 
 //Helper function for updateEdge
