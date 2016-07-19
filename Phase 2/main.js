@@ -320,8 +320,6 @@ function updateEdge(curr_edge) {
 
     //Determine which side to use
     if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
-    //else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
-    //convert above line to test for top
 
     //overrides for blue and red edges
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
@@ -424,7 +422,7 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
-    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)/2) { //Number of attempts is based on largest possible buffer between nodes
+    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
         var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
