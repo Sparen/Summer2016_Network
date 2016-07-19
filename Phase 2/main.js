@@ -311,11 +311,12 @@ function updateEdge(curr_edge) {
     var targetx = curr_edge.targetObject.x;
     var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight/2;
     var sourcestub = -1; //-1 is left, 1 is right
-    var targetstub = -1; //-1 is left, 0 is top, 1 is right
+    var targetstub = -1; //-1 is left, 0 is top, 1 is right. 1 is forbidden.
 
     //Determine which side to use
     if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
-    else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
+    //else if (sourcex > targetx + curr_edge.targetObject.rowWidth) {targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth; targetstub = 1;}//source left side, target right side
+    //convert above line to test for top
 
     //overrides for blue and red edges
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
@@ -338,7 +339,7 @@ function updateEdge(curr_edge) {
     //If there was a collision with a node or there was overlap... first, try the other side if black
     if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
         sourcestub *= -1;
-        targetstub *= -1;
+        //targetstub *= -1; //change to testing top/left
         if (sourcestub == -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
@@ -346,8 +347,6 @@ function updateEdge(curr_edge) {
         }
         if (targetstub == -1) {
             targetx = curr_edge.targetObject.x;
-        } else if (targetstub == 1){
-            targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth;
         } else {
             //TODO case where it comes from above
         }
@@ -365,7 +364,7 @@ function updateEdge(curr_edge) {
     }
     if (mincollisions === Number.MAX_VALUE && curr_edge.color === "black") {
         sourcestub *= -1;
-        targetstub *= -1;
+        //targetstub *= -1; //change to testing top/left
         if (sourcestub == -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
@@ -373,8 +372,6 @@ function updateEdge(curr_edge) {
         }
         if (targetstub == -1) {
             targetx = curr_edge.targetObject.x;
-        } else if (targetstub == 1){
-            targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth;
         } else {
             //TODO case where it comes from above
         }
