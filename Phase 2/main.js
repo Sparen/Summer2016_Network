@@ -8,15 +8,13 @@ var jsonreceived = false; //whether or not the JSON file has been received.
 
 /* ***** INITIALIZATION AND CANVAS FUNCTIONS ***** */
 
-paper.install(window); //Inject paper.js into the window
-
 var myCanvas = {
     start: function (canvasid) {
         resetCanvas();
         this.canvas = document.getElementById(canvasid);
         this.context = this.canvas.getContext("2d");
         this.frameNo = 0;
-        this.interval = setInterval(update_main, 10, canvasid); //in milliseconds. Runs update every 10 millis (25 FPS). canvasid is passed to update_main
+        //this.interval = setInterval(update_main, 10, canvasid); //in milliseconds. Runs update every 10 millis (25 FPS). canvasid is passed to update_main
     },
     clear: function () {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -94,6 +92,8 @@ function initializeQuestions() {
 
     pushAllQuestions(scaled_coord_array);
     pushAllEdges();
+
+    update_main();
 }
 
 function optimizeNetworkByGrid() {
@@ -423,7 +423,7 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
     while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
-        var segment = {points: [[sourcestubx, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
+        var segment = {points: [[sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
