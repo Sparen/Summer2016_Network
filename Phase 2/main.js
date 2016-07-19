@@ -291,8 +291,13 @@ function setEdgeParameters(edge){
             ctx.strokeStyle = this.color;
             ctx.lineWidth = "1.5";
             ctx.moveTo(target_coord[0], target_coord[1]);
-            ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] + arrow_size);
-            ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] - arrow_size);
+            if (prev_coord[1] < target_coord[1]) { //top
+                ctx.lineTo(prev_coord[0] + arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1])/2);
+                ctx.lineTo(prev_coord[0] - arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1])/2);
+            } else { //left or right
+                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] + arrow_size);
+                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] - arrow_size);
+            }
             ctx.lineTo(target_coord[0], target_coord[1]);
             ctx.fill();
             ctx.stroke();
