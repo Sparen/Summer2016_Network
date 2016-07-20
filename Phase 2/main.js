@@ -395,9 +395,7 @@ function updateEdge(curr_edge) {
 function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth) {
     //coordinates for the stubs
     var sourcestubx;
-    var sourcestuby;
     var targetstubx;
-    var targetstuby;
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
@@ -405,19 +403,17 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     } else {
         sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
     }
-    sourcestuby = sourcey;
     targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
-    targetstuby = targety;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
-    curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
+    curr_edge.points.push([sourcestubx, sourcey]); //source stub
 
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
     while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
-        var segment = {points: [[sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]]};
+        var segment = {points: [[sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targety]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
@@ -426,21 +422,20 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         multiple++;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targety]);
 
-    curr_edge.points.push([targetstubx, targetstuby]);
+    curr_edge.points.push([targetstubx, targety]);
     curr_edge.points.push([targetx, targety]); //target
 
     return mincollisions === Number.MAX_VALUE;
 }
 
 //Helper function for updateEdge. Handles setting the points of an edge
+//Targetx is the midpoint of the node's top edge
 function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth) {
     //coordinates for the stubs
     var sourcestubx;
-    var sourcestuby;
-    var targetstubx;
     var targetstuby;
 
     //Handle determination of source and target stub locations
@@ -449,13 +444,11 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     } else {
         sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
     }
-    sourcestuby = sourcey;
-    targetstubx = targetx; //the targetx passed in is the midpoint
     targetstuby = targety - curr_edge.targetObject.questionRowHeight/2;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
-    curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
+    curr_edge.points.push([sourcestubx, sourcey]); //source stub
 
     var multipleLR = 0;
     var bestmultipleLR = 0;//stores which multiple is best
@@ -464,7 +457,7 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     var mincollisions = Number.MAX_VALUE; 
     while (multipleLR < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
         while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
-            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2], [targetstubx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2]]};
+            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2]]};
             var numcollisions = testSegmentCollision(segment);
             if (numcollisions < mincollisions) { //if found a new best choice
                 mincollisions = numcollisions;
@@ -476,11 +469,11 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
         multipleLR++;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcestuby]);
+    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey]);
     curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
-    curr_edge.points.push([targetstubx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
+    curr_edge.points.push([targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
 
-    curr_edge.points.push([targetstubx, targetstuby]);
+    curr_edge.points.push([targetx, targetstuby]);
     curr_edge.points.push([targetx, targety]);
 
     return mincollisions === Number.MAX_VALUE;
