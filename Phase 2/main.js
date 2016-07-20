@@ -372,34 +372,10 @@ function updateEdge(curr_edge) {
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
 
-    if (isCollidingNE(curr_edge.targetObject, curr_edge)) {
-        var mycanvas = document.getElementById('maincanvas');
-        var ctx = mycanvas.getContext("2d");
-        ctx.beginPath();
-        ctx.fillStyle = 'yellow';
-        ctx.arc(targetx, targety, 3, 0, 2*Math.PI);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.fillStyle = 'green';
-        ctx.arc(sourcex, sourcey, 3, 0, 2*Math.PI);
-        ctx.fill();
-
-    }
-
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
     if (bad || isCollidingNE(curr_edge.targetObject, curr_edge)) {
-        //TODO
-        var mycanvas = document.getElementById('maincanvas');
-        var ctx = mycanvas.getContext("2d");
-        ctx.beginPath();
-        ctx.fillStyle = 'red';
-        ctx.arc(targetx, targety, 3, 0, 2*Math.PI);
-        ctx.fill();
-
-        var targetx = curr_edge.targetObject.x;
-        var targety = curr_edge.targetObject.y;
-
+        targetx = curr_edge.targetObject.x;
+        targety = curr_edge.targetObject.y;
         // add new midpoints that goes around the node here
         resetEdgeToLoop(curr_edge, sourcestub, targetstub, sourcex, sourcey, targetx, targety);       
     }
