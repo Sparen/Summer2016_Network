@@ -373,7 +373,7 @@ function updateEdge(curr_edge) {
     }
 
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
-    if (bad) {
+    if (bad || isCollidingNE(curr_edge.targetObject, curr_edge)) {
         //TODO
         var mycanvas = document.getElementById('maincanvas');
         var ctx = mycanvas.getContext("2d");
