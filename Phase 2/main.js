@@ -436,9 +436,10 @@ function determineEdgeMidpoints(curr_edge, sourcex, targetx, sourcey, targety, s
 
     //Now that which x coordinate is chosen, choose a y coordinate.
     var multipleTOP = 0;
-    var mincollisionsTOP = Number.MAX_VALUE; 
+    var mincollisionsTOP = 0; //default for non-top 
     var bestmultipleTOP = 0;//stores which multiple is best. Defaults to 0 (for left/right)
     if (targetstub === 0) {
+        mincollisionsTOP = Number.MAX_VALUE;
         while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
             var segment = {points: [[sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2], [targetstubx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2]]};
             var numcollisions = testSegmentCollision(segment);
