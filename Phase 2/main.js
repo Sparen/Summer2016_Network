@@ -279,8 +279,6 @@ function setEdgeParameters(edge){
         }
         ctx.stroke();
 
-
-
         // Drawing an arrow at the end of the edge
         if (this.drawtarget) {
             var prev_coord = this.points[this.points.length-2];
@@ -318,15 +316,14 @@ function updateEdge(curr_edge) {
     var sourcestub = -1; //-1 is left, 1 is right
     var targetstub = -1; //-1 is left, 0 is top, 1 is right. 1 is forbidden.
 
-    //Determine which side to use
-    if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;}//source right side, target left side
+    //source right side, target left side
+    if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {
+        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
+    }
 
     //overrides for blue and red edges
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
         sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
-    }
-    if (curr_edge.color === "red") {
-        targetx = curr_edge.targetObject.x; targetstub = -1;
     }
 
     var i;
