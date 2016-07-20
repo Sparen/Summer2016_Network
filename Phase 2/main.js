@@ -1,3 +1,5 @@
+"use strict";
+
 var iterationNum = 0;
 var database_obj;
 var questions;
@@ -33,8 +35,8 @@ function onLoad() {
     var client = new XMLHttpRequest();
     client.open("GET", filepath, true);
     client.onreadystatechange = function () { //callback
-        if (client.readyState == 4) {
-            if (client.status == 200 || client.status == 0) {
+        if (client.readyState === 4) {
+            if (client.status === 200 || client.status === 0) {
                 database_obj = JSON.parse(client.responseText);
                 initializeQuestions();
                 jsonreceived = true;
@@ -46,13 +48,13 @@ function onLoad() {
 
 //Main update loop. Calls the update loops of all objects
 function update_main() {
-    myCanvas.frameNo++; //Increment the master counter
+    myCanvas.frameNo += 1; //Increment the master counter
     var i;
-    for (i = 0; i < allquestions.length; i++) {
+    for (i = 0; i < allquestions.length; i += 1) {
         allquestions[i].update();
     }
     var j;
-    for (j = 0; j < alledges.length; j++) {
+    for (j = 0; j < alledges.length; j += 1) {
         alledges[j].update();
     }
     draw_main(); //draw updated things
@@ -62,18 +64,18 @@ function update_main() {
 function draw_main() {
     myCanvas.clear();
     var i;
-    for (i = 0; i < allquestions.length; i++) {
+    for (i = 0; i < allquestions.length; i += 1) {
         allquestions[i].draw();
     }
     var j;
-    for (j = 0; j < alledges.length; j++) {
+    for (j = 0; j < alledges.length; j += 1) {
         alledges[j].draw();
     }
     numCollisions();
 }
 
 //Purges existing questions and calls initializeQuestions() to reset them
-function resetCanvas(){
+function resetCanvas() {
     allquestions = [];
     if (jsonreceived) { //do not run function immediately after opening webpage - only run block on reset
         initializeQuestions();
@@ -84,8 +86,8 @@ function resetCanvas(){
 
 function initializeQuestions() {
     console.log("initializeQuestions(): Running");
-    questions = database_obj.questions; 
-    edges = database_obj.edges; 
+    questions = database_obj.questions;
+    edges = database_obj.edges;
 
     var grid_size = placeOnToGrid(questions.length);
     var scaled_coord_array = scaleCoordinates(grid_size, questions);
@@ -107,15 +109,15 @@ function optimizeNetworkByGrid() {
 
     //Iterates through and finds the optimal result (least number of collisions)
     var i;
-    for (i = 0; i < 100; i ++) {
+    var j;
+    for (i = 0; i < 100; i  += 1) {
         shuffleQuestions(allquestions);
         scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         updateCoordinates(scaled_coord_array);
         currentEdgeNoise = numCollisions();
         if (currentEdgeNoise < lowestEdgeNoise) {
             lowestEdgeNoise = currentEdgeNoise;
-            var j;
-            for (j = 0; j < allquestions.length; j++) {
+            for (j = 0; j < allquestions.length; j += 1) {
                 optimalQuestionsAssignment[j] = allquestions[j];
                 optimalGridAssignment[j] = scaled_coord_array[j];
             }
@@ -123,7 +125,7 @@ function optimizeNetworkByGrid() {
     }
 
     var n;
-    for(n = 0; n < allquestions.length; n++) {
+    for (n = 0; n < allquestions.length; n += 1) {
         allquestions[n] = optimalQuestionsAssignment[n];
     }
 
@@ -135,11 +137,13 @@ function optimizeNetworkByGrid() {
 
 function pushAllQuestions(scaled_coord_array) {
     console.log("pushAllQuestions(): Running");
+    var x_coord;
+    var y_coord;
     var i;
     allquestions = [];
-    for (i = 0; i < questions.length; i++) { //for every question in survey.json
-        var x_coord = scaled_coord_array[i][0];
-        var y_coord = scaled_coord_array[i][1];
+    for (i = 0; i < questions.length; i += 1) { //for every question in survey.json
+        x_coord = scaled_coord_array[i][0];
+        y_coord = scaled_coord_array[i][1];
         setQuestionParameters(questions[i], x_coord, y_coord);
         allquestions.push(questions[i]); //add question to list of questions
     }
@@ -152,7 +156,7 @@ function pushAllQuestions(scaled_coord_array) {
 
 function updateCoordinates(scaled_coord_array) {
     var i;
-    for (i = 0; i < allquestions.length; i++) {
+    for (i = 0; i < allquestions.length; i += 1) {
         allquestions[i].x = scaled_coord_array[i][0];
         allquestions[i].y = scaled_coord_array[i][1];
         allquestions[i].update();
@@ -163,31 +167,28 @@ function updateCoordinates(scaled_coord_array) {
 function pushAllEdges() {
     console.log("pushAllEdges(): Running");
     var i;
-    for (i = 0; i < edges.length; i++) { 
-        var j;
-        for (j = 0; j < allquestions.length; j++) {            
+    var j;
+    var k;
+    for (i = 0; i < edges.length; i += 1) {
+        for (j = 0; j < allquestions.length; j += 1) {
             //sourceObject assignment
-            if (edges[i].source == allquestions[j].questionID) {
+            if (edges[i].source === allquestions[j].questionID) {
                 edges[i].sourceObject = allquestions[j];
-            }
-            else {
-                var k;
-                for (k = 0; k < allquestions[j].responses.length; k++) {
-                    if (edges[i].source == allquestions[j].responses[k].nodeID) {
+            } else {
+                for (k = 0; k < allquestions[j].responses.length; k += 1) {
+                    if (edges[i].source === allquestions[j].responses[k].nodeID) {
                         edges[i].sourceObject = allquestions[j].responses[k];
                     }
                 }
             }
             //targetObject assignment
-            if (edges[i].target == allquestions[j].questionID) {
+            if (edges[i].target === allquestions[j].questionID) {
                 edges[i].targetObject = allquestions[j];
-            }
-            else {
-                var k;
-                for (k = 0; k < allquestions[j].responses.length; k++) {
-                    if (edges[i].target == allquestions[j].responses[k].nodeID) {
+            } else {
+                for (k = 0; k < allquestions[j].responses.length; k += 1) {
+                    if (edges[i].target === allquestions[j].responses[k].nodeID) {
                         edges[i].targetObject = allquestions[j].responses[k];
-                    }            
+                    }
                 }
             }
         }
@@ -197,7 +198,7 @@ function pushAllEdges() {
 }
 
 //Note: This function creates the response objects
-function setQuestionParameters(question, x_coord, y_coord){
+function setQuestionParameters(question, x_coord, y_coord) {
     console.log("setQuestionParameters(): Running");
     question.totalheight = question.questionRowHeight + question.responseRowIDs.length * question.questionRowHeight;
 
@@ -208,20 +209,20 @@ function setQuestionParameters(question, x_coord, y_coord){
     //Iterate through questions and assign to responseRowIDs
     question.responses = [];
     var j;
-    for (j = 0; j < question.responseRowIDs.length; j++) {
+    for (j = 0; j < question.responseRowIDs.length; j += 1) {
         var newresponseobj = {nodeID: question.responseRowIDs[j]};
         setColumnParameters(newresponseobj, question, j);
         question.responses.push(newresponseobj);
     }
 
     //Now define the draw and update for the questions
-    question.update = function(){
+    question.update = function() {
         var n;
-        for (n = 0; n < this.responses.length; n++) {
+        for (n = 0; n < this.responses.length; n += 1) {
             this.responses[n].update();
         }
     };
-    question.draw = function(){
+    question.draw = function() {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.fillStyle = "#CCFFEE";
@@ -232,25 +233,25 @@ function setQuestionParameters(question, x_coord, y_coord){
         ctx.stroke(); //draw border
 
         var n;
-        for (n = 0; n < this.responses.length; n++) {
+        for (n = 0; n < this.responses.length; n += 1) {
             this.responses[n].draw();
         }
     };
 }
 
-function setColumnParameters(col, question, off){
+function setColumnParameters(col, question, off) {
     console.log("setColumnParameters(): Running");
     col.offset = off; //which item it is in relation to title.
     col.parent = question;
     col.questionRowHeight = question.questionRowHeight;
     col.rowWidth = question.rowWidth;
     col.x = question.x;
-    col.y = question.y + question.questionRowHeight + off*col.questionRowHeight; 
-    col.update = function(){
+    col.y = question.y + question.questionRowHeight + off * col.questionRowHeight; 
+    col.update = function() {
         this.x = this.parent.x;
-        this.y = this.parent.y + this.parent.questionRowHeight + this.offset*this.questionRowHeight;
-    }
-    col.draw = function(){
+        this.y = this.parent.y + this.parent.questionRowHeight + this.offset * this.questionRowHeight;
+    };
+    col.draw = function() {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.fillStyle = "#EEEEEE";
@@ -259,15 +260,15 @@ function setColumnParameters(col, question, off){
         ctx.rect(this.x, this.y, this.rowWidth, this.questionRowHeight);
         ctx.fill(); //draw rectangle inside
         ctx.stroke(); //draw rectangle border
-    }
+    };
 }
 
-function setEdgeParameters(edge){
+function setEdgeParameters(edge) {
     console.log("setEdgeParameters(): Running");
-    edge.update = function(){
+    edge.update = function() {
         updateEdge(this);
-    }
-    edge.draw = function(){
+    };
+    edge.draw = function() {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.strokeStyle = this.color;
@@ -281,8 +282,8 @@ function setEdgeParameters(edge){
 
         // Drawing an arrow at the end of the edge
         if (this.drawtarget) {
-            var prev_coord = this.points[this.points.length-2];
-            var target_coord = this.points[this.points.length-1];
+            var prev_coord = this.points[this.points.length - 2];
+            var target_coord = this.points[this.points.length - 1];
             var arrow_size = 4;
             ctx.beginPath();
             ctx.fillStyle = "white";
@@ -290,17 +291,17 @@ function setEdgeParameters(edge){
             ctx.lineWidth = "1.5";
             ctx.moveTo(target_coord[0], target_coord[1]);
             if (prev_coord[1] < target_coord[1]) { //top
-                ctx.lineTo(prev_coord[0] + arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1])/2);
-                ctx.lineTo(prev_coord[0] - arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1])/2);
+                ctx.lineTo(prev_coord[0] + arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
+                ctx.lineTo(prev_coord[0] - arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
             } else { //left or right
-                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] + arrow_size);
-                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0])/2, prev_coord[1] - arrow_size);
+                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] + arrow_size);
+                ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] - arrow_size);
             }
             ctx.lineTo(target_coord[0], target_coord[1]);
             ctx.fill();
             ctx.stroke();
         }
-    }
+    };
 }
 
 //obtains points on an edge
@@ -310,9 +311,9 @@ function setEdgeParameters(edge){
 function updateEdge(curr_edge) {
     //First, obtain values
     var sourcex = curr_edge.sourceObject.x;
-    var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight/2;
+    var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight / 2;
     var targetx = curr_edge.targetObject.x;
-    var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight/2;
+    var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight / 2;
     var sourcestub = -1; //-1 is left, 1 is right
     var targetstub = -1; //-1 is left, 0 is top, 1 is right. 1 is forbidden.
 
@@ -328,7 +329,7 @@ function updateEdge(curr_edge) {
 
     var i;
     var largestRowWidth = 0;
-    for (i = 0; i < allquestions.length; i++) {
+    for (i = 0; i < allquestions.length; i += 1) {
         if (allquestions[i].rowWidth > largestRowWidth) {
             largestRowWidth = allquestions[i].rowWidth;
         }
@@ -355,7 +356,7 @@ function updateEdge(curr_edge) {
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
+        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
         targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
@@ -367,7 +368,7 @@ function updateEdge(curr_edge) {
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
+        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
         targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
@@ -379,11 +380,11 @@ function updateEdge(curr_edge) {
         var ctx = mycanvas.getContext("2d");
         ctx.beginPath();
         ctx.fillStyle = 'red';
-        ctx.arc(targetx, targety, 3, 0, 2*Math.PI);
+        ctx.arc(targetx, targety, 3, 0, 2 * Math.PI);
         ctx.fill();
 
-        var targetx = curr_edge.targetObject.x;
-        var targety = curr_edge.targetObject.y;
+        targetx = curr_edge.targetObject.x;
+        targety = curr_edge.targetObject.y;
 
         // add new midpoints that goes around the node here
     }
@@ -397,32 +398,32 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight / 2;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight / 2;
     }
-    targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
+    targetstubx = targetx - curr_edge.targetObject.questionRowHeight / 2;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcey]); //source stub
 
     var multiple = 0;
-    var mincollisions = Number.MAX_VALUE; 
+    var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
-    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
-        var testx = sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2; //x coordinate for the potential segment
+    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
+        var testx = sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2; //x coordinate for the potential segment
         var segment = {points: [[testx, sourcey], [testx, targety]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
             bestmultiple = multiple;
         }
-        multiple++;
+        multiple += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targety]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
 
     curr_edge.points.push([targetstubx, targety]);
     curr_edge.points.push([targetx, targety]); //target
@@ -439,11 +440,11 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight / 2;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight / 2;
     }
-    targetstuby = targety - curr_edge.targetObject.questionRowHeight/2;
+    targetstuby = targety - curr_edge.targetObject.questionRowHeight / 2;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -454,23 +455,23 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     var multipleTOP = 0;
     var bestmultipleTOP = 0;
     var mincollisions = Number.MAX_VALUE; 
-    while (multipleLR < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
+    while (multipleLR < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
         while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
-            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight/2]]};
+            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2]]};
             var numcollisions = testSegmentCollision(segment);
             if (numcollisions < mincollisions) { //if found a new best choice
                 mincollisions = numcollisions;
                 bestmultipleLR = multipleLR;
                 bestmultipleTOP = multipleTOP;
             }
-            multipleTOP++;
+            multipleTOP += 1;
         }
-        multipleLR++;
+        multipleLR += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
-    curr_edge.points.push([targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight/2]);
+    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2]);
+    curr_edge.points.push([targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2]);
 
     curr_edge.points.push([targetx, targetstuby]);
     curr_edge.points.push([targetx, targety]);
@@ -482,17 +483,17 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 function testSegmentCollision(segment) {
     var i;
     var numcollisions = 0;
-    for (i = 0; i < alledges.length; i++) { //Iterate through all edges and make sure it's not overlapping any of them.
+    for (i = 0; i < alledges.length; i += 1) { //Iterate through all edges and make sure it's not overlapping any of them.
         if (alledges[i].points !== undefined && alledges[i].points !== null) {
             if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
                 numcollisions = Number.MAX_VALUE;
                 break; //stop bothering with this multiple
             } else if (isCollidingEE(segment, alledges[i], false, false)) {
-                numcollisions++;
+                numcollisions += 1;
             }
         }
     }
-    for (i = 0; i < allquestions.length; i++) { //Iterate through all nodes
+    for (i = 0; i < allquestions.length; i += 1) { //Iterate through all nodes
         if (isCollidingNE(allquestions[i], segment)) {
             numcollisions = Number.MAX_VALUE;
             break; //stop bothering with this multiple
@@ -513,8 +514,8 @@ function numCollisions() {
     }
 
     //node to node
-    /*for (i = 0; i < allquestions.length; i++) { //preventing node to node collision entirely
-        for (j = i + 1; j < allquestions.length; j++) {
+    /*for (i = 0; i < allquestions.length; i += 1) { //preventing node to node collision entirely
+        for (j = i + 1; j < allquestions.length; j += 1) {
             if (isCollidingNN(allquestions[i], allquestions[j])) {
                 return Number.MAX_VALUE;
             }
@@ -526,18 +527,18 @@ function numCollisions() {
     }
 
     //node to edge
-    for (i = 0; i < allquestions.length; i++) {
-        for (j = 0; j < alledges.length; j++) {
+    for (i = 0; i < allquestions.length; i += 1) {
+        for (j = 0; j < alledges.length; j += 1) {
             if (isCollidingNE(allquestions[i], alledges[j])) {
                 num += 10; //counts as two collisions, may be changed in the future
             }
         }
     }
 
-    for (j = 0; j < alledges.length; j++) {
-        for (k = j+1; k < alledges.length; k++) {
+    for (j = 0; j < alledges.length; j += 1) {
+        for (k = j+1; k < alledges.length; k += 1) {
             if (isCollidingEE(alledges[j], alledges[k], false, false)) {
-                num++;
+                num += 1;
             }
         }
     }
