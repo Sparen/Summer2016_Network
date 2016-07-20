@@ -110,7 +110,7 @@ function optimizeNetworkByGrid() {
     //Iterates through and finds the optimal result (least number of collisions)
     var i;
     var j;
-    for (i = 0; i < 100; i  += 1) {
+    for (i = 0; i < 100; i += 1) {
         shuffleQuestions(allquestions);
         scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         updateCoordinates(scaled_coord_array);
@@ -216,13 +216,13 @@ function setQuestionParameters(question, x_coord, y_coord) {
     }
 
     //Now define the draw and update for the questions
-    question.update = function() {
+    question.update = function () {
         var n;
         for (n = 0; n < this.responses.length; n += 1) {
             this.responses[n].update();
         }
     };
-    question.draw = function() {
+    question.draw = function () {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.fillStyle = "#CCFFEE";
@@ -246,12 +246,12 @@ function setColumnParameters(col, question, off) {
     col.questionRowHeight = question.questionRowHeight;
     col.rowWidth = question.rowWidth;
     col.x = question.x;
-    col.y = question.y + question.questionRowHeight + off * col.questionRowHeight; 
-    col.update = function() {
+    col.y = question.y + question.questionRowHeight + off * col.questionRowHeight;
+    col.update = function () {
         this.x = this.parent.x;
         this.y = this.parent.y + this.parent.questionRowHeight + this.offset * this.questionRowHeight;
     };
-    col.draw = function() {
+    col.draw = function () {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.fillStyle = "#EEEEEE";
@@ -265,10 +265,10 @@ function setColumnParameters(col, question, off) {
 
 function setEdgeParameters(edge) {
     console.log("setEdgeParameters(): Running");
-    edge.update = function() {
+    edge.update = function () {
         updateEdge(this);
     };
-    edge.draw = function() {
+    edge.draw = function () {
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.strokeStyle = this.color;
@@ -315,7 +315,6 @@ function updateEdge(curr_edge) {
     var targetx = curr_edge.targetObject.x;
     var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight / 2;
     var sourcestub = -1; //-1 is left, 1 is right
-    var targetstub = -1; //-1 is left, 0 is top, 1 is right. 1 is forbidden.
 
     //source right side, target left side
     if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {
@@ -411,7 +410,7 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
-    while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
+    while (multiple < (largestRowWidth / curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
         var testx = sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2; //x coordinate for the potential segment
         var segment = {points: [[testx, sourcey], [testx, targety]]};
         var numcollisions = testSegmentCollision(segment);
@@ -454,8 +453,8 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     var bestmultipleLR = 0;//stores which multiple is best
     var multipleTOP = 0;
     var bestmultipleTOP = 0;
-    var mincollisions = Number.MAX_VALUE; 
-    while (multipleLR < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
+    var mincollisions = Number.MAX_VALUE;
+    while (multipleLR < (largestRowWidth / curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
         while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
             var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2]]};
             var numcollisions = testSegmentCollision(segment);
@@ -536,7 +535,7 @@ function numCollisions() {
     }
 
     for (j = 0; j < alledges.length; j += 1) {
-        for (k = j+1; k < alledges.length; k += 1) {
+        for (k = j + 1; k < alledges.length; k += 1) {
             if (isCollidingEE(alledges[j], alledges[k], false, false)) {
                 num += 1;
             }
