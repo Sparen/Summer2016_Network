@@ -386,7 +386,7 @@ function updateEdge(curr_edge) {
         targety = curr_edge.targetObject.y;
 
         // add new midpoints that goes around the node here
-        resetEdgeToLoop(curr_edge, sourcestub, targetstub, sourcex, sourcey, targetx, targety);       
+        resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety);       
     }
 }
 
@@ -479,30 +479,19 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     return mincollisions === Number.MAX_VALUE;
 }
 
-function resetEdgeToLoop(curr_edge, sourcestub, targetstub, sourcex, sourcey, targetx, targety) {
+function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety) {
     var currentMinCollision = testSegmentCollision(curr_edge);
 
-    // Ignore target-top reference point
-    if (targetstub === 0) {
-        return;
-    }
-
+    var sourcestubx;
     // Get left and right stub
     if (sourcestub === -1) {
         sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
     } else {
         sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
     }
-    sourcestuby = sourcey;
-    if (targetstub === -1) {
-        targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
-        targetstuby = targety;
-    } else { //top
-        targetstubx = targetx; //the targetx passed in is the midpoint
-        targetstuby = targety - curr_edge.targetObject.questionRowHeight/2;
-    }
-
-
+    var sourcestuby = sourcey;
+    var targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
+    var targetstuby = targety;
 
     var topDown = false;
     var fromLeftToRight = false;
