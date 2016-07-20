@@ -411,7 +411,8 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     var mincollisions = Number.MAX_VALUE; 
     var bestmultiple = 0;//stores which multiple is best
     while (multiple < (largestRowWidth/curr_edge.sourceObject.questionRowHeight + 4)*2) { //Number of attempts is based on largest possible buffer between nodes
-        var segment = {points: [[sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, sourcey], [sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2, targety]]};
+        var testx = sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight/2; //x coordinate for the potential segment
+        var segment = {points: [[testx, sourcey], [testx, targety]]};
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
