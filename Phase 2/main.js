@@ -340,38 +340,38 @@ function updateEdge(curr_edge) {
     //If there was a collision with a node or there was overlap... first, try the other side
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
-        if (sourcestub == -1) {
+        if (sourcestub === -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth);
     }
     //Try original side with top as option
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         targetstub = 0;
-        if (sourcestub == -1) {
+        if (sourcestub === -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
         targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
         targety = curr_edge.targetObject.y;
-        bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
     //Other side with top as an option
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
         targetstub = 0;
-        if (sourcestub == -1) {
+        if (sourcestub === -1) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
         targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth/2;
         targety = curr_edge.targetObject.y;
-        bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub);
+        bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
 
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
@@ -436,7 +436,7 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
 }
 
 //Helper function for updateEdge. Handles setting the points of an edge
-function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, targetstub, largestRowWidth) {
+function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth) {
     //coordinates for the stubs
     var sourcestubx;
     var sourcestuby;
