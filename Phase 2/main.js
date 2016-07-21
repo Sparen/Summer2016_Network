@@ -373,17 +373,8 @@ function updateEdge(curr_edge) {
 
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
     if (bad || isCollidingNE(curr_edge.targetObject, curr_edge)) {
-        //TODO
-        var mycanvas = document.getElementById('maincanvas');
-        var ctx = mycanvas.getContext("2d");
-        ctx.beginPath();
-        ctx.fillStyle = 'red';
-        ctx.arc(targetx, targety, 3, 0, 2 * Math.PI);
-        ctx.fill();
-
         targetx = curr_edge.targetObject.x;
         targety = curr_edge.targetObject.y;
-
         // add new midpoints that goes around the node here
         resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety);       
     }
@@ -504,68 +495,74 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
         fromLeftToRight = true;
     }
 
+    // Renew the points of the edge
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
+    // Add looping-midpoints
+
+    var m1x = 0, m1y = 0, m2x = 0, m2y = 0, m3x = 0, m3y = 0;
+
     if (topDown) {
-        // If top down, go straight down from sourcestub
-        var s1x = sourcestubx;
-        var s1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
-        var s1 = [s1x, s1y];
-        curr_edge.points.push(s1);
+        // If top down, go straight down from sourcestub until targetstuby + c
+        m1x = sourcestubx;
+        m1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
+        var m1 = [m1x, m1y];
+        curr_edge.points.push(m1);
     } else {
-        // If bottom up, go straight up from sourcestub
-        /*
-        if (!fromLeftToRight) {
-            var t2x = sourcestubx;
-            var t2y = curr_edge.sourceObject.y - curr_edge.sourceObject.questionRowHeight*1/2;
-            var t2 = [t2x,t2y];
-            curr_edge.points.push(t2);
-        }
-        */
-        var t1x = sourcestubx;
-        var t1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
-        var t1 = [t1x, t1y];
-        curr_edge.points.push(t1);
+        // If bottom up, go straight up from sourcestub until targetstuby + c
+        m1x = sourcestubx;
+        m1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
+        var m1 = [m1x, m1y];
+        curr_edge.points.push(m1);
 
-        var mycanvas = document.getElementById('maincanvas');
-        var ctx = mycanvas.getContext("2d");
-        ctx.beginPath();
-        ctx.fillStyle = 'pink';
-        ctx.arc(t1x, t1y, 4, 0, 2*Math.PI);
-        ctx.fill();
     }
 
-    // Case where source stub sticks out to the right
+    // Case where edge goes from left to right (Note that targetstub always sticks to the left)
     if (!fromLeftToRight) {
-
-        // Add one extra point right above target stub
-        var p1x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
-        var p1y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
-        var p1 = [p1x, p1y];
-
-        curr_edge.points.push(p1);
+        // Add one extra midpoint right above target stub
+        m2x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
+        m2y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
+        var m2 = [m2x, m2y];
+        curr_edge.points.push(m2);
         curr_edge.points.push([targetstubx, targetstuby]);
         curr_edge.points.push([targetx, targety]);
     }
 
-    // Case where source stub sticks out to the left
-    if (fromLeftToRight) {
-        // Add two extra points
-        var p1x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
-        var p1y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
-        var p1 = [p1x, p1y];
+    // Case where edge goes from right to left
+    else {
+        // Add two extra midpoints right above target stub and on the other side of the node
+        m2x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
+        m2y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
+        var m2 = [m2x, m2y];
 
-        var p2x = p1x + curr_edge.targetObject.rowWidth + curr_edge.targetObject.questionRowHeight;
-        var p2y = p1y;
-        var p2 = [p2x, p2y];
+        m3x = m2x + curr_edge.targetObject.rowWidth + curr_edge.targetObject.questionRowHeight;
+        m3y = m2y;
+        var m3 = [m3x, m3y];
 
-        curr_edge.points.push(p2);
-        curr_edge.points.push(p1);
+        curr_edge.points.push(m3);
+        curr_edge.points.push(m2);
         curr_edge.points.push([targetstubx, targetstuby]);
         curr_edge.points.push([targetx, targety]);
     }
+
+
+    // Draw midpoints
+    var mycanvas = document.getElementById('maincanvas');
+    var ctx = mycanvas.getContext("2d");
+    ctx.beginPath();
+    ctx.fillStyle = 'red';
+    ctx.arc(m1x, m1y, 4, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = 'orange';
+    ctx.arc(m2x, m2y, 4, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = 'yellow';
+    ctx.arc(m3x, m3y, 4, 0, 2*Math.PI);
+    ctx.fill();
 }
 
 //Helper function for updateEdge
