@@ -1,5 +1,7 @@
 "use strict";
 
+var LEFT = -1;
+var RIGHT = 1;
 var iterationNum = 0;
 var database_obj;
 var questions;
@@ -132,6 +134,7 @@ function optimizeNetworkByGrid() {
     centralizeCoordinates(optimalGridAssignment);
     updateCoordinates(optimalGridAssignment);
     randomOffsetGenerator(allquestions);
+    console.log("Lowest Edge Noise:" + lowestEdgeNoise);
     update_main();
 }
 
@@ -314,16 +317,17 @@ function updateEdge(curr_edge) {
     var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight / 2;
     var targetx = curr_edge.targetObject.x;
     var targety = curr_edge.targetObject.y + curr_edge.targetObject.questionRowHeight / 2;
-    var sourcestub = -1; //-1 is left, 1 is right
+    var sourcestub = LEFT; //-1 is left, 1 is right
 
-    //source right side, target left side
+    //If source completely on the left side of target, make source x be the righter edge
+    //Also, sourcestub becomes on the right
     if (sourcex + curr_edge.sourceObject.rowWidth < targetx) {
-        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
+        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = RIGHT;
     }
 
-    //overrides for blue and red edges
+    //overrides for blue and red edges, always goes out from the right
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
-        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = 1;
+        sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = RIGHT;
     }
 
     var i;
@@ -337,38 +341,37 @@ function updateEdge(curr_edge) {
     //bad: if there was a collision with a node or there was no place to put the edge, bad is true
     var bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
 
-    //If there was a collision with a node or there was overlap... first, try the other side
+    //If there was a collision with a node or there was overlap... first, try the other source port
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
-        if (sourcestub === -1) {
+        if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
         bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
-    //Try original side with top as option
+    //Try original source port and other target port
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
-        if (sourcestub === -1) {
+        if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
+        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth;
         targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
-    //Other side with top as an option
+
+    //Try other source port and other target port
     if (bad && curr_edge.color === "black") {
         sourcestub *= -1;
-        if (sourcestub === -1) {
+        if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
         } else {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
-        targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
-        targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
 
@@ -386,14 +389,16 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     //coordinates for the stubs
     var sourcestubx;
     var targetstubx;
+    var stublength = curr_edge.sourceObject.questionRowHeight;
 
     //Handle determination of source and target stub locations
-    if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;// / 2;
+    if (sourcestub === LEFT) {
+        sourcestubx = sourcex - stublength;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;// / 2;
+        sourcestubx = sourcex + stublength;
     }
-    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;// / 2;
+    
+    targetstubx = targetx - stublength;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -402,9 +407,12 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
-    while (multiple < (largestRowWidth / curr_edge.sourceObject.questionRowHeight + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
-        var testx = sourcestubx + multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2; //x coordinate for the potential segment
+
+    while (multiple < (largestRowWidth / stublength + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
+        var testx = sourcestubx + (multiple * sourcestub * stublength/2); //x coordinate for the potential segment
+
         var segment = {points: [[testx, sourcey], [testx, targety]]};
+
         var numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
@@ -413,8 +421,8 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         multiple += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight, targety]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * stublength, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * stublength, targety]);
 
     curr_edge.points.push([targetstubx, targety]);
     curr_edge.points.push([targetx, targety]); //target
