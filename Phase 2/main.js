@@ -551,8 +551,10 @@ function testSegmentCollision(segment) {
     for (i = 0; i < alledges.length; i += 1) { //Iterate through all edges and make sure it's not overlapping any of them.
         if (alledges[i].points !== undefined && alledges[i].points !== null) {
             if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
-                numcollisions = Number.MAX_VALUE;
-                break; //stop bothering with this multiple
+                if (segment.sourceObject !== alledges[i].sourceObject && segment.targetObject !== alledges[i].targetObject) {
+                    numcollisions = Number.MAX_VALUE;
+                    break; //stop bothering with this multiple
+                }
             } else if (isCollidingEE(segment, alledges[i], false, false)) {
                 numcollisions += 1;
             }
