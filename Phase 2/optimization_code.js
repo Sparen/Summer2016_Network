@@ -1,17 +1,15 @@
-"use strict";
-
 function placeOnToGrid(num_nodes) {
-    var n = 1;
-    while (num_nodes > Math.pow(n, 2)) {
-        n++;
-    }
-    var m = n;
-    while (n * m >= num_nodes) {
-        m--;
-    }
-    m++;
-    var grid_size = [n, m];
-    return grid_size;
+	var n = 1;
+	while (num_nodes > Math.pow(n,2)) {
+		n++;
+	}
+	var m = n;
+	while (n*m >= num_nodes) {
+		m--;
+	}
+	m++;
+	var grid_size = [n,m];
+	return grid_size;
 }
 
 //Scales the coordinates relative to the center of canvas (plane)
@@ -55,10 +53,8 @@ function placeOnToGrid(num_nodes) {
 // }
 
 // For scaleCoordinates
-function shuffle_array(array) { // For random array of extended grid
-    var m = array.length;
-    var t;
-    var zz;
+function shuffle_array (array) { // For random array of extended grid  
+    var m = array.length, t, zz;
     while (m) {
         zz = Math.floor(Math.random() * m--);
         t = array[m];
@@ -68,11 +64,11 @@ function shuffle_array(array) { // For random array of extended grid
     return array;
 }
 
-function sortFunction(a, b) { // Helper function for checkOverlap
+function sortFunction (a, b) { // Helper function for checkOverlap
     return (a[2] - b[2]);
 }
 
-function randomGenerator(min, max) {
+function randomGenerator (min, max) { // 
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -112,18 +108,17 @@ function randomGenerator(min, max) {
 //     return buffer_distance
 // }
 
-function checkDistance(x_position, y_top, existed) { // Check if overlapping occurs
+function checkDistance (x_position, y_top, existed) { // Check if overlapping occurs
     var x_tl = x_position[0], x_tr = x_position[1];
     var queue = existed.sort(sortFunction);
     var dis_queue = queue.filter(condition);
-    var buffer_distance;
     function condition(value) {
-        return ((value[0] < x_tr) && (value[1] > x_tl));
+        return ((value[0] < x_tr) && (value[1] > x_tl)) 
     }
     if (dis_queue.length != 0) {
-        buffer_distance = y_top - dis_queue[dis_queue.length - 1][2];
+        var buffer_distance = y_top - dis_queue[dis_queue.length - 1][2];
     } else {
-        buffer_distance = y_top;
+        var buffer_distance = y_top;
     }
     return buffer_distance;
 }
@@ -131,17 +126,11 @@ function checkDistance(x_position, y_top, existed) { // Check if overlapping occ
 // Scale new coordinates
 function scaleCoordinates(grid_size, inputQuestions) { 
     var newCoordinates = [];// Nodes coordinates
-    var x_max = grid_size[0] + 1;
-    var y_max = grid_size[1] + 1;  
-    var current_x_max = 0;
-    var current_y_max = 0;
-    var max_length = 0;
-    var x_number = [];
-    var y_number = [];
-    var x_now = 0;
-    var y_now = 0;
-    var num_array = [];
-    var occupied = [];
+    var x_max = grid_size[0] + 1, y_max = grid_size[1] + 1;  
+    var current_x_max = 0, current_y_max = 0; max_length = 0;
+    var x_number = [], y_number = [];
+    var x_now = 0, y_now = 0;
+    var num_array = [], occupied = [];
     
     var i;
     for (i = 0; i < inputQuestions.length; i++) { // for the phantom_node, come up with a better way
