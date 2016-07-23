@@ -245,6 +245,6 @@ function randomOffsetGenerator(inputQuestions) {
     var offsetunit = inputQuestions[0].questionRowHeight;
     for (i = 0; i < inputQuestions.length; i++) {
         inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
-        //inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
+        inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
     }
 }
