@@ -405,11 +405,13 @@ function shuffleQuestions(inputQuestions) {
     }
 }
 
-// function randomOffsetGenerator(inputQuestions) {
-//     var i;
-//     var offsetunit = inputQuestions[0].questionRowHeight;
-//     for (i = 0; i < inputQuestions.length; i++) {
-//         inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
-//         //inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
-//     }
-// }
+/*
+function randomOffsetGenerator(inputQuestions) {
+    var i;
+    var offsetunit = inputQuestions[0].questionRowHeight;
+    for (i = 0; i < inputQuestions.length; i++) {
+        inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
+        inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
+    }
+}
+*/

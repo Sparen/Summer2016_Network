@@ -388,11 +388,11 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight / 2;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;// / 2;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight / 2;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;// / 2;
     }
-    targetstubx = targetx - curr_edge.targetObject.questionRowHeight / 2;
+    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;// / 2;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -412,8 +412,8 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         multiple += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight, targety]);
 
     curr_edge.points.push([targetstubx, targety]);
     curr_edge.points.push([targetx, targety]); //target
@@ -430,11 +430,11 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight / 2;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight / 2;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;
     }
-    targetstuby = targety - curr_edge.targetObject.questionRowHeight / 2;
+    targetstuby = targety - curr_edge.targetObject.questionRowHeight;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -471,17 +471,22 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 
 function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety) {
     var currentMinCollision = testSegmentCollision(curr_edge);
+    var stublength = curr_edge.sourceObject.questionRowHeight;
+
 
     var sourcestubx;
     // Get left and right stub
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex - stublength;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight/2;
+        sourcestubx = sourcex + stublength;
     }
     var sourcestuby = sourcey;
-    var targetstubx = targetx - curr_edge.targetObject.questionRowHeight/2;
-    var targetstuby = targety;
+    var targetstubx = targetx + curr_edge.targetObject.rowWidth/2;
+    var targetstuby = targety - stublength;
+
+    // Make target point to be top mid points
+    targetx += curr_edge.targetObject.rowWidth/2;
 
     var topDown = false;
     var fromLeftToRight = false;
@@ -501,52 +506,25 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
     // Add looping-midpoints
-
     var m1x = 0, m1y = 0, m2x = 0, m2y = 0, m3x = 0, m3y = 0;
 
     if (topDown) {
         // If top down, go straight down from sourcestub until targetstuby + c
         m1x = sourcestubx;
-        m1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
+        m1y = targetstuby;
         var m1 = [m1x, m1y];
         curr_edge.points.push(m1);
     } else {
         // If bottom up, go straight up from sourcestub until targetstuby + c
         m1x = sourcestubx;
-        m1y = targetstuby - curr_edge.targetObject.questionRowHeight*1/2;
+        m1y = targetstuby;
         var m1 = [m1x, m1y];
         curr_edge.points.push(m1);
 
     }
 
-    // Case where edge goes from left to right (Note that targetstub always sticks to the left)
-    if (!fromLeftToRight) {
-        // Add one extra midpoint right above target stub
-        m2x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
-        m2y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
-        var m2 = [m2x, m2y];
-        curr_edge.points.push(m2);
-        curr_edge.points.push([targetstubx, targetstuby]);
-        curr_edge.points.push([targetx, targety]);
-    }
-
-    // Case where edge goes from right to left
-    else {
-        // Add two extra midpoints right above target stub and on the other side of the node
-        m2x = curr_edge.targetObject.x - curr_edge.targetObject.questionRowHeight*1/2;
-        m2y = curr_edge.targetObject.y - curr_edge.targetObject.questionRowHeight*1/2;
-        var m2 = [m2x, m2y];
-
-        m3x = m2x + curr_edge.targetObject.rowWidth + curr_edge.targetObject.questionRowHeight;
-        m3y = m2y;
-        var m3 = [m3x, m3y];
-
-        curr_edge.points.push(m3);
-        curr_edge.points.push(m2);
-        curr_edge.points.push([targetstubx, targetstuby]);
-        curr_edge.points.push([targetx, targety]);
-    }
-
+    curr_edge.points.push([targetstubx, targetstuby]);
+    curr_edge.points.push([targetx, targety]); // Top Node Middle Point
 
     // Draw midpoints
     var mycanvas = document.getElementById('maincanvas');
@@ -554,14 +532,6 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     ctx.beginPath();
     ctx.fillStyle = 'red';
     ctx.arc(m1x, m1y, 4, 0, 2*Math.PI);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.fillStyle = 'orange';
-    ctx.arc(m2x, m2y, 4, 0, 2*Math.PI);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.fillStyle = 'yellow';
-    ctx.arc(m3x, m3y, 4, 0, 2*Math.PI);
     ctx.fill();
 }
 
