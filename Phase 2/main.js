@@ -1,5 +1,6 @@
 "use strict";
 
+var iterationNum = 0;
 var database_obj;
 var questions;
 var edges;
@@ -110,7 +111,7 @@ function optimizeNetworkByGrid() {
     var i;
     var j;
     for (i = 0; i < 100; i += 1) {
-        //shuffleQuestions(allquestions);
+        shuffleQuestions(allquestions);
         scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         updateCoordinates(scaled_coord_array);
         currentEdgeNoise = numCollisions();
@@ -130,7 +131,7 @@ function optimizeNetworkByGrid() {
 
     centralizeCoordinates(optimalGridAssignment);
     updateCoordinates(optimalGridAssignment);
-    //randomOffsetGenerator(allquestions);
+    randomOffsetGenerator(allquestions);
     update_main();
 }
 
@@ -388,11 +389,11 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;// / 2;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;// / 2;
     }
-    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;
+    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;// / 2;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -472,6 +473,7 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety) {
     var currentMinCollision = testSegmentCollision(curr_edge);
     var stublength = curr_edge.sourceObject.questionRowHeight;
+
 
     var sourcestubx;
     // Get left and right stub
