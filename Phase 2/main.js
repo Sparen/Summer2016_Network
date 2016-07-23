@@ -1,6 +1,5 @@
 "use strict";
 
-var iterationNum = 0;
 var database_obj;
 var questions;
 var edges;
@@ -111,7 +110,7 @@ function optimizeNetworkByGrid() {
     var i;
     var j;
     for (i = 0; i < 100; i += 1) {
-        shuffleQuestions(allquestions);
+        //shuffleQuestions(allquestions);
         scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         updateCoordinates(scaled_coord_array);
         currentEdgeNoise = numCollisions();
@@ -131,7 +130,7 @@ function optimizeNetworkByGrid() {
 
     centralizeCoordinates(optimalGridAssignment);
     updateCoordinates(optimalGridAssignment);
-    randomOffsetGenerator(allquestions);
+    //randomOffsetGenerator(allquestions);
     update_main();
 }
 

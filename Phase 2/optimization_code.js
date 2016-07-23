@@ -13,40 +13,208 @@ function placeOnToGrid(num_nodes) {
 }
 
 //Scales the coordinates relative to the center of canvas (plane)
-function scaleCoordinates(grid_size, inputQuestions) {
-    var newCoordinates = [];
+// function scaleCoordinates(grid_size, inputQuestions) {
+//     var newCoordinates = [];
 
-    var x_max = grid_size[0];
-    var y_max = grid_size[1];
+//     var x_max = grid_size[0];
+//     var y_max = grid_size[1];
 
-    var x_additive = 0;
-    var y_additive = 0;
-    var current_rowMaxHeight = 0;
-    var current_questionHeight = 0;
+//     var x_additive = 0;
+//     var y_additive = 0;
+//     var current_rowMaxHeight = 0;
+//     var current_questionHeight = 0;
 
-    var i;
-    var j;
-    var index = 0;
+//     var i;
+//     var j;
+//     var index = 0;
 
-    for (i = 0; i < y_max && index < inputQuestions.length; i++) {
-        for (j = 0; j < x_max && index < inputQuestions.length; j++) {
-            newCoordinates[index] = [];
-            newCoordinates[index][0] = x_additive;
-            newCoordinates[index][1] = y_additive;
+//     for (i = 0; i < y_max && index < inputQuestions.length; i++) {
+//         for (j = 0; j < x_max && index < inputQuestions.length; j++) {
+//             newCoordinates[index] = [];
+//             newCoordinates[index][0] = x_additive;
+//             newCoordinates[index][1] = y_additive;
 
-            current_questionHeight = (inputQuestions[index].questionRowHeight)*(inputQuestions[index].responseRowIDs.length+1);
+//             current_questionHeight = (inputQuestions[index].questionRowHeight)*(inputQuestions[index].responseRowIDs.length+1);
 
-            x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight*4);
+//             x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight*4);
 
-            if (current_rowMaxHeight < current_questionHeight) {
-                current_rowMaxHeight = current_questionHeight;
+//             if (current_rowMaxHeight < current_questionHeight) {
+//                 current_rowMaxHeight = current_questionHeight;
+//             }
+
+//             index++;
+//         }
+//         y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight*4);
+//         current_rowMaxHeight = 0;
+//         x_additive = 0;
+//     }
+             
+//     return newCoordinates;
+// }
+
+// For scaleCoordinates
+function shuffle_array (array) { // For random array of extended grid  
+    var m = array.length, t, zz;
+    while (m) {
+        zz = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[zz];
+        array[zz] = t;
+    }
+    return array;
+}
+
+function sortFunction (a, b) { // Helper function for checkOverlap
+    return (a[2] - b[2]);
+}
+
+function randomGenerator (min, max) { // 
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// function checkOverlap (x_position, y_top, existed) { // Check if overlapping occurs
+//     var x_tl = x_position[0], x_tr = x_position[1];
+//     var queue = existed.sort(sortFunction);
+//     var ini = queue.length - 1;
+//     if (y_top > queue[ini][2]) {
+//         return false;
+//     } else {
+//         while (ini >= 0 && y_top < queue[ini][2]) {
+//             if ((x_tl >= queue[ini][0] && x_tl <= queue[ini][1]) || (x_tr >= queue[ini][0] && x_tr <= queue[ini][1])) {
+//                 return queue[ini][2] - y_top;
+//             } 
+//             ini--;
+//         }    
+//     } 
+//     return false;
+// }
+
+// function checkOverlapdistance (x_position, y_top, existed) { // Check if overlapping occurs
+//     var x_tl = x_position[0], x_tr = x_position[1];
+//     var queue = existed.sort(sortFunction);
+//     var dis_queue = [];
+//     var buffer_distance = 0;
+
+//     for (dis = 0; dis < queue.length; dis++) {
+//         if ((x_tl >= queue[dis][0] && x_tl <= queue[dis][1]) ||
+//             (x_tr >= queue[dis][0] && x_tr <= queue[dis][1]) ||
+//             (x_tl <= queue[dis][0] && x_tr >= queue[dis][1])) 
+//         dis_queue.push(queue[dis]);
+//     }
+    
+//     if (dis_queue.length != 0) {
+//         buffer_distance = y_top - dis_queue[dis_queue.length - 1][2];
+//     }
+//     return buffer_distance
+// }
+
+function checkDistance (x_position, y_top, existed) { // Check if overlapping occurs
+    var x_tl = x_position[0], x_tr = x_position[1];
+    var queue = existed.sort(sortFunction);
+    var dis_queue = queue.filter(condition);
+    function condition(value) {
+        return ((value[0] < x_tr) && (value[1] > x_tl)) 
+    }
+    if (dis_queue.length != 0) {
+        var buffer_distance = y_top - dis_queue[dis_queue.length - 1][2];
+    } else {
+        var buffer_distance = y_top;
+    }
+    return buffer_distance    
+}
+
+
+
+// Scale new coordinates
+function scaleCoordinates(grid_size, inputQuestions) { 
+
+    var newCoordinates = [];                                  // Nodes coordinates
+    var x_max = grid_size[0] + 1, y_max = grid_size[1] + 1;  
+    var current_x_max = 0, current_y_max = 0; max_length = 0;
+    var x_number = [], y_number = [];
+    var x_now = 0, y_now = 0;
+    var num_array = [], occupied = [];
+    
+    for (i = 0; i < inputQuestions.length; i++) { // for the phantom_node, come up with a better way
+        if (current_x_max < inputQuestions[i].rowWidth) {
+            current_x_max = inputQuestions[i].rowWidth;
+        }
+        if (max_length < inputQuestions[i].responseRowIDs.length) {
+            max_length = inputQuestions[i].responseRowIDs.length;
+        }    
+        current_y_max = inputQuestions[i].questionRowHeight * (max_length + 1);    
+    }
+
+    for (i = 1; i <= (x_max * y_max); i++) { // should have a better way
+       num_array.push(i);
+       newCoordinates[i - 1] = [];
+    }
+    
+    num_array = shuffle_array(num_array); // get the random order
+
+    var phantom_node_x = current_x_max;
+    var phantom_node_y = current_y_max;
+    var node_buffer_x = Math.floor(current_x_max / 2.5); // a fixed number would be better?
+    var node_buffer_y = Math.floor(current_y_max); // a fixed number would be better?
+
+    for (i = 0; i < num_array.length; i++) {                     // set coordinates
+        x_number[i] = i % x_max;
+        y_number[i] = Math.floor((i + 0.1) / x_max);
+        var node_now = num_array[i] - 1; 
+        var isrealnode = node_now < inputQuestions.length;
+
+        if (isrealnode) {                                        // real node, append to newCoordinates
+            var new_line = [];                 
+            var x_offset = randomGenerator(0, 100);
+            x_now += x_offset; 
+            newCoordinates[node_now][0] = x_now;
+            new_line.push(x_now);                       // bottom_left_x        
+            new_line.push(x_now + inputQuestions[node_now].rowWidth);       // bottom_right_x
+            
+            if (x_number[i] != (x_max - 1)) {                    // not on first column, add x-coordinate
+                x_now += inputQuestions[node_now].rowWidth + node_buffer_x;     
+            } else {                                             // on first column
+                x_now = 0;  
             }
 
-            index++;
+            if (i > 0) { 
+                if (y_number[i] > y_number[i - 1]) {             // change row, add y_coordinates
+                    y_now = Math.floor(current_y_max * y_number[i]);
+                }    
+            }
+            ///
+            var y_offset = randomGenerator(-40, 40);
+            y_now += y_offset;
+            ///
+            if (occupied.length > 0 && y_number[i] > 0) {
+                var distance = checkDistance(new_line, y_now, occupied);
+                if (distance < 0) { // meaning overlapping
+                    y_now += Math.abs(distance) + randomGenerator(50, 100);
+                } else if (distance > 100) {
+                    y_now -= distance / 10;
+                } else if (distance < 50) {
+                    y_now += randomGenerator(50, 100) 
+                }
+            }
+
+            newCoordinates[node_now][1] = y_now;
+            new_line.push((1 + inputQuestions[node_now].responseRowIDs.length) * 
+                           inputQuestions[node_now].questionRowHeight + y_now);   // bottom_y
+            console.log(new_line)               
+            occupied.push(new_line);          
+
+        } else {                                                 // phantom node, not append to newCoordinates
+            if (x_number[i] != (x_max - 1)) {                    // not on first column, add x-coordinate
+                x_now += phantom_node_x + node_buffer_x;     
+            } else {                                             // on first column
+                x_now = 0;  
+            }
+            if (i > 0) { 
+                if (y_number[i] > y_number[i - 1]) {             // change row, add y_coordinates
+                    y_now = Math.floor(current_y_max * y_number[i])
+                }    
+            }            
         }
-        y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight*4);
-        current_rowMaxHeight = 0;
-        x_additive = 0;
     }
     return newCoordinates;
 }
@@ -240,6 +408,7 @@ function shuffleQuestions(inputQuestions) {
     }
 }
 
+/*
 function randomOffsetGenerator(inputQuestions) {
     var i;
     var offsetunit = inputQuestions[0].questionRowHeight;
@@ -248,3 +417,4 @@ function randomOffsetGenerator(inputQuestions) {
         inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
     }
 }
+*/
