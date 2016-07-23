@@ -1,6 +1,5 @@
 "use strict";
 
-var iterationNum = 0;
 var database_obj;
 var questions;
 var edges;
