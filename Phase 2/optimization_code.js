@@ -120,21 +120,19 @@ function checkDistance (x_position, y_top, existed) { // Check if overlapping oc
     } else {
         var buffer_distance = y_top;
     }
-    return buffer_distance    
+    return buffer_distance;
 }
-
-
 
 // Scale new coordinates
 function scaleCoordinates(grid_size, inputQuestions) { 
-
-    var newCoordinates = [];                                  // Nodes coordinates
+    var newCoordinates = [];// Nodes coordinates
     var x_max = grid_size[0] + 1, y_max = grid_size[1] + 1;  
     var current_x_max = 0, current_y_max = 0; max_length = 0;
     var x_number = [], y_number = [];
     var x_now = 0, y_now = 0;
     var num_array = [], occupied = [];
     
+    var i;
     for (i = 0; i < inputQuestions.length; i++) { // for the phantom_node, come up with a better way
         if (current_x_max < inputQuestions[i].rowWidth) {
             current_x_max = inputQuestions[i].rowWidth;
@@ -157,35 +155,35 @@ function scaleCoordinates(grid_size, inputQuestions) {
     var node_buffer_x = Math.floor(current_x_max / 2.5); // a fixed number would be better?
     var node_buffer_y = Math.floor(current_y_max); // a fixed number would be better?
 
-    for (i = 0; i < num_array.length; i++) {                     // set coordinates
+    for (i = 0; i < num_array.length; i++) { // set coordinates
         x_number[i] = i % x_max;
         y_number[i] = Math.floor((i + 0.1) / x_max);
         var node_now = num_array[i] - 1; 
         var isrealnode = node_now < inputQuestions.length;
 
-        if (isrealnode) {                                        // real node, append to newCoordinates
+        if (isrealnode) { // real node, append to newCoordinates
             var new_line = [];                 
             var x_offset = randomGenerator(0, 100);
             x_now += x_offset; 
             newCoordinates[node_now][0] = x_now;
-            new_line.push(x_now);                       // bottom_left_x        
-            new_line.push(x_now + inputQuestions[node_now].rowWidth);       // bottom_right_x
+            new_line.push(x_now); // bottom_left_x        
+            new_line.push(x_now + inputQuestions[node_now].rowWidth); // bottom_right_x
             
-            if (x_number[i] != (x_max - 1)) {                    // not on first column, add x-coordinate
+            if (x_number[i] != (x_max - 1)) { // not on first column, add x-coordinate
                 x_now += inputQuestions[node_now].rowWidth + node_buffer_x;     
-            } else {                                             // on first column
+            } else { // on first column
                 x_now = 0;  
             }
 
             if (i > 0) { 
-                if (y_number[i] > y_number[i - 1]) {             // change row, add y_coordinates
+                if (y_number[i] > y_number[i - 1]) { // change row, add y_coordinates
                     y_now = Math.floor(current_y_max * y_number[i]);
                 }    
             }
-            ///
+
             var y_offset = randomGenerator(-40, 40);
             y_now += y_offset;
-            ///
+
             if (occupied.length > 0 && y_number[i] > 0) {
                 var distance = checkDistance(new_line, y_now, occupied);
                 if (distance < 0) { // meaning overlapping
@@ -193,25 +191,24 @@ function scaleCoordinates(grid_size, inputQuestions) {
                 } else if (distance > 100) {
                     y_now -= distance / 10;
                 } else if (distance < 50) {
-                    y_now += randomGenerator(50, 100) 
+                    y_now += randomGenerator(50, 100);
                 }
             }
 
             newCoordinates[node_now][1] = y_now;
-            new_line.push((1 + inputQuestions[node_now].responseRowIDs.length) * 
-                           inputQuestions[node_now].questionRowHeight + y_now);   // bottom_y
+            new_line.push((1 + inputQuestions[node_now].responseRowIDs.length) * inputQuestions[node_now].questionRowHeight + y_now); // bottom_y
             console.log(new_line)               
             occupied.push(new_line);          
 
-        } else {                                                 // phantom node, not append to newCoordinates
-            if (x_number[i] != (x_max - 1)) {                    // not on first column, add x-coordinate
+        } else { // phantom node, not append to newCoordinates
+            if (x_number[i] != (x_max - 1)) { // not on first column, add x-coordinate
                 x_now += phantom_node_x + node_buffer_x;     
-            } else {                                             // on first column
+            } else { // on first column
                 x_now = 0;  
             }
             if (i > 0) { 
-                if (y_number[i] > y_number[i - 1]) {             // change row, add y_coordinates
-                    y_now = Math.floor(current_y_max * y_number[i])
+                if (y_number[i] > y_number[i - 1]) { // change row, add y_coordinates
+                    y_now = Math.floor(current_y_max * y_number[i]);
                 }    
             }            
         }
