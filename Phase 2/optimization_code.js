@@ -3,13 +3,13 @@
 function placeOnToGrid(num_nodes) {
     var n = 1;
     while (num_nodes > Math.pow(n, 2)) {
-        n += 1;
+        n++;
     }
     var m = n;
     while (n * m >= num_nodes) {
-        m -= 1;
+        m--;
     }
-    m += 1;
+    m++;
     var grid_size = [n, m];
     return grid_size;
 }
@@ -60,7 +60,7 @@ function shuffle_array(array) { // For random array of extended grid
     var t;
     var zz;
     while (m) {
-        zz = Math.floor(Math.random() * (m -= 1));
+        zz = Math.floor(Math.random() * m--);
         t = array[m];
         array[m] = array[zz];
         array[zz] = t;
@@ -113,8 +113,7 @@ function randomGenerator(min, max) {
 // }
 
 function checkDistance(x_position, y_top, existed) { // Check if overlapping occurs
-    var x_tl = x_position[0];
-    var x_tr = x_position[1];
+    var x_tl = x_position[0], x_tr = x_position[1];
     var queue = existed.sort(sortFunction);
     var dis_queue = queue.filter(condition);
     var buffer_distance;
@@ -130,8 +129,8 @@ function checkDistance(x_position, y_top, existed) { // Check if overlapping occ
 }
 
 // Scale new coordinates
-function scaleCoordinates(grid_size, inputQuestions) {
-    var newCoordinates = []; // Nodes coordinates
+function scaleCoordinates(grid_size, inputQuestions) { 
+    var newCoordinates = [];// Nodes coordinates
     var x_max = grid_size[0] + 1;
     var y_max = grid_size[1] + 1;  
     var current_x_max = 0;
@@ -145,19 +144,19 @@ function scaleCoordinates(grid_size, inputQuestions) {
     var occupied = [];
     
     var i;
-    for (i = 0; i < inputQuestions.length; i += 1) { // for the phantom_node, come up with a better way
+    for (i = 0; i < inputQuestions.length; i++) { // for the phantom_node, come up with a better way
         if (current_x_max < inputQuestions[i].rowWidth) {
             current_x_max = inputQuestions[i].rowWidth;
         }
         if (max_length < inputQuestions[i].responseRowIDs.length) {
             max_length = inputQuestions[i].responseRowIDs.length;
         }    
-        current_y_max = inputQuestions[i].questionRowHeight * (max_length + 1);
+        current_y_max = inputQuestions[i].questionRowHeight * (max_length + 1);    
     }
 
-    for (i = 1; i <= (x_max * y_max); i += 1) { // should have a better way
-        num_array.push(i);
-        newCoordinates[i - 1] = [];
+    for (i = 1; i <= (x_max * y_max); i++) { // should have a better way
+       num_array.push(i);
+       newCoordinates[i - 1] = [];
     }
     
     num_array = shuffle_array(num_array); // get the random order
@@ -170,27 +169,27 @@ function scaleCoordinates(grid_size, inputQuestions) {
     for (i = 0; i < num_array.length; i++) { // set coordinates
         x_number[i] = i % x_max;
         y_number[i] = Math.floor((i + 0.1) / x_max);
-        var node_now = num_array[i] - 1;
+        var node_now = num_array[i] - 1; 
         var isrealnode = node_now < inputQuestions.length;
 
         if (isrealnode) { // real node, append to newCoordinates
-            var new_line = [];
+            var new_line = [];                 
             var x_offset = randomGenerator(0, 100);
             x_now += x_offset; 
             newCoordinates[node_now][0] = x_now;
-            new_line.push(x_now); // bottom_left_x
+            new_line.push(x_now); // bottom_left_x        
             new_line.push(x_now + inputQuestions[node_now].rowWidth); // bottom_right_x
             
             if (x_number[i] != (x_max - 1)) { // not on first column, add x-coordinate
-                x_now += inputQuestions[node_now].rowWidth + node_buffer_x;
+                x_now += inputQuestions[node_now].rowWidth + node_buffer_x;     
             } else { // on first column
-                x_now = 0;
+                x_now = 0;  
             }
 
-            if (i > 0) {
+            if (i > 0) { 
                 if (y_number[i] > y_number[i - 1]) { // change row, add y_coordinates
                     y_now = Math.floor(current_y_max * y_number[i]);
-                }
+                }    
             }
 
             var y_offset = randomGenerator(-40, 40);
@@ -209,8 +208,8 @@ function scaleCoordinates(grid_size, inputQuestions) {
 
             newCoordinates[node_now][1] = y_now;
             new_line.push((1 + inputQuestions[node_now].responseRowIDs.length) * inputQuestions[node_now].questionRowHeight + y_now); // bottom_y
-            console.log(new_line);
-            occupied.push(new_line);
+            console.log(new_line)               
+            occupied.push(new_line);          
 
         } else { // phantom node, not append to newCoordinates
             if (x_number[i] != (x_max - 1)) { // not on first column, add x-coordinate
@@ -221,8 +220,8 @@ function scaleCoordinates(grid_size, inputQuestions) {
             if (i > 0) { 
                 if (y_number[i] > y_number[i - 1]) { // change row, add y_coordinates
                     y_now = Math.floor(current_y_max * y_number[i]);
-                }
-            }        
+                }    
+            }            
         }
     }
     return newCoordinates;
@@ -334,9 +333,9 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
 
                     //disregard source & target points as collisions... unless corners is set to true.
                     if (rounded_int_pt[0] === edge1.points[i][0] && rounded_int_pt[1] === edge1.points[i][1] && !corners1 || 
-                        rounded_int_pt[0] === edge1.points[edge1.points.length - 1][0] && rounded_int_pt[1] === edge1.points[edge1.points.length - 1][1] && !corners1 ||
+                        rounded_int_pt[0] === edge1.points[edge1.points.length-1][0] && rounded_int_pt[1] === edge1.points[edge1.points.length-1][1] && !corners1 ||
                         rounded_int_pt[0] === edge2.points[j][0] && rounded_int_pt[1] === edge2.points[j][1] && !corners2 ||
-                        rounded_int_pt[0] === edge2.points[edge2.points.length - 1][0] && rounded_int_pt[1] === edge2.points[edge2.points.length - 1][1] && !corners2 ) {
+                        rounded_int_pt[0] === edge2.points[edge2.points.length-1][0] && rounded_int_pt[1] === edge2.points[edge2.points.length-1][1] && !corners2 ) {
                     } else {
 
                         /*
@@ -365,12 +364,12 @@ function isOverlappingEE(edge1, edge2) {
         for (j = 0; j < edge2.points.length - 1; j++) {
             var p1x = edge1.points[i][0],
                 p1y = edge1.points[i][1],
-                p2x = edge1.points[i + 1][0],
-                p2y = edge1.points[i + 1][1],
+                p2x = edge1.points[i+1][0],
+                p2y = edge1.points[i+1][1],
                 p3x = edge2.points[j][0],
                 p3y = edge2.points[j][1],
-                p4x = edge2.points[j + 1][0],
-                p4y = edge2.points[j + 1][1];
+                p4x = edge2.points[j+1][0],
+                p4y = edge2.points[j+1][1];
 
             var min1x = Math.min(p1x, p2x);
             var max1x = Math.max(p1x, p2x);
