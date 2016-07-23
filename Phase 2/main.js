@@ -388,11 +388,11 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
 
     //Handle determination of source and target stub locations
     if (sourcestub === -1) {
-        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;// / 2;
+        sourcestubx = sourcex - curr_edge.sourceObject.questionRowHeight;
     } else {
-        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;// / 2;
+        sourcestubx = sourcex + curr_edge.sourceObject.questionRowHeight;
     }
-    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;// / 2;
+    targetstubx = targetx - curr_edge.targetObject.questionRowHeight;
 
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
@@ -472,7 +472,6 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
 function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targety) {
     var currentMinCollision = testSegmentCollision(curr_edge);
     var stublength = curr_edge.sourceObject.questionRowHeight;
-
 
     var sourcestubx;
     // Get left and right stub
