@@ -552,11 +552,11 @@
     var edgeH2_1 = {"points": [[120, 160], [360, 160]]};
     var edgeH2_2 = {"points": [[120, 160], [360, 160]]};
     var resultH2 = isOverlappingEE(edgeH2_1, edgeH2_2);
-    if (resultH2 == false) { //Expected: false
-        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+    if (resultH2 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
     } else {
-        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "red";
     }
 

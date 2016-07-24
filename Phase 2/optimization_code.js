@@ -194,8 +194,9 @@ function isOverlappingEE(edge1, edge2) {
             var min2y = Math.min(p3y, p4y);
             var max2y = Math.max(p3y, p4y);
 
-            if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear           
-            } else if (min1x === min2x && min2x === max1x && max1x === max2x) { //x coordinates are same
+            /*if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear           
+            } else */
+            if (min1x === min2x && min2x === max1x && max1x === max2x) { //x coordinates are same
                 if ((min1y < min2y && max1y < max2y && min2y < max1y) || (min2y < min1y && max2y < max1y && min1y < max2y)) { //one portion is shared
                     return true;
                 } else if ((min1y < min2y && max1y > max2y) || (min2y < min1y && max2y > max1y)) { //one encompasses the other
