@@ -74,16 +74,6 @@ function getCanvasSize(canvasid) {
     return [width, height];
 }
 
-function hasTarget(id) {
-    var i;
-    for (i = 0; i < edges.length; i += 1) { 
-        if (edges[i].source === id) {
-            return true;
-        }
-    }
-    return false;
-}
-
 //returns true if directly adjacent or colliding. From Mozilla
 function isCollidingNN(node1, node2) {
     if (node1.x < node2.x + node2.rowWidth && node1.x + node1.rowWidth > node2.x && node1.y < node2.y + node2.totalheight && node1.totalheight + node1.y > node2.y) {
@@ -248,4 +238,19 @@ function randomOffsetGenerator(inputQuestions) {
         inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
         inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
     }
+}
+
+//returns true if value is not between bounds
+function isNotBetween(value, bound1, bound2) {
+    if (bound1 < bound2) {
+        if (value < bound1 || value > bound2) {
+            return true;
+        }
+    }
+    if (bound1 > bound2) {
+        if (value > bound1 || value < bound2) {
+            return true;
+        }
+    }
+    return false;
 }

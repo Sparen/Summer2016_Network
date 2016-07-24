@@ -430,7 +430,7 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         segment = {points: [[sourcestubx, sourcey], [testx, sourcey], [testx, targety], [targetstubx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
 
         numcollisions = testSegmentCollision(segment);
-        if (numcollisions < mincollisions) {
+        if (numcollisions < mincollisions && isNotBetween(testx, targetx, targetstubx)) {
             mincollisions = numcollisions;
             bestmultiple = multiple;
         }
