@@ -449,6 +449,11 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcey]); //source stub
 
+    //First see if you can go straight down with no problems
+    //TODO
+
+    //If not, move around a bit.
+
     var multipleLR = 0;
     var bestmultipleLR = 0;//stores which multiple is best
     var multipleTOP = 0;
