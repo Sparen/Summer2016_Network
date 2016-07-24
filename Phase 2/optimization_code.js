@@ -66,22 +66,11 @@ function centralizeCoordinates(old_coordinates) {
     }
 }
 
-
 function getCanvasSize(canvasid) {
     var canvas = document.getElementById(canvasid);
     var width = canvas.width;
     var height = canvas.height;
     return [width, height];
-}
-
-function hasTarget(id) {
-    var i;
-    for (i = 0; i < edges.length; i += 1) { 
-        if (edges[i].source === id) {
-            return true;
-        }
-    }
-    return false;
 }
 
 //returns true if directly adjacent or colliding. From Mozilla
