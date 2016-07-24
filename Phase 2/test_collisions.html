@@ -22,6 +22,7 @@
       <li><a href="#id_E1">Edge to Edge (No collisions)</a></li>
       <li>Edge to Edge (Direct collisions)</li>
       <li>Edge to Edge (Edge cases)</li>
+      <li><a href="#id_H1">Edge to Edge (Overlap)</a></li>
     </ul>
     <h2>Summary</h2>
     <p>Green is good, Red is bad</p>
@@ -36,6 +37,7 @@
       <li>Edge to Edge (No collisions):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_E1">E1</span>&nbsp;&nbsp;<span id="res_E2">E2</span>&nbsp;&nbsp;<span id="res_E3">E3</span>&nbsp;&nbsp;<span id="res_E4">E4</span></li>
       <li>Edge to Edge (Direct collisions): </li>
       <li>Edge to Edge (Edge cases): </li>
+      <li>Edge to Edge (Overlap): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="res_H1">H1</span>&nbsp;&nbsp;<span id="res_H2">H2</span>&nbsp;&nbsp;<span id="res_H3">H3</span>&nbsp;&nbsp;<span id="res_H4">H4</span>&nbsp;&nbsp;<span id="res_H5">H5</span></li>
     </ul>
 
     <h3 id="id_1">1</h3>
@@ -740,6 +742,91 @@
     return isCollidingEE(nodeE4_1, edgeE4_2, false, false);</code></pre>
     <p>Expected: <span style="color: blue">FALSE</span>
     <p id="test_E4"></p>
+
+    <h3 id="id_H1">H1</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 120 64 H 360" fill="none" stroke="blue" stroke-width="4"></path>
+    	<path d="M 120 256 H 360" fill="none" stroke="blue" stroke-width="2"></path>
+	<circle cx="120" cy="64" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="360" cy="64" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="120" cy="256" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+	<circle cx="360" cy="256" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeH1_1 = {"points": [[120, 64], [360, 64]]};
+    var edgeH1_2 = {"points": [[120, 256], [360, 256]]};
+    return isOverlappingEE(nodeH1_1, edgeH1_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_H1"></p>
+
+    <h3 id="id_H2">H2</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 120 160 H 360" fill="none" stroke="blue" stroke-width="4"></path>
+    	<path d="M 120 160 H 360" fill="none" stroke="blue" stroke-width="2"></path>
+	<circle cx="120" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="360" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="120" cy="160" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+	<circle cx="360" cy="160" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeH2_1 = {"points": [[240, 160], [240, 160]]};
+    var edgeH2_2 = {"points": [[120, 160], [360, 160]]};
+    return isOverlappingEE(nodeH2_1, edgeH2_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_H2"></p>
+
+    <h3 id="id_H3">H3</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 120 160 H 288" fill="none" stroke="red" stroke-width="4"></path>
+    	<path d="M 192 160 H 360" fill="none" stroke="red" stroke-width="2"></path>
+	<circle cx="120" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+	<circle cx="288" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+	<circle cx="192" cy="160" r="2" fill="white" stroke="red" stroke-width="0.5"></circle>
+	<circle cx="360" cy="160" r="2" fill="white" stroke="red" stroke-width="0.5"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeH3_1 = {"points": [[120, 160], [288, 160]]};
+    var edgeH3_2 = {"points": [[192, 160], [360, 160]]};
+    return isOverlappingEE(nodeH3_1, edgeH3_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_H3"></p>
+
+    <h3 id="id_H4">H4</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 120 160 H 360" fill="none" stroke="red" stroke-width="2"></path>
+    	<path d="M 192 160 H 288" fill="none" stroke="red" stroke-width="4"></path>
+	<circle cx="120" cy="160" r="2" fill="white" stroke="red" stroke-width="0.5"></circle>
+	<circle cx="360" cy="160" r="2" fill="white" stroke="red" stroke-width="0.5"></circle>
+	<circle cx="192" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+	<circle cx="288" cy="160" r="4" fill="white" stroke="red" stroke-width="1"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeH4_1 = {"points": [[120, 160], [360, 160]]};
+    var edgeH4_2 = {"points": [[192, 160], [288, 160]]};
+    return isOverlappingEE(nodeH4_1, edgeH4_2);</code></pre>
+    <p>Expected: <span style="color: blue">TRUE</span>
+    <p id="test_H4"></p>
+
+    <h3 id="id_H5">H5</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" 
+	    width="480" height="320" version="1.1">
+    	<rect x="0" y="0" width="480" height="320" fill="white" stroke="black" stroke-width="2"></rect>
+    	<path d="M 120 160 H 240" fill="none" stroke="blue" stroke-width="2"></path>
+    	<path d="M 240 160 H 360" fill="none" stroke="blue" stroke-width="4"></path>
+	<circle cx="240" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="360" cy="160" r="4" fill="white" stroke="blue" stroke-width="1"></circle>
+	<circle cx="120" cy="160" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+	<circle cx="240" cy="160" r="2" fill="white" stroke="blue" stroke-width="0.5"></circle>
+    </svg>
+    <pre class="prettyprint" style="text-align: left;"><code>    var edgeH5_1 = {"points": [[120, 160], [240, 160]]};
+    var edgeH5_2 = {"points": [[240, 160], [360, 160]]};
+    return isOverlappingEE(nodeH5_1, edgeH5_2);</code></pre>
+    <p>Expected: <span style="color: blue">FALSE</span>
+    <p id="test_H5"></p>
 
     <p>Suite made by Andrew Fan</p>
     </div>

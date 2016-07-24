@@ -492,7 +492,7 @@
     var edgeE1_1 = {"points": [[208, 128], [272, 128]]};
     var edgeE1_2 = {"points": [[208, 192], [272, 192]]};
     var resultE1 = isCollidingEE(edgeE1_1, edgeE1_2, false, false);
-    if (resultE1 == false) { //Expected: true
+    if (resultE1 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
     } else {
@@ -504,7 +504,7 @@
     var edgeE2_1 = {"points": [[208, 128], [208, 192]]};
     var edgeE2_2 = {"points": [[272, 128], [272, 192]]};
     var resultE2 = isCollidingEE(edgeE2_1, edgeE2_2, false, false);
-    if (resultE2 == false) { //Expected: true
+    if (resultE2 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
     } else {
@@ -516,7 +516,7 @@
     var edgeE3_1 = {"points": [[80, 64], [336, 256]]};
     var edgeE3_2 = {"points": [[144, 64], [400, 256]]};
     var resultE3 = isCollidingEE(edgeE3_1, edgeE3_2, false, false);
-    if (resultE3 == false) { //Expected: true
+    if (resultE3 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
     } else {
@@ -528,7 +528,67 @@
     var edgeE4_1 = {"points": [[240, 64], [240, 224]]};
     var edgeE4_2 = {"points": [[120, 256], [360, 256]]};
     var resultE4 = isCollidingEE(edgeE4_1, edgeE4_2, false, false);
-    if (resultE4 == false) { //Expected: true
+    if (resultE4 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "H1";
+    var edgeH1_1 = {"points": [[120, 64], [360, 64]]};
+    var edgeH1_2 = {"points": [[120, 256], [360, 256]]};
+    var resultH1 = isOverlappingEE(edgeH1_1, edgeH1_2);
+    if (resultH1 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "H2";
+    var edgeH2_1 = {"points": [[120, 160], [360, 160]]};
+    var edgeH2_2 = {"points": [[120, 160], [360, 160]]};
+    var resultH2 = isOverlappingEE(edgeH2_1, edgeH2_2);
+    if (resultH2 == false) { //Expected: false
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "H3";
+    var edgeH3_1 = {"points": [[120, 160], [288, 160]]};
+    var edgeH3_2 = {"points": [[192, 160], [360, 160]]};
+    var resultH3 = isOverlappingEE(edgeH3_1, edgeH3_2);
+    if (resultH3 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "H4";
+    var edgeH4_1 = {"points": [[120, 160], [360, 160]]};
+    var edgeH4_2 = {"points": [[192, 160], [288, 160]]};
+    var resultH4 = isOverlappingEE(edgeH4_1, edgeH4_2);
+    if (resultH4 == true) { //Expected: true
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>TRUE</span></p>";
+        document.getElementById("res_" + testno).style.color = "green";
+    } else {
+        document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: red'>FALSE</span></p>";
+        document.getElementById("res_" + testno).style.color = "red";
+    }
+
+    testno = "H5";
+    var edgeH5_1 = {"points": [[120, 160], [240, 160]]};
+    var edgeH5_2 = {"points": [[240, 160], [360, 160]]};
+    var resultH5 = isOverlappingEE(edgeH5_1, edgeH5_2);
+    if (resultH5 == false) { //Expected: false
         document.getElementById("test_" + testno).innerHTML = "<p>Actual: <span style='color: blue'>FALSE</span></p>";
         document.getElementById("res_" + testno).style.color = "green";
     } else {
