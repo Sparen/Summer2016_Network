@@ -66,11 +66,22 @@ function centralizeCoordinates(old_coordinates) {
     }
 }
 
+
 function getCanvasSize(canvasid) {
     var canvas = document.getElementById(canvasid);
     var width = canvas.width;
     var height = canvas.height;
     return [width, height];
+}
+
+function hasTarget(id) {
+    var i;
+    for (i = 0; i < edges.length; i += 1) { 
+        if (edges[i].source === id) {
+            return true;
+        }
+    }
+    return false;
 }
 
 //returns true if directly adjacent or colliding. From Mozilla
@@ -193,21 +204,22 @@ function isOverlappingEE(edge1, edge2) {
             var min2y = Math.min(p3y, p4y);
             var max2y = Math.max(p3y, p4y);
 
-            if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear
-
-            } else if (min1x === min2x === max1x === max2x) { //x coordinates are same
+            if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear           
+            } else if (min1x === min2x && min2x === max1x && max1x === max2x) { //x coordinates are same
                 if ((min1y < min2y && max1y < max2y && min2y < max1y) || (min2y < min1y && max2y < max1y && min1y < max2y)) { //one portion is shared
                     return true;
                 } else if ((min1y < min2y && max1y > max2y) || (min2y < min1y && max2y > max1y)) { //one encompasses the other
                     return true;
                 }
-            } else if (min1y === min2y === max1y === max2y) { //y coordinates are same
+            } else if (min1y === min2y && min2y === max1y && max1y === max2y) { //y coordinates are same
                 if ((min1x < min2x && max1x < max2x && min2x < max1x) || (min2x < min1x && max2x < max1x && min1x < max2x)) { //one portion is shared
                     return true;
                 } else if ((min1x < min2x && max1x > max2x) || (min2x < min1x && max2x > max1x)) { //one encompasses the other
                     return true;
                 }
             }
+
+
         }
     }
     return false;
