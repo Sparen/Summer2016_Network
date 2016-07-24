@@ -147,7 +147,7 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
                 dy = p1y - p2y,
                 u1 = (v2x * dy - v2y * dx) / cross,
                 u2 = (v1x * dy - v1y * dx) / cross,
-                epsilon = 1e - 12,
+                epsilon = 1e-12,
                 uMin = -epsilon,
                 uMax = 1 + epsilon;
                 if (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax) {
