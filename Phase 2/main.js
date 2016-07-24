@@ -404,16 +404,32 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcey]); //source stub
 
+    var testx;
+    var segment;
+    var numcollisions;
+
+    //first, see if you can just go straight to the target
+    segment = {points: [[sourcestubx, sourcey], [targetstubx, sourcey], [targetstubx, targety]]};
+    numcollisions = testSegmentCollision(segment);
+    if (numcollisions !== Number.MAX_VALUE) {
+        curr_edge.points.push([targetstubx, sourcey]);
+        curr_edge.points.push([targetstubx, targety]);
+        curr_edge.points.push([targetx, targety]); //target
+        return false;
+    }
+
+    //If not, check possible places to shove down a line.
+
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
 
     while (multiple < 8) { //Number of attempts is based on largest possible buffer between nodes
-        var testx = sourcestubx + (multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2); //x coordinate for the potential segment
+        testx = sourcestubx + (multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2); //x coordinate for the potential segment
 
-        var segment = {points: [[testx, sourcey], [testx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
+        segment = {points: [[testx, sourcey], [testx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
 
-        var numcollisions = testSegmentCollision(segment);
+        numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions) {
             mincollisions = numcollisions;
             bestmultiple = multiple;
