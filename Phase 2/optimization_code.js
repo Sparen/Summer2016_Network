@@ -1,14 +1,16 @@
+"use strict";
+
 function placeOnToGrid(num_nodes) {
     var n = 1;
-    while (num_nodes > Math.pow(n,2)) {
-        n++;
+    while (num_nodes > Math.pow(n, 2)) {
+        n += 1;
     }
     var m = n;
-    while (n*m >= num_nodes) {
-        m--;
+    while (n * m >= num_nodes) {
+        m -= 1;
     }
-    m++;
-    var grid_size = [n,m];
+    m += 1;
+    var grid_size = [n, m];
     return grid_size;
 }
 
@@ -28,23 +30,23 @@ function scaleCoordinates(grid_size, inputQuestions) {
     var j;
     var index = 0;
 
-    for (i = 0; i < y_max && index < inputQuestions.length; i++) {
-        for (j = 0; j < x_max && index < inputQuestions.length; j++) {
+    for (i = 0; i < y_max && index < inputQuestions.length; i += 1) {
+        for (j = 0; j < x_max && index < inputQuestions.length; j += 1) {
             newCoordinates[index] = [];
             newCoordinates[index][0] = x_additive;
             newCoordinates[index][1] = y_additive;
 
-            current_questionHeight = (inputQuestions[index].questionRowHeight)*(inputQuestions[index].responseRowIDs.length+1);
+            current_questionHeight = (inputQuestions[index].questionRowHeight) * (inputQuestions[index].responseRowIDs.length + 1);
 
-            x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight*4);
+            x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight * 4); //buffer in x direction
 
             if (current_rowMaxHeight < current_questionHeight) {
                 current_rowMaxHeight = current_questionHeight;
             }
 
-            index++;
+            index += 1;
         }
-        y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight*4);
+        y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight * 4); //buffer in y direction
         current_rowMaxHeight = 0;
         x_additive = 0;
     }
@@ -58,7 +60,7 @@ function centralizeCoordinates(old_coordinates) {
     var x_canvas = canvas_size[0];
     var y_canvas = canvas_size[1];
     var i;
-    for (i = 0; i < old_coordinates.length; i++) {
+    for (i = 0; i < old_coordinates.length; i += 1) {
         old_coordinates[i][0] += x_canvas/4;
         //old_coordinates[i][1] += y_canvas/4;
     }
@@ -73,11 +75,9 @@ function getCanvasSize(canvasid) {
 }
 
 function hasTarget(id) {
-    var numSource = 0;
-    var numTarget = 0;
     var i;
-    for (i = 0; i < edges.length; i++) { 
-        if (edges[i].source == id) {
+    for (i = 0; i < edges.length; i += 1) { 
+        if (edges[i].source === id) {
             return true;
         }
     }
@@ -104,7 +104,7 @@ function isCollidingNE(node1, edge1) {
     //Check if the source of the edge is located inside the node (no need to check target as long as one is checked). 
     //Used for edge case where edge is located within node and does not intersect with any of the sides.
     var pt = edge1.points[0];
-    if(pt[0] > nodel && pt[0] < noder && pt[1] > nodet && pt[1] < nodeb){
+    if(pt[0] > nodel && pt[0] < noder && pt[1] > nodet && pt[1] < nodeb) {
         return true;
     }
 
@@ -125,16 +125,16 @@ function isCollidingNE(node1, edge1) {
 function isCollidingEE(edge1, edge2, corners1, corners2) {
     var i;
     var j;
-    for (i = 0; i < edge1.points.length - 1; i++) {
-        for (j = 0; j < edge2.points.length - 1; j++) {
-            var p1x = edge1.points[i][0],
-                p1y = edge1.points[i][1],
-                v1x = edge1.points[i+1][0],
-                v1y = edge1.points[i+1][1],
-                p2x = edge2.points[j][0],
-                p2y = edge2.points[j][1],
-                v2x = edge2.points[j+1][0],
-                v2y = edge2.points[j+1][1];
+    for (i = 0; i < edge1.points.length - 1; i += 1) {
+        for (j = 0; j < edge2.points.length - 1; j += 1) {
+            var p1x = edge1.points[i][0];
+            var p1y = edge1.points[i][1];
+            var v1x = edge1.points[i + 1][0];
+            var v1y = edge1.points[i + 1][1];
+            var p2x = edge2.points[j][0];
+            var p2y = edge2.points[j][1];
+            var v2x = edge2.points[j + 1][0];
+            var v2y = edge2.points[j + 1][1];
 
             v1x -= p1x;
             v1y -= p1y;
@@ -184,8 +184,8 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
 function isOverlappingEE(edge1, edge2) {
     var i;
     var j;
-    for (i = 0; i < edge1.points.length - 1; i++) {
-        for (j = 0; j < edge2.points.length - 1; j++) {
+    for (i = 0; i < edge1.points.length - 1; i += 1) {
+        for (j = 0; j < edge2.points.length - 1; j += 1) {
             var p1x = edge1.points[i][0],
                 p1y = edge1.points[i][1],
                 p2x = edge1.points[i+1][0],
@@ -231,7 +231,7 @@ function shuffleQuestions(inputQuestions) {
 
     var i;
 
-    for (i = 0; i < randomNumIteration; i++) {
+    for (i = 0; i < randomNumIteration; i += 1) {
         var randomNumOne = Math.floor(Math.random()*maxi);
         var randomNumTwo = Math.floor(Math.random()*maxi);
         temp = inputQuestions[randomNumOne];
@@ -243,7 +243,7 @@ function shuffleQuestions(inputQuestions) {
 function randomOffsetGenerator(inputQuestions) {
     var i;
     var offsetunit = inputQuestions[0].questionRowHeight;
-    for (i = 0; i < inputQuestions.length; i++) {
+    for (i = 0; i < inputQuestions.length; i += 1) {
         inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
         inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
     }
