@@ -408,8 +408,8 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
 
-    while (multiple < (largestRowWidth / (curr_edge.questionRowHeight / 2) + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
-        var testx = sourcestubx + (multiple * sourcestub * curr_edge.questionRowHeight / 2); //x coordinate for the potential segment
+    while (multiple < (largestRowWidth / (curr_edge.sourceObject.questionRowHeight / 2) + 4) * 2) { //Number of attempts is based on largest possible buffer between nodes
+        var testx = sourcestubx + (multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2); //x coordinate for the potential segment
 
         var segment = {points: [[testx, sourcey], [testx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
 
@@ -421,12 +421,11 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         multiple += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.questionRowHeight / 2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.questionRowHeight / 2, targety]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
+    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
 
     curr_edge.points.push([targetstubx, targety]);
     curr_edge.points.push([targetx, targety]); //target
-
     return mincollisions === Number.MAX_VALUE;
 }
 
