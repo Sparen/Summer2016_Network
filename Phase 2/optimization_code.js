@@ -61,8 +61,8 @@ function centralizeCoordinates(old_coordinates) {
     var y_canvas = canvas_size[1];
     var i;
     for (i = 0; i < old_coordinates.length; i += 1) {
-        old_coordinates[i][0] += x_canvas/4;
-        //old_coordinates[i][1] += y_canvas/4;
+        old_coordinates[i][0] += x_canvas / 4;
+        //old_coordinates[i][1] += y_canvas / 4;
     }
 }
 
@@ -101,10 +101,10 @@ function isCollidingNE(node1, edge1) {
     var noder = node1.x + node1.rowWidth;
     var nodeb = node1.y + node1.totalheight;
 
-    //Check if the source of the edge is located inside the node (no need to check target as long as one is checked). 
+    //Check if the source of the edge is located inside the node (no need to check target as long as one is checked)
     //Used for edge case where edge is located within node and does not intersect with any of the sides.
     var pt = edge1.points[0];
-    if(pt[0] > nodel && pt[0] < noder && pt[1] > nodet && pt[1] < nodeb) {
+    if (pt[0] > nodel && pt[0] < noder && pt[1] > nodet && pt[1] < nodeb) {
         return true;
     }
 
@@ -147,7 +147,7 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
                 dy = p1y - p2y,
                 u1 = (v2x * dy - v2y * dx) / cross,
                 u2 = (v1x * dy - v1y * dx) / cross,
-                epsilon = 1e-12,
+                epsilon = 1e - 12,
                 uMin = -epsilon,
                 uMax = 1 + epsilon;
                 if (uMin < u1 && u1 < uMax && uMin < u2 && u2 < uMax) {
@@ -157,9 +157,9 @@ function isCollidingEE(edge1, edge2, corners1, corners2) {
 
                     //disregard source & target points as collisions... unless corners is set to true.
                     if (rounded_int_pt[0] === edge1.points[i][0] && rounded_int_pt[1] === edge1.points[i][1] && !corners1 || 
-                        rounded_int_pt[0] === edge1.points[edge1.points.length-1][0] && rounded_int_pt[1] === edge1.points[edge1.points.length-1][1] && !corners1 ||
+                        rounded_int_pt[0] === edge1.points[edge1.points.length - 1][0] && rounded_int_pt[1] === edge1.points[edge1.points.length - 1][1] && !corners1 ||
                         rounded_int_pt[0] === edge2.points[j][0] && rounded_int_pt[1] === edge2.points[j][1] && !corners2 ||
-                        rounded_int_pt[0] === edge2.points[edge2.points.length-1][0] && rounded_int_pt[1] === edge2.points[edge2.points.length-1][1] && !corners2 ) {
+                        rounded_int_pt[0] === edge2.points[edge2.points.length - 1][0] && rounded_int_pt[1] === edge2.points[edge2.points.length - 1][1] && !corners2 ) {
                     } else {
 
                         /*
@@ -186,14 +186,14 @@ function isOverlappingEE(edge1, edge2) {
     var j;
     for (i = 0; i < edge1.points.length - 1; i += 1) {
         for (j = 0; j < edge2.points.length - 1; j += 1) {
-            var p1x = edge1.points[i][0],
-                p1y = edge1.points[i][1],
-                p2x = edge1.points[i+1][0],
-                p2y = edge1.points[i+1][1],
-                p3x = edge2.points[j][0],
-                p3y = edge2.points[j][1],
-                p4x = edge2.points[j+1][0],
-                p4y = edge2.points[j+1][1];
+            var p1x = edge1.points[i][0];
+            var p1y = edge1.points[i][1];
+            var p2x = edge1.points[i + 1][0];
+            var p2y = edge1.points[i + 1][1];
+            var p3x = edge2.points[j][0];
+            var p3y = edge2.points[j][1];
+            var p4x = edge2.points[j + 1][0];
+            var p4y = edge2.points[j + 1][1];
 
             var min1x = Math.min(p1x, p2x);
             var max1x = Math.max(p1x, p2x);
@@ -207,13 +207,13 @@ function isOverlappingEE(edge1, edge2) {
             if (min1x === min2x && max1x === max2x && min1y === min2y && max1y === max2y) { //same edge, all clear
 
             } else if (min1x === min2x === max1x === max2x) { //x coordinates are same
-                if((min1y < min2y && max1y < max2y && min2y < max1y) || (min2y < min1y && max2y < max1y && min1y < max2y)){ //one portion is shared
+                if ((min1y < min2y && max1y < max2y && min2y < max1y) || (min2y < min1y && max2y < max1y && min1y < max2y)) { //one portion is shared
                     return true;
                 } else if ((min1y < min2y && max1y > max2y) || (min2y < min1y && max2y > max1y)) { //one encompasses the other
                     return true;
                 }
             } else if (min1y === min2y === max1y === max2y) { //y coordinates are same
-                if((min1x < min2x && max1x < max2x && min2x < max1x) || (min2x < min1x && max2x < max1x && min1x < max2x)){ //one portion is shared
+                if ((min1x < min2x && max1x < max2x && min2x < max1x) || (min2x < min1x && max2x < max1x && min1x < max2x)) { //one portion is shared
                     return true;
                 } else if ((min1x < min2x && max1x > max2x) || (min2x < min1x && max2x > max1x)) { //one encompasses the other
                     return true;
@@ -227,13 +227,13 @@ function isOverlappingEE(edge1, edge2) {
 function shuffleQuestions(inputQuestions) {
     var maxi = inputQuestions.length;
 
-    var randomNumIteration = Math.floor(Math.random()*maxi);
+    var randomNumIteration = Math.floor(Math.random() * maxi);
 
     var i;
-
+    var temp;
     for (i = 0; i < randomNumIteration; i += 1) {
-        var randomNumOne = Math.floor(Math.random()*maxi);
-        var randomNumTwo = Math.floor(Math.random()*maxi);
+        var randomNumOne = Math.floor(Math.random() * maxi);
+        var randomNumTwo = Math.floor(Math.random() * maxi);
         temp = inputQuestions[randomNumOne];
         inputQuestions[randomNumOne] = inputQuestions[randomNumTwo];
         inputQuestions[randomNumTwo] = temp;
