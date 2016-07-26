@@ -431,7 +431,6 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     }
 
     //If not, check possible places to shove down a line.
-
     var multiple = 0;
     var mincollisions = Number.MAX_VALUE;
     var bestmultiple = 0;//stores which multiple is best
@@ -564,8 +563,9 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
         m1y = targetstuby;
         var m1 = [m1x, m1y];
         curr_edge.points.push(m1);
-
     }
+
+    
 
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); // Top Node Middle Point
@@ -576,6 +576,11 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     ctx.beginPath();
     ctx.fillStyle = 'red';
     ctx.arc(m1x, m1y, 4, 0, 2*Math.PI);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.fillStyle = 'pink';
+    ctx.arc(targetstubx, targetstuby, 4, 0, 2*Math.PI);
     ctx.fill();
 }
 

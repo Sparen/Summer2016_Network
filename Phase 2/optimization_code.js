@@ -62,7 +62,7 @@ function centralizeCoordinates(old_coordinates) {
     var i;
     for (i = 0; i < old_coordinates.length; i += 1) {
         old_coordinates[i][0] += x_canvas / 4;
-        //old_coordinates[i][1] += y_canvas / 4;
+        old_coordinates[i][1] += y_canvas / 7;
     }
 }
 
