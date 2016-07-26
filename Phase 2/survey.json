@@ -87,6 +87,26 @@
                 "aah.aaa",
                 "aah.aab"
             ]
+        },
+        {
+            "questionID": "aai",
+            "type": "table",
+            "rowWidth": 72,
+            "questionRowHeight": 24,
+            "responseRowIDs": [
+                "aai.aaa",
+                "aai.aab"
+            ]
+        },
+        {
+            "questionID": "aaj",
+            "type": "table",
+            "rowWidth": 72,
+            "questionRowHeight": 24,
+            "responseRowIDs": [
+                "aaj.aaa",
+                "aaj.aab"
+            ]
         }
     ],
     "pluspoints": [
@@ -156,6 +176,12 @@
             "drawtarget": true
         },
         {
+            "source": "aai.aab",
+            "target": "aaj",
+            "color": "black",
+            "drawtarget": true
+        },
+        {
             "source": "aae",
             "target": "aad",
             "color": "blue",
@@ -164,6 +190,12 @@
         {
             "source": "aaf",
             "target": "aac",
+            "color": "blue",
+            "drawtarget": true
+        },
+        {
+            "source": "aaj",
+            "target": "aai",
             "color": "blue",
             "drawtarget": true
         }
