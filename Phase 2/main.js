@@ -329,6 +329,15 @@ function updateEdge(curr_edge) {
     if (curr_edge.color === "blue" || curr_edge.color === "red") {
         sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth; sourcestub = RIGHT;
     }
+    //handle seperation of red and blue edges from black
+    if (curr_edge.color === "blue") {
+        sourcey -= curr_edge.targetObject.questionRowHeight / 4;
+        targety -= curr_edge.targetObject.questionRowHeight / 4;
+    }
+    if (curr_edge.color === "red") {
+        sourcey += curr_edge.targetObject.questionRowHeight / 4;
+        targety += curr_edge.targetObject.questionRowHeight / 4;
+    }
 
     var i;
     var largestRowWidth = 0;
@@ -360,6 +369,9 @@ function updateEdge(curr_edge) {
             sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         }
         targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
+        if (curr_edge.color === "blue") {
+            targetx -= curr_edge.targetObject.questionRowHeight / 4;
+        }
         targety = curr_edge.targetObject.y;
         bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
@@ -409,7 +421,7 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     var numcollisions;
 
     //first, see if you can just go straight to the target
-    segment = {points: [[sourcestubx, sourcey], [targetstubx, sourcey], [targetstubx, targety]]};
+    segment = {points: [[sourcestubx, sourcey], [targetstubx, sourcey], [targetstubx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
     numcollisions = testSegmentCollision(segment);
     if (numcollisions !== Number.MAX_VALUE) {
         curr_edge.points.push([targetstubx, sourcey]);
@@ -427,7 +439,7 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     while (multiple < 8) { //Number of attempts is based on largest possible buffer between nodes
         testx = sourcestubx + (multiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2); //x coordinate for the potential segment
 
-        segment = {points: [[sourcestubx, sourcey], [testx, sourcey], [testx, targety], [targetstubx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
+        segment = {points: [[sourcestubx, sourcey], [testx, sourcey], [testx, targety], [targetstubx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
 
         numcollisions = testSegmentCollision(segment);
         if (numcollisions < mincollisions && isNotBetween(testx, targetx, targetstubx)) {
@@ -476,7 +488,7 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
     var mincollisions = Number.MAX_VALUE;
     while (multipleLR < 8) { //Number of attempts is based on largest possible buffer between nodes
         while (multipleTOP < 8) { //Number of attempts is based on largest possible buffer between nodes
-            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject};
+            var segment = {points: [[sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey], [sourcestubx + multipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2], [targetx, targetstuby - multipleTOP * curr_edge.targetObject.questionRowHeight / 2]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
             var numcollisions = testSegmentCollision(segment);
             if (numcollisions < mincollisions) { //if found a new best choice
                 mincollisions = numcollisions;
@@ -511,6 +523,9 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
         sourcestubx = sourcex + stublength;
     }
     var sourcestuby = sourcey;
+    if (curr_edge.color === "blue") {
+        targetx -= curr_edge.targetObject.questionRowHeight;
+    }
     var targetstubx = targetx + curr_edge.targetObject.rowWidth/2;
     var targetstuby = targety - stublength;
 
@@ -571,7 +586,7 @@ function testSegmentCollision(segment) {
     for (i = 0; i < alledges.length; i += 1) { //Iterate through all edges and make sure it's not overlapping any of them.
         if (alledges[i].points !== undefined && alledges[i].points !== null) {
             if (isOverlappingEE(segment, alledges[i])) { //overlaps are automatically rejected
-                if (segment.sourceObject !== alledges[i].sourceObject) { //if they share the same source, it's OK though. NOTE: CANNOT BE SOURCE OR TARGET SHARED OR WEIRD STUFF HAPPENS
+                if (segment.sourceObject !== alledges[i].sourceObject || segment.color !== alledges[i].color) { //if they share the same source, it's OK, but if their colors are different, it's not. NOTE: CANNOT BE SOURCE OR TARGET SHARED OR WEIRD STUFF HAPPENS
                     numcollisions = Number.MAX_VALUE;
                     break; //stop bothering with this multiple
                 }
