@@ -388,7 +388,7 @@ function updateEdge(curr_edge) {
     }
 
     //If it still fails on all two-midpoint solutions or not a black edge, have the edge move around nodes
-    if (bad || isCollidingNE(curr_edge.targetObject, curr_edge)) {
+    if (bad) {
         targetx = curr_edge.targetObject.x;
         targety = curr_edge.targetObject.y;
         // add new midpoints that goes around the node here
@@ -531,42 +531,20 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     // Make target point to be top mid points
     targetx += curr_edge.targetObject.rowWidth/2;
 
-    var topDown = false;
-    var fromLeftToRight = false;
-
-    // Check whether source is above the target
-    if (sourcestuby < targetstuby) {
-        topDown = true;
-    }
-
-    if (sourcestubx < targetstubx) {
-        fromLeftToRight = true;
-    }
-
     // Renew the points of the edge
     curr_edge.points = [];
     curr_edge.points.push([sourcex, sourcey]); //source
     curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
     // Add looping-midpoints
-    var m1x = 0, m1y = 0, m2x = 0, m2y = 0, m3x = 0, m3y = 0;
+    var m1x = 0, m1y = 0;
 
-    if (topDown) {
-        // If top down, go straight down from sourcestub until targetstuby + c
-        m1x = sourcestubx;
-        m1y = targetstuby;
-        var m1 = [m1x, m1y];
-        curr_edge.points.push(m1);
-    } else {
-        // If bottom up, go straight up from sourcestub until targetstuby + c
-        m1x = sourcestubx;
-        m1y = targetstuby;
-        var m1 = [m1x, m1y];
-        curr_edge.points.push(m1);
-    }
-
+    // Go straight down from sourcestub until targetstuby + c
+    m1x = sourcestubx;
+    m1y = targetstuby;
+    var m1 = [m1x, m1y];
+    curr_edge.points.push(m1);
     
-
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); // Top Node Middle Point
 
