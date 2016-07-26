@@ -351,7 +351,7 @@ function updateEdge(curr_edge) {
     var bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
 
     //If there was a collision with a node or there was overlap... first, try the other source port
-    if (bad && curr_edge.color === "black") {
+    if (bad && curr_edge.color !== "red") {
         sourcestub *= -1;
         if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
@@ -361,7 +361,7 @@ function updateEdge(curr_edge) {
         bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
     //Try original source port and other target port
-    if (bad && curr_edge.color === "black") {
+    if (bad && curr_edge.color !== "red") {
         sourcestub *= -1;
         if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
@@ -377,7 +377,7 @@ function updateEdge(curr_edge) {
     }
 
     //Try other source port and other target port
-    if (bad && curr_edge.color === "black") {
+    if (bad && curr_edge.color !== "red") {
         sourcestub *= -1;
         if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
