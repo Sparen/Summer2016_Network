@@ -361,8 +361,11 @@ function updateEdge(curr_edge) {
         bad = determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety, sourcestub, largestRowWidth);
     }
     //Try original source port and other target port
-    if (bad && curr_edge.color === "black") {
+    if (bad) {
         sourcestub *= -1;
+        if (curr_edge.color === "blue") {
+            sourcestub = 1;
+        }
         if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
         } else {
@@ -377,8 +380,11 @@ function updateEdge(curr_edge) {
     }
 
     //Try other source port and other target port
-    if (bad && curr_edge.color === "black") {
+    if (bad) {
         sourcestub *= -1;
+        if (curr_edge.color === "blue") {
+            sourcestub = 1;
+        }
         if (sourcestub === LEFT) {
             sourcex = curr_edge.sourceObject.x;
         } else {
