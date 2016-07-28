@@ -1,19 +1,19 @@
-/* ****************************************************************
+/* ***************************************************************************
  * Network Optimization Black Box for IDIES
  * Authors: Andrew Fan, Alex Ahn, San He Wu, Daniel Darg
  * This function takes a JSON filename input and outputs a JSON file
  *
  * General Notes:
  * -All coordinates are handled in terms of questionRowHeight.
- **************************************************************** */
+ *************************************************************************** */
 
  "use strict";
 
-/* ****************************************************************
+/* ***************************************************************************
  * void networkOptimization(string, number[2])
  * param inputfilename - name of JSON file containing input ingredients
  * param canvas_size - 2D array containing x and y dimensions of canvas
- **************************************************************** */
+ *************************************************************************** */
 function networkOptimization(inputfilename, canvas_size) {
     var LEFT = -1;
     var RIGHT = 1;
@@ -21,26 +21,37 @@ function networkOptimization(inputfilename, canvas_size) {
     var allquestions = []; //the output question objects (complete objects)
     var alledges = []; //the output edge objects (complete edges)
 
-    //call load function
-    loadJSON(processInput);
+    loadJSON();
 
-    //Loads JSON object into database_obj and runs callback
-    function loadJSON(callback) {
+    /* ***********************************************************************
+    * void loadJSON()
+    *
+    * This function loads the input JSON file to database_obj, and then
+    * runs processInput()
+    ************************************************************************ */
+    function loadJSON() {
         var client = new XMLHttpRequest();
         client.open("GET", inputfilename, true);
         client.onreadystatechange = function () { //callback
             if (client.readyState === 4) {
                 if (client.status === 200 || client.status === 0) {
                     database_obj = JSON.parse(client.responseText);
-                    callback();
+                    processInput();
                 }
             }
         };
         client.send();
     }
 
-    //Runs immediately after JSON has been loaded into database_obj.
-    //Loads the appropriate data from database_obj into questions and edges, then sends those for processing.
+    /* ***********************************************************************
+    * void processInput()
+    *
+    * This function runs immediately after the input JSON has been loaded into 
+    * database_obj. It loads the appropriate data, then handles the assignment 
+    * of values to the question and edge objects. 
+    * Once this is done, coordinates are assigned by optimizeNetworkByGrid()
+    * and JSON is output by outputJSON().
+    ************************************************************************ */
     function processInput() {
         allquestions = database_obj.questions;
         alledges = database_obj.edges;
@@ -50,7 +61,14 @@ function networkOptimization(inputfilename, canvas_size) {
         //outputJSON();
     }
 
-    //Assigns key information to each question. Does not assign coordinates.
+    /* ***********************************************************************
+    * void pushAllQuestions()
+    *
+    * This function assigns key information to each question object, including 
+    * its total height, responses, and update. It also calls for a helper 
+    * function to assign values to the response objects.
+    * This function does NOT assign coordinates - see optimizeNetworkByGrid().
+    ************************************************************************ */
     function pushAllQuestions() {
         var i;
         var j;
@@ -79,7 +97,19 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
-    //Assigns key information to each question response. Does not assign coordinates.
+    /* ***********************************************************************
+    * void setColumnParameters(object, object, number)
+    * param col - response object to assign values to
+    * param question - parent object to the response
+    * param off - position of the response with regard to all responses for 
+    *       the given question
+    *
+    * This function assigns key information to each question response object,
+    * including its offset, parent, dimensions, and update. 
+    * This function does NOT assign coordinates - response coordinates are
+    * determined in the update method based on the coordinates of the parent
+    * question object.
+    ************************************************************************ */
     function setColumnParameters(col, question, off) {
         col.offset = off; //which item it is in relation to title.
         col.parent = question;
@@ -93,7 +123,13 @@ function networkOptimization(inputfilename, canvas_size) {
         };
     }
 
-    //Assigns key information to each edge, namely its source and target objects and its update method
+    /* ***********************************************************************
+    * void pushAllEdges()
+    *
+    * This function assigns key information to each edge object, including its 
+    * source object, target object, and update.
+    * This function does NOT assign coordinates - see the update method.
+    ************************************************************************ */
     function pushAllEdges() {
         var i;
         var j;
@@ -127,12 +163,27 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
+    /* ***********************************************************************
+    * void updateEdge(object)
+    * param curr_edge - edge object to assign midpoints to
+    *
+    * This function assigns midpoints (including stubs) to a given edge
+    ************************************************************************ */
     function updateEdge(curr_edge) {
         // I'm not going to do this now. :)
     }
 
-    //Helper function for updateEdge
-    //Returns the number of edge to edge collisions between the segment and all other edges, or Number.MAX_VALUE if it overlaps an edge or intersects a node
+    /* ***********************************************************************
+    * number testSegmentCollision(object)
+    * param segment - edge object to test against all existing edges
+    *
+    * This function is a helper function for updateEdge. It returns the number 
+    * of edge to edge collisions between the given segment and all existing 
+    * edges, or Number.MAX_VALUE if it overlaps another edge or collides with 
+    * a question.
+    * This function handles overlap conditions unrelated to the actual points 
+    * that make up the edge, such as color and source/target objects.
+    ************************************************************************ */
     function testSegmentCollision(segment) {
         var i;
         var numcollisions = 0;
@@ -157,7 +208,14 @@ function networkOptimization(inputfilename, canvas_size) {
         return numcollisions;
     }
 
-    //Returns number of collisions between edges. Ignores node to node collision, which should not occur.
+    /* ***********************************************************************
+    * number numCollisions()
+    *
+    * This function returns the number of edge to edge collisions on the 
+    * entire canvas. It does not handle node to node collisions, and node to
+    * edge collisions are arbitrarily handled (the placement of edge midpoints
+    * should prevent node to edge collisions from occuring).
+    ************************************************************************ */
     function numCollisions() {
         var i; //questions
         var j; //edges
