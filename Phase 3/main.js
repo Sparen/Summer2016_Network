@@ -518,6 +518,12 @@ function networkOptimization(inputfilename, canvas_size) {
         return false;
     }
 
+    /* ***********************************************************************
+     * void shuffleQuestions(object[])                                       *
+     * param inputQuestions - array of questions to shuffle                  *
+     *                                                                       *
+     * This function shuffles the elements of the inputQuestions array       *
+     *********************************************************************** */
     function shuffleQuestions(inputQuestions) {
         var maxi = inputQuestions.length;
 
@@ -534,6 +540,13 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
+    /* ***********************************************************************
+     * void randomOffsetGenerator(object[])                                  *
+     * param inputQuestions - array of questions to offset                   *
+     *                                                                       *
+     * This function offsets the elements of the inputQuestions array by a   *
+     * random unit                                                           *
+     *********************************************************************** */
     function randomOffsetGenerator(inputQuestions) {
         var i;
         var offsetunit = inputQuestions[0].questionRowHeight;
@@ -543,7 +556,15 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
-    //returns true if value is not between bounds
+    /* ***********************************************************************
+     * boolean isNotBetween(number, number, number)                          *
+     * param value - value to check                                          *
+     * param bound1 - first bound to compare against                         *
+     * param bound2 - second bound to compare against                        *
+     *                                                                       *
+     * This function return true if the given value is not between the two   *
+     * provided bounds                                                       *
+     *********************************************************************** */
     function isNotBetween(value, bound1, bound2) {
         if (bound1 < bound2) {
             if (value < bound1 || value > bound2) {
