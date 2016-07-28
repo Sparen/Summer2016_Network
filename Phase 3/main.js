@@ -1,18 +1,18 @@
 /* ***************************************************************************
- * Network Optimization Black Box for IDIES
- * Authors: Andrew Fan, Alex Ahn, San He Wu, Daniel Darg
- * This function takes a JSON filename input and outputs a JSON file
- *
- * General Notes:
- * -All coordinates are handled in terms of questionRowHeight.
+ * Network Optimization Black Box for IDIES                                  *
+ * Authors: Andrew Fan, Alex Ahn, San He Wu, Daniel Darg                     *
+ * This function takes a JSON filename input and outputs a JSON file         *
+ *                                                                           *
+ * General Notes:                                                            *
+ * -All coordinates are handled in terms of questionRowHeight.               *
  *************************************************************************** */
 
  "use strict";
 
 /* ***************************************************************************
- * void networkOptimization(string, number[2])
- * param inputfilename - name of JSON file containing input ingredients
- * param canvas_size - 2D array containing x and y dimensions of canvas
+ * void networkOptimization(string, number[2])                               *
+ * param inputfilename - name of JSON file containing input ingredients      *
+ * param canvas_size - 2D array containing x and y dimensions of canvas      *
  *************************************************************************** */
 function networkOptimization(inputfilename, canvas_size) {
     var LEFT = -1;
@@ -24,11 +24,11 @@ function networkOptimization(inputfilename, canvas_size) {
     loadJSON();
 
     /* ***********************************************************************
-    * void loadJSON()
-    *
-    * This function loads the input JSON file to database_obj, and then
-    * runs processInput()
-    ************************************************************************ */
+     * void loadJSON()                                                       *
+     *                                                                       *
+     * This function loads the input JSON file to database_obj, and then     *
+     * runs processInput()                                                   *
+     *********************************************************************** */
     function loadJSON() {
         var client = new XMLHttpRequest();
         client.open("GET", inputfilename, true);
@@ -44,14 +44,14 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * void processInput()
-    *
-    * This function runs immediately after the input JSON has been loaded into 
-    * database_obj. It loads the appropriate data, then handles the assignment 
-    * of values to the question and edge objects. 
-    * Once this is done, coordinates are assigned by optimizeNetworkByGrid()
-    * and JSON is output by outputJSON().
-    ************************************************************************ */
+     * void processInput()                                                   *
+     *                                                                       *
+     * This function runs immediately after the input JSON has been loaded   *
+     * into database_obj. It loads the appropriate data, then handles the    *
+     * assignment of values to the question and edge objects.                *
+     * Once this is done, coordinates are assigned by optimizeNetworkByGrid()*
+     * and JSON is output by outputJSON().                                   *
+     *********************************************************************** */
     function processInput() {
         pushAllQuestions();
         pushAllEdges();
@@ -60,13 +60,14 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * void pushAllQuestions()
-    *
-    * This function assigns key information to each question object, including 
-    * its total height, responses, and update. It also calls for a helper 
-    * function to assign values to the response objects.
-    * This function does NOT assign coordinates - see optimizeNetworkByGrid().
-    ************************************************************************ */
+     * void pushAllQuestions()                                               *
+     *                                                                       *
+     * This function assigns key information to each question object,        *
+     * including its total height, responses, and update. It also calls for  *
+     * a helper function to assign values to the response objects.           *
+     * This function does NOT assign coordinates - see                       *
+     * optimizeNetworkByGrid().                                              *
+     *********************************************************************** */
     function pushAllQuestions() {
         allquestions = database_obj.questions;
         var i;
@@ -97,18 +98,18 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * void setColumnParameters(object, object, number)
-    * param col - response object to assign values to
-    * param question - parent object to the response
-    * param off - position of the response with regard to all responses for 
-    *       the given question
-    *
-    * This function assigns key information to each question response object,
-    * including its offset, parent, dimensions, and update. 
-    * This function does NOT assign coordinates - response coordinates are
-    * determined in the update method based on the coordinates of the parent
-    * question object.
-    ************************************************************************ */
+     * void setColumnParameters(object, object, number)                      *
+     * param col - response object to assign values to                       *
+     * param question - parent object to the response                        *
+     * param off - position of the response with regard to all responses for *
+     *       the given question                                              *
+     *                                                                       *
+     * This function assigns key information to each question response       *
+     * object, including its offset, parent, dimensions, and update.         *
+     * This function does NOT assign coordinates - response coordinates are  *
+     * determined in the update method based on the coordinates of the       *
+     * parent question object.                                               *
+     *********************************************************************** */
     function setColumnParameters(col, question, off) {
         col.offset = off; //which item it is in relation to title.
         col.parent = question;
@@ -123,12 +124,12 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * void pushAllEdges()
-    *
-    * This function assigns key information to each edge object, including its 
-    * source object, target object, and update.
-    * This function does NOT assign coordinates - see the update method.
-    ************************************************************************ */
+     * void pushAllEdges()                                                   *
+     *                                                                       *
+     * This function assigns key information to each edge object, including  *
+     * its source object, target object, and update.                         *
+     * This function does NOT assign coordinates - see the update method.    *
+     *********************************************************************** */
     function pushAllEdges() {
         //First assign colors to the edges based on what type they are.
         var black;
@@ -185,26 +186,26 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * void updateEdge(object)
-    * param curr_edge - edge object to assign midpoints to
-    *
-    * This function assigns midpoints (including stubs) to a given edge
-    ************************************************************************ */
+     * void updateEdge(object)                                               *
+     * param curr_edge - edge object to assign midpoints to                  *
+     *                                                                       *
+     * This function assigns midpoints (including stubs) to a given edge     *
+     *********************************************************************** */
     function updateEdge(curr_edge) {
         // I'm not going to do this now. :)
     }
 
     /* ***********************************************************************
-    * number testSegmentCollision(object)
-    * param segment - edge object to test against all existing edges
-    *
-    * This function is a helper function for updateEdge. It returns the number 
-    * of edge to edge collisions between the given segment and all existing 
-    * edges, or Number.MAX_VALUE if it overlaps another edge or collides with 
-    * a question.
-    * This function handles overlap conditions unrelated to the actual points 
-    * that make up the edge, such as color and source/target objects.
-    ************************************************************************ */
+     * number testSegmentCollision(object)                                   *
+     * param segment - edge object to test against all existing edges        *
+     *                                                                       *
+     * This function is a helper function for updateEdge. It returns the     *
+     * number of edge to edge collisions between the given segment and all   *
+     * existing edges, or Number.MAX_VALUE if it overlaps another edge or    *
+     * collides with a question.                                             *
+     * This function handles overlap conditions unrelated to the actual      *
+     * points that make up the edge, such as color and source/target objects.*
+     *********************************************************************** */
     function testSegmentCollision(segment) {
         var i;
         var numcollisions = 0;
@@ -230,13 +231,13 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * number numCollisions()
-    *
-    * This function returns the number of edge to edge collisions on the 
-    * entire canvas. It does not handle node to node collisions, and node to
-    * edge collisions are arbitrarily handled (the placement of edge midpoints
-    * should prevent node to edge collisions from occuring).
-    ************************************************************************ */
+     * number numCollisions()                                                *
+     *                                                                       *
+     * This function returns the number of edge to edge collisions on the    *
+     * entire canvas. It does not handle node to node collisions, and node   *
+     * to edge collisions are arbitrarily handled (the placement of edge     *
+     * midpoints should prevent node to edge collisions from occuring).      *
+     *********************************************************************** */
     function numCollisions() {
         var i; //questions
         var j; //edges
@@ -271,12 +272,12 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * number[2] placeOnToGrid(number)
-    * param num_nodes - number of questions to be rendered
-    *
-    * This function returns a 2D array consisting of dimensions for the node
-    * grid.
-    ************************************************************************ */
+     * number[2] placeOnToGrid(number)                                       *
+     * param num_nodes - number of questions to be rendered                  *
+     *                                                                       *
+     * This function returns a 2D array consisting of dimensions for the     *
+     * node grid.                                                            *
+     *********************************************************************** */
     function placeOnToGrid(num_nodes) {
         var n = 1;
         while (num_nodes > Math.pow(n, 2)) {
@@ -292,15 +293,15 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
     /* ***********************************************************************
-    * number[][2] scaleCoordinates(number[2], object[])
-    * param grid_size - 2D array consisting of dimensions for the node grid
-    * param inputQuestions - array of question objects to place
-    *
-    * This function returns an array of coordinates for the placement of the
-    * inputQuestions. These are placed using standard buffers and the 
-    * dimensions of the input questions
-    * TODO: parameterize buffer as input to blackbox instead of using magic number
-    ************************************************************************ */
+     * number[][2] scaleCoordinates(number[2], object[])                     *
+     * param grid_size - 2D array consisting of dimensions for the node grid *
+     * param inputQuestions - array of question objects to place             *
+     *                                                                       *
+     * This function returns an array of coordinates for the placement of    *
+     * the inputQuestions. These are placed using standard buffers and the   *
+     * dimensions of the input questions.                                    *
+     * TODO: parameterize buffer as input to blackbox instead of using magic number
+     *********************************************************************** */
     function scaleCoordinates(grid_size, inputQuestions) {
         var newCoordinates = [];
 
@@ -340,7 +341,12 @@ function networkOptimization(inputfilename, canvas_size) {
     }
 
 
-    // function that centralizes the network to the center of canvas
+    /* ***********************************************************************
+     * void centralizeCoordinates(number[][2])                               *
+     * param old_coordinates - coordinates to update                         *
+     *                                                                       *
+     * This function shifts all of the coordinates provided by a set amount  *
+     *********************************************************************** */
     function centralizeCoordinates(old_coordinates) {
         var x_canvas = canvas_size[0];
         var y_canvas = canvas_size[1];
@@ -351,7 +357,13 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
-    //returns true if directly adjacent or colliding. From Mozilla
+    /* ***********************************************************************
+     * boolean isCollidingNN(object, object)                                 *
+     * param node1 - first node to check for collision                       *
+     * param node2 - second node to check for collision                      *
+     *                                                                       *
+     * This function returns whether or not the two given nodes are colliding*
+     *********************************************************************** */
     function isCollidingNN(node1, node2) {
         if (node1.x < node2.x + node2.rowWidth && node1.x + node1.rowWidth > node2.x && node1.y < node2.y + node2.totalheight && node1.totalheight + node1.y > node2.y) {
             return true;
@@ -360,7 +372,15 @@ function networkOptimization(inputfilename, canvas_size) {
         }
     }
 
-    //returns true if one crosses over the other. Running alongside does not count as a collision. Requires straight line segments
+    /* ***********************************************************************
+     * boolean isCollidingNE(object, object)                                 *
+     * param node1 - node to check for collision                             *
+     * param edge1 - edge to check for collision                             *
+     *                                                                       *
+     * This function returns whether or not the given node and edge are      *
+     * colliding by transforming the sides of the node into an edge. If the  *
+     * edge overlaps one side of the node, it is considered a collision.     *
+     *********************************************************************** */
     function isCollidingNE(node1, edge1) {
         //determine node bounds
         var nodel = node1.x;
@@ -387,8 +407,15 @@ function networkOptimization(inputfilename, canvas_size) {
         return (isCollidingEE(rectEdge, edge1, true, false) || isOverlappingEE(rectEdge, edge1));
     }
 
-    //returns true if two edges have an intersection
-    //corners parameter: if true, it will treat source and targets as collidable points. Corners1 for first edge, etc.
+    /* ***********************************************************************
+     * boolean isCollidingEE(object, object, boolean, boolean)               *
+     * param edge1 - first edge to check for collision                       *
+     * param edge2 - second edge to check for collision                      *
+     * param corners1 - whether or not to include the source in collisions   *
+     * param corners2 - whether or not to include the target in collisions   *
+     *                                                                       *
+     * This function returns whether or not the given edges are colliding.   *
+     *********************************************************************** */
     function isCollidingEE(edge1, edge2, corners1, corners2) {
         var i;
         var j;
@@ -437,7 +464,15 @@ function networkOptimization(inputfilename, canvas_size) {
         return false;
     }
 
-    //returns true if two edges overlap but segments are not exactly the same. Requires edges to be orthogonal
+    /* ***********************************************************************
+     * boolean isOverlappingEE(object, object)                               *
+     * param edge1 - first edge to check for overlap                         *
+     * param edge2 - second edge to check for overlap                        *
+     *                                                                       *
+     * This function returns whether or not the given edges are overlapping. *
+     * This function assumes that all edges are orthogonal and locked to a   *
+     * grid.                                                                 *
+     *********************************************************************** */
     function isOverlappingEE(edge1, edge2) {
         var i;
         var j;
