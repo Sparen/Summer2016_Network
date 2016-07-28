@@ -249,6 +249,13 @@ function networkOptimization(inputfilename, canvas_size) {
         return num;
     }
 
+    /* ***********************************************************************
+    * number[2] placeOnToGrid(number)
+    * param num_nodes - number of questions to be rendered
+    *
+    * This function returns a 2D array consisting of dimensions for the node
+    * grid.
+    ************************************************************************ */
     function placeOnToGrid(num_nodes) {
         var n = 1;
         while (num_nodes > Math.pow(n, 2)) {
@@ -263,7 +270,16 @@ function networkOptimization(inputfilename, canvas_size) {
         return grid_size;
     }
 
-    //Scales the coordinates relative to the center of canvas (plane)
+    /* ***********************************************************************
+    * number[][2] scaleCoordinates(number[2], object[])
+    * param grid_size - 2D array consisting of dimensions for the node grid
+    * param inputQuestions - array of question objects to place
+    *
+    * This function returns an array of coordinates for the placement of the
+    * inputQuestions. These are placed using standard buffers and the 
+    * dimensions of the input questions
+    * TODO: parameterize buffer as input to blackbox instead of using magic number
+    ************************************************************************ */
     function scaleCoordinates(grid_size, inputQuestions) {
         var newCoordinates = [];
 
