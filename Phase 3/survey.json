@@ -1,0 +1,174 @@
+{
+    "questions": [
+        {
+            "questionID": "aaa",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaa.aaa",
+                "aaa.aab"
+            ]
+        },
+        {
+            "questionID": "aab",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aab.aaa",
+                "aab.aab"
+            ]
+        },
+        {
+            "questionID": "aac",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aac.aaa",
+                "aac.aab"
+            ]
+        },
+        {
+            "questionID": "aad",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aad.aaa",
+                "aad.aab",
+                "aad.aac",
+                "aad.aad",
+                "aad.aae"
+            ]
+        },
+        {
+            "questionID": "aae",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aae.aaa",
+                "aae.aab",
+                "aae.aac",
+                "aae.aad",
+                "aae.aae",
+                "aae.aaf"
+            ]
+        },
+        {
+            "questionID": "aaf",
+            "type": "table",
+            "rowWidth": 8,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaf.aaa",
+                "aaf.aab",
+                "aaf.aac"
+            ]
+        },
+        {
+            "questionID": "aag",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aag.aaa",
+                "aag.aab"
+            ]
+        },
+        {
+            "questionID": "aah",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aah.aaa",
+                "aah.aab"
+            ]
+        },
+        {
+            "questionID": "aai",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aai.aaa",
+                "aai.aab"
+            ]
+        },
+        {
+            "questionID": "aaj",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaj.aaa",
+                "aaj.aab"
+            ]
+        }
+    ],
+    "pluspoints": ["P1"],
+    "globalpoints": ["G1"],
+    "blackedges": [
+        {
+            "source": "aaa.aaa",
+            "target": "aad"
+        },
+        {
+            "source": "aad.aad",
+            "target": "aab"
+        },
+        {
+            "source": "aaa.aaa",
+            "target": "aac"
+        },
+        {
+            "source": "aab.aaa",
+            "target": "aac"
+        },
+        {
+            "source": "aab.aab",
+            "target": "aae"
+        },
+        {
+            "source": "aae.aae",
+            "target": "aad"
+        },
+        {
+            "source": "aaf.aaa",
+            "target": "aab"
+        },
+        {
+            "source": "aaf.aac",
+            "target": "aaa"
+        },
+        {
+            "source": "aag.aaa",
+            "target": "aah"
+        },
+        {
+            "source": "aah.aab",
+            "target": "aac"
+        },
+        {
+            "source": "aai.aab",
+            "target": "aaj"
+        }
+    ],
+    "blueedges": [
+        {
+            "source": "aae",
+            "target": "aad"
+        },
+        {
+            "source": "aaf",
+            "target": "aac"
+        },
+        {
+            "source": "aaj",
+            "target": "aai"
+        }
+    ]
+}

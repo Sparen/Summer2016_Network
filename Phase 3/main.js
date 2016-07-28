@@ -53,8 +53,6 @@ function networkOptimization(inputfilename, canvas_size) {
     * and JSON is output by outputJSON().
     ************************************************************************ */
     function processInput() {
-        allquestions = database_obj.questions;
-        alledges = database_obj.edges;
         pushAllQuestions();
         pushAllEdges();
         //optimizeNetworkByGrid();
@@ -70,6 +68,7 @@ function networkOptimization(inputfilename, canvas_size) {
     * This function does NOT assign coordinates - see optimizeNetworkByGrid().
     ************************************************************************ */
     function pushAllQuestions() {
+        allquestions = database_obj.questions;
         var i;
         var j;
         var newresponseobj;
@@ -131,6 +130,28 @@ function networkOptimization(inputfilename, canvas_size) {
     * This function does NOT assign coordinates - see the update method.
     ************************************************************************ */
     function pushAllEdges() {
+        //First assign colors to the edges based on what type they are.
+        var black;
+        var blue;
+        var red;
+        for (black = 0; black < database_obj.blackedges.length; black++) {
+            database_obj.blackedges[black].color = "black";
+            alledges.push(database_obj.blackedges[black]);
+        }
+        if (database_obj.blueedges !== null && database_obj.blueedges !== undefined) {
+            for (blue = 0; blue < database_obj.blueedges.length; blue++) {
+                database_obj.blueedges[blue].color = "blue";
+                alledges.push(database_obj.blueedges[blue]);
+            }
+        }
+        if (database_obj.rededges !== null && database_obj.rededges !== undefined) {
+            for (red = 0; red < database_obj.rededges.length; red++) {
+                database_obj.rededges[blue].color = "red";
+                alledges.push(database_obj.rededges[red]);
+            }
+        }
+
+        //Assign source and target objects to the edges
         var i;
         var j;
         var k;
