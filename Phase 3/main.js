@@ -46,6 +46,8 @@ function networkOptimization(inputfilename, canvas_size) {
         alledges = database_obj.edges;
         pushAllQuestions();
         pushAllEdges();
+        //optimizeNetworkByGrid();
+        //outputJSON();
     }
 
     //Assigns key information to each question. Does not assign coordinates.
