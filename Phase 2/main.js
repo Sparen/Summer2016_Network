@@ -2,6 +2,10 @@
 
 var LEFT = -1;
 var RIGHT = 1;
+var UP = -2;
+var DOWN = 2;
+var SAME = 0;
+
 var iterationNum = 0;
 var database_obj;
 var questions;
@@ -271,16 +275,130 @@ function setEdgeParameters(edge) {
     edge.update = function () {
         updateEdge(this);
     };
+    
+    // drawing code for edges
     edge.draw = function () {
+
         var ctx = myCanvas.context;
         ctx.beginPath();
         ctx.strokeStyle = this.color;
         ctx.lineWidth = "2";
-        ctx.moveTo(this.points[0][0], this.points[0][1]);
-        var i;
-        for (i = 1; i < this.points.length; i += 1) {
-            ctx.lineTo(this.points[i][0], this.points[i][1]);
+        var curveRadius = 6;
+
+        var prevPoint;
+        var currPoint = this.points[0];
+        var nextPoint = this.points[1];
+
+        // Draw the very first segment of the edge
+        ctx.moveTo(currPoint[0], currPoint[1]);
+        var LRside = leftOrRight(currPoint, nextPoint);
+        var UDside = upOrDown(currPoint, nextPoint);
+        var last;
+
+        // draw a stub line up until the arc, to left or right side
+
+        // going out right
+        if (LRside === LEFT) {
+            ctx.lineTo(nextPoint[0] - curveRadius, nextPoint[1]);
+            last = [nextPoint[0] - curveRadius, nextPoint[1]];
         }
+
+        // going out left
+        else {
+            ctx.lineTo(nextPoint[0] + curveRadius, nextPoint[1]);
+            last = [nextPoint[0] + curveRadius, nextPoint[1]];
+        }
+
+        ctx.stroke();
+        
+        var arcTangentPoint;
+        var i;
+        // Draw arc first, then segment - radius
+        for (i = 1; i < this.points.length-1; i++) {
+            prevPoint = last; // point at the end of segment just before current point
+            currPoint = this.points[i];            
+            nextPoint = this.points[i+1];
+
+            var firstLRside = leftOrRight(prevPoint, currPoint);
+            var firstUDside = upOrDown(prevPoint, currPoint);
+            var secondLRside = leftOrRight(currPoint, nextPoint);
+            var secondUDside = upOrDown(currPoint, nextPoint);
+
+
+            /***********************************************************
+            BUG DETECTED: there are cases where duplicate edge points are added
+            ************************************************************/
+            
+            if (currPoint[0] === nextPoint[0] && currPoint[1] === nextPoint[1]) {
+                continue;
+            }
+
+/*
+            // if all aligned on the horizontal line, no arc
+            if (firstUDside === SAME && secondUDside === SAME) {
+                // if heads toward right,
+                if (secondLRside === LEFT) {
+                    ctx.lineTo(nextPoint[0]-curveRadius, nextPoint[1]);
+                    last = [nextPoint[0]-curveRadius, nextPoint[1]];
+                }
+                else {
+                    ctx.lineTo(nextPoint[0]+curveRadius, nextPoint[1]);
+                    last = [nextPoint[0]+curveRadius, nextPoint[1]];
+                }
+                continue;
+            }
+
+            // if all aligned on the vertical line, no arc
+            if (firstLRside === SAME && secondLRside === SAME) {
+                // if heads down
+                if (secondUDside === UP) {
+                    ctx.lineTo(nextPoint[0], nextPoint[1]-curveRadius);
+                    last = [nextPoint[0], nextPoint[1]-curveRadius];
+                }
+                else {
+                    ctx.lineTo(nextPoint[0], nextPoint[1]+curveRadius);
+                    last = [nextPoint[0], nextPoint[1]+curveRadius];
+                }
+                continue;
+            }
+*/
+
+            // adjust arc's tangent point to draw the arc from previous point (last)
+
+            // (1) Draw the arc coming from the previous point to the current point
+            // (2) Draw a straight line from current point to the next point (-curveRadius)
+
+            // vertically aligned
+            if (secondLRside === SAME) {
+                if (secondUDside === UP) {
+                    arcTangentPoint = [currPoint[0], currPoint[1]+curveRadius];
+                    nextPoint = [nextPoint[0], nextPoint[1]-curveRadius];
+                } else {
+                    arcTangentPoint = [currPoint[0], currPoint[1]-curveRadius];
+                    nextPoint = [nextPoint[0], nextPoint[1]+curveRadius];
+                }
+            }
+
+            // horizontally aligned
+            if (secondUDside === SAME) {
+                if (secondLRside === LEFT) {
+                    arcTangentPoint = [currPoint[0]+curveRadius, currPoint[1]];
+                    nextPoint = [nextPoint[0]-curveRadius, nextPoint[1]];
+                } else {
+                    arcTangentPoint = [currPoint[0]-curveRadius, currPoint[1]];
+                    nextPoint = [nextPoint[0]+curveRadius, nextPoint[1]];
+                }
+            }
+
+            ctx.arcTo(currPoint[0], currPoint[1], arcTangentPoint[0], arcTangentPoint[1], curveRadius);
+            ctx.stroke();
+
+            ctx.lineTo(nextPoint[0], nextPoint[1]);
+            last = nextPoint;
+        }
+
+        // Draw the last segment
+        ctx.lineTo(this.points[i][0], this.points[i][1]);
         ctx.stroke();
 
         // Drawing an arrow at the end of the edge
@@ -304,7 +422,7 @@ function setEdgeParameters(edge) {
             ctx.fill();
             ctx.stroke();
         }
-    };
+    }
 }
 
 //obtains points on an edge
@@ -554,6 +672,7 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     curr_edge.points.push([targetstubx, targetstuby]);
     curr_edge.points.push([targetx, targety]); // Top Node Middle Point
 
+/*
     // Draw midpoints
     var mycanvas = document.getElementById('maincanvas');
     var ctx = mycanvas.getContext("2d");
@@ -566,6 +685,7 @@ function resetEdgeToLoop(curr_edge, sourcestub, sourcex, sourcey, targetx, targe
     ctx.fillStyle = 'pink';
     ctx.arc(targetstubx, targetstuby, 4, 0, 2*Math.PI);
     ctx.fill();
+*/
 }
 
 //Helper function for updateEdge
@@ -634,4 +754,34 @@ function numCollisions() {
         }
     }
     return num;
+}
+
+/**
+* Returns -1 if current point in on the left, 1 if on the right, 0 if same
+*/
+function leftOrRight(currentPoint, otherPoint) {
+        if (currentPoint[0] === otherPoint[0]) {
+            return SAME;
+        }
+        else if (currentPoint[0] < otherPoint[0]) {
+            return LEFT;
+        }
+        else {
+            return RIGHT;
+        }
+}
+
+/**
+* Returns -2 if current point in above, 2 if below, 0 if same
+*/
+function upOrDown(currentPoint, otherPoint) {
+        if (currentPoint[1] === otherPoint[1]) {
+            return SAME;
+        }
+        else if (currentPoint[1] < otherPoint[1]) {
+            return UP;
+        }
+        else {
+            return DOWN;
+        }
 }
