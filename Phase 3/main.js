@@ -58,18 +58,19 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
     function processInput() {
         pushAllQuestions();
         pushAllEdges();
-        optimizeNetworkByGrid();
+        optimizeNetworkByGrid(0);
         outputJSON();
     }
 
     /* ***********************************************************************
-     * void optimizeNetworkByGrid()                                          *
+     * void optimizeNetworkByGrid(number)                                    *
+     * param retryattemptno - number of times optimization has failed        *
      *                                                                       *
      * This function iterates through various possibilities for node         *
      * placement in order to find the least amount of noise.                 *
      *********************************************************************** */
 
-    function optimizeNetworkByGrid() {
+    function optimizeNetworkByGrid(retryattemptno) {
         var grid_size = placeOnToGrid(allquestions.length);
         var scaled_coord_array = scaleCoordinates(grid_size, allquestions);
         var lowestEdgeNoise = Number.MAX_VALUE;
@@ -99,9 +100,16 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
             allquestions[n] = optimalQuestionsAssignment[n];
         }
 
-        centralizeCoordinates(optimalGridAssignment);
-        updateCoordinates(optimalGridAssignment);
-        randomOffsetGenerator(allquestions);
+        //Ensure that an optimal assignment was actually made
+        if (optimalGridAssignment.length !== 0) {
+            centralizeCoordinates(optimalGridAssignment);
+            updateCoordinates(optimalGridAssignment);
+            randomOffsetGenerator(allquestions);
+        } else { //retry
+            retryattemptno += 1;
+            console.log("optimizeNetworkByGrid: With iteration number " + iterationnum + ", no successful placements could be determined. Retrying - attempt number " + retryattemptno);
+            optimizeNetworkByGrid(retryattemptno);
+        }
     } 
 
     /* ***********************************************************************
