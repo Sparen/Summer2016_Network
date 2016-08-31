@@ -59,9 +59,34 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
     function processInput() {
         pushAllQuestions();
         pushAllEdges();
-        //optimizeNetworkByGrid();
+        optimizeNetworkByGrid();
         //outputJSON();
     }
+
+    /* ***********************************************************************
+     * void optimizeNetworkByGrid()                                          *
+     *                                                                       *
+     * This function iterates through various possibilities for node         *
+     * placement in order to find the least amount of noise. Afterwards, it  *
+     * takes the placement of the nodes and edges and converts them into     *
+     * Javascript objects to be used in the output.                          *
+     *********************************************************************** */
+
+    function optimizeNetworkByGrid() {
+        //TODO
+    } 
+
+    /* ***********************************************************************
+     * void outputJSON()                                                     *
+     *                                                                       *
+     * This function takes the IDs and coordinates of the nodes and outputs  *
+     * the information as a JSON file, filename specified as a parameter to  *
+     * the wrapper function.                                                 *
+     *********************************************************************** */
+
+    function outputJSON() {
+        //TODO
+    }     
 
     /* ***********************************************************************
      * void pushAllQuestions()                                               *
