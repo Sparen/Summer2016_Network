@@ -180,6 +180,8 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
         if (typeof NO_callback === "function") { //make sure it's not undefined
             NO_callback(NO_callbackparam);
         }
+
+        return outputobj;
     }     
 
     /* ***********************************************************************
