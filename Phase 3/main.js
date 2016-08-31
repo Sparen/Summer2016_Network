@@ -22,6 +22,8 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
     var database_obj; //the JSON input
     var allquestions = []; //the output question objects (complete objects)
     var alledges = []; //the output edge objects (complete edges)
+    var midpoints = []; //array containing all midpoint objects, NOT midpoint IDs
+    var midpoint_counter = 0; //counter used to make unique midpoint object IDs
 
     loadJSON();
 
