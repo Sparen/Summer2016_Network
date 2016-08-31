@@ -113,14 +113,19 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
      *********************************************************************** */
 
     function outputJSON() {
+        var outputobj = {}; //wrapper object for all output
         var outputcoord = {}; //object containing coordinates for node IDs
 
         //First, iterate through all questions and log their coordinates
-        //TODO
+        //TODO: Iterate through questions
 
         //Next, iterate through all edges, assign the midpoints all unique IDs, and log their coordinates
         var midpoints = []; //array containing all midpoint objects, NOT midpoint IDs
         var midpoint_counter = 0; //counter used to make unique midpoint object IDs
+        //TODO: Iterate through edges
+
+        //Finally, use JSON.stringify on the entire output object and write to file/local storage for use by drawing code
+        var outputJSON = JSON.stringify(outputobj);
     }     
 
     /* ***********************************************************************
