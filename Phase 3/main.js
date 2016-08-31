@@ -23,8 +23,6 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
     var database_obj; //the JSON input
     var allquestions = []; //the output question objects (complete objects)
     var alledges = []; //the output edge objects (complete edges)
-    var midpoints = []; //array containing all midpoint objects, NOT midpoint IDs
-    var midpoint_counter = 0; //counter used to make unique midpoint object IDs
 
     loadJSON();
 
@@ -61,16 +59,14 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
         pushAllQuestions();
         pushAllEdges();
         optimizeNetworkByGrid();
-        //outputJSON();
+        outputJSON();
     }
 
     /* ***********************************************************************
      * void optimizeNetworkByGrid()                                          *
      *                                                                       *
      * This function iterates through various possibilities for node         *
-     * placement in order to find the least amount of noise. Afterwards, it  *
-     * takes the placement of the nodes and edges and converts them into     *
-     * Javascript objects to be used in the output.                          *
+     * placement in order to find the least amount of noise.                 *
      *********************************************************************** */
 
     function optimizeNetworkByGrid() {
@@ -117,7 +113,14 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
      *********************************************************************** */
 
     function outputJSON() {
+        var outputcoord = {}; //object containing coordinates for node IDs
+
+        //First, iterate through all questions and log their coordinates
         //TODO
+
+        //Next, iterate through all edges, assign the midpoints all unique IDs, and log their coordinates
+        var midpoints = []; //array containing all midpoint objects, NOT midpoint IDs
+        var midpoint_counter = 0; //counter used to make unique midpoint object IDs
     }     
 
     /* ***********************************************************************
