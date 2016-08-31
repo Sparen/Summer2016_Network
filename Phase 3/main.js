@@ -126,6 +126,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
 
         var i;
         var j;
+        var k;
 
         //First, iterate through all questions and log their coordinates
         for (i = 0; i < allquestions.length; i++) {
@@ -136,12 +137,33 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
 
         //Next, iterate through all edges, assign the midpoints all unique IDs, and log their coordinates
         var midpointobjects = []; //array containing all midpoint objects, NOT midpoint IDs
-        var OF_midPoints = {}; //object containing all output midpoint IDs. **OUTPUT FIELD**
+        var OF_midPoints = []; //array containing all output midpoint IDs. **OUTPUT FIELD**
         var midpoint_counter = 0; //counter used to make unique midpoint object IDs
         var OF_edges = {}; //object containing all output edges with midPoint component IDs. **OUTPUT FIELD**
         var edge_counter = 0; //counter used to make unique output edge IDs
-        for (j = 0; j < alledges.length; j++) {
-            //TODO
+        for (i = 0; i < alledges.length; i++) {
+            //first, generate an output edge structure
+            var newoutputedgeID = "e" + edge_counter;
+            var newoutputedgenodes = [];
+            for (j = 0; j < alledges[i].points; j++) {
+                //First, we will see if the given node is already locked to an existing midpoint
+                var existing = false;
+                for (k = 0; k < midpointobjects.length; k++) {
+                    if (alledges[i].points[j].x === midpointobjects[k].x && alledges[i].points[j].y === midpointobjects[k].y) {
+                        existing = true;
+                    }
+                }
+                if (existing) { //If it already exists, push the midpoint's ID onto the list
+                    newoutputedgenodes.push(midpointobjects[k].midpointID);
+                } else { //otherwise, create a new midpoint object.
+                    var newmidpointobject = {"x": alledges[i].points[j].x, "y": alledges[i].points[j].y, "midpointID": "m" + midpoint_counter};
+                    midpointobjects.push(newmidpointobject); //add the new midpoint to the set
+                    OF_midPoints.push("m" + midpoint_counter); //add the midpoint ID to the output field
+                    newoutputedgenodes.push("m" + midpoint_counter); //add the midpoint ID to the output edge
+                    midpoint_counter++;
+                }
+            } 
+            edge_counter++;
         }
 
         //Now, add fields to the output object
