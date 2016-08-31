@@ -144,6 +144,20 @@ function render(inputfilename) {
      *********************************************************************** */
 
     function handleEdges() {
+        var i;
+        var j;
+        for (i = 0; i < database_obj.blackedges.length; i++) {
 
+        }
+        if (database_obj.blueedges !== undefined) {
+            for (i = 0; i < database_obj.blueedges.length; i++) {
+            
+            }
+        }
+        if (database_obj.rededges !== undefined) {
+            for (i = 0; i < database_obj.rededges.length; i++) {
+            
+            }
+        }
     }
 }
