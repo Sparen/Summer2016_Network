@@ -5,6 +5,7 @@
  *                                                                           *
  * General Notes:                                                            *
  * -All coordinates are handled in terms of PIXELS, not questionRowHeight    *
+ * -Widths and heights are in terns of questionRowHeight                     *
  * -This is entirely independent from the main black box and is used         *
  *  primarily for testing purposes. Therefore, there may be hardcoded values *
  *************************************************************************** */
@@ -21,6 +22,19 @@ function render(inputfilename) {
 
     var database_obj; //the JSON input
 
+    var UNIT = 24; //pixel size for a single unit
+
+    var myCanvas = {
+        start: function (canvasid) {
+            this.canvas = document.getElementById(canvasid);
+            this.context = this.canvas.getContext("2d");
+        },
+        clear: function () {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+    };
+
+    myCanvas.start("maincanvas");
     loadJSON();
 
     /* ***********************************************************************
@@ -69,6 +83,54 @@ function render(inputfilename) {
             var newquestion = database_obj.questions[i];
             var newquestionID = newquestion.questionID;
             var newquestioncoords = inputobj.coords[newquestionID];
+
+            newquestion.x = newquestioncoords[0] * UNIT;
+            newquestion.y = newquestioncoords[1] * UNIT;
+            //Iterate through questions and assign to responseRowIDs
+            newquestion.responses = [];
+            var j;
+            for (j = 0; j < newquestion.responseRowIDs.length; j += 1) {
+                var newresponseobj = {nodeID: newquestion.responseRowIDs[j]};
+                setColumnParameters(newresponseobj, newquestion, j);
+                newquestion.responses.push(newresponseobj);
+            }
+
+            newquestion.draw = function () {
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.fillStyle = "#CCFFEE";
+                ctx.lineWidth = "1";
+                ctx.strokeStyle = "#CCCCCC";
+                ctx.rect(this.x, this.y, this.rowWidth * UNIT, this.totalheight * UNIT);
+                ctx.fill(); //draw inside
+                ctx.stroke(); //draw border
+
+                var n;
+                for (n = 0; n < this.responses.length; n += 1) {
+                    this.responses[n].draw();
+                }
+            };
+
+            newquestion.draw(); //actually draw
+        }
+
+        function setColumnParameters(col, question, off) {
+            col.offset = off; //which item it is in relation to title.
+            col.parent = question;
+            col.questionRowHeight = question.questionRowHeight;
+            col.rowWidth = question.rowWidth;
+            col.x = question.x;
+            col.y = question.y + question.questionRowHeight * UNIT + off * col.questionRowHeight * UNIT;
+            col.draw = function () {
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.fillStyle = "#EEEEEE";
+                ctx.lineWidth = "1";
+                ctx.strokeStyle = "#CCCCCC";
+                ctx.rect(this.x, this.y, this.rowWidth * UNIT, this.questionRowHeight * UNIT);
+                ctx.fill(); //draw rectangle inside
+                ctx.stroke(); //draw rectangle border
+            };
         }
     }
 
