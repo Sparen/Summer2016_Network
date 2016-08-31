@@ -122,15 +122,32 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
 
     function outputJSON() {
         var outputobj = {}; //wrapper object for all output
-        var outputcoord = {}; //object containing coordinates for node IDs
+        var OF_coords = {}; //object containing coordinates for node IDs. **OUTPUT FIELD**
+
+        var i;
+        var j;
 
         //First, iterate through all questions and log their coordinates
-        //TODO: Iterate through questions
+        for (i = 0; i < allquestions.length; i++) {
+            var currquestion = allquestions[i];
+            var currquestionID = currquestion.questionID;
+            OF_coords[currquestionID] = [currquestion.x, currquestion.y];
+        }
 
         //Next, iterate through all edges, assign the midpoints all unique IDs, and log their coordinates
-        var midpoints = []; //array containing all midpoint objects, NOT midpoint IDs
+        var midpointobjects = []; //array containing all midpoint objects, NOT midpoint IDs
+        var OF_midPoints = {}; //object containing all output midpoint IDs. **OUTPUT FIELD**
         var midpoint_counter = 0; //counter used to make unique midpoint object IDs
-        //TODO: Iterate through edges
+        var OF_edges = {}; //object containing all output edges with midPoint component IDs. **OUTPUT FIELD**
+        var edge_counter = 0; //counter used to make unique output edge IDs
+        for (j = 0; j < alledges.length; j++) {
+            //TODO
+        }
+
+        //Now, add fields to the output object
+        outputobj["coords"] = OF_coords;
+        outputobj["midPoints"] = OF_midPoints;
+        outputobj["edges"] = OF_edges;
 
         //Finally, use JSON.stringify on the entire output object and write to file/local storage for use by drawing code
         var outputJSON = JSON.stringify(outputobj);
