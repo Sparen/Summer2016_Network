@@ -13,8 +13,9 @@
  * void networkOptimization(string, number[2])                               *
  * param inputfilename - name of JSON file containing input ingredients      *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
+ * param nodebuffer - how many units to use as a buffer between nodes        *
  *************************************************************************** */
-function networkOptimization(inputfilename, canvas_size) {
+function networkOptimization(inputfilename, canvas_size, nodebuffer) {
     var LEFT = -1;
     var RIGHT = 1;
     var database_obj; //the JSON input
@@ -300,7 +301,6 @@ function networkOptimization(inputfilename, canvas_size) {
      * This function returns an array of coordinates for the placement of    *
      * the inputQuestions. These are placed using standard buffers and the   *
      * dimensions of the input questions.                                    *
-     * TODO: parameterize buffer as input to blackbox instead of using magic number
      *********************************************************************** */
     function scaleCoordinates(grid_size, inputQuestions) {
         var newCoordinates = [];
@@ -325,7 +325,7 @@ function networkOptimization(inputfilename, canvas_size) {
 
                 current_questionHeight = (inputQuestions[index].questionRowHeight) * (inputQuestions[index].responseRowIDs.length + 1);
 
-                x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight * 4); //buffer in x direction
+                x_additive += (inputQuestions[index].rowWidth + inputQuestions[0].questionRowHeight * nodebuffer);
 
                 if (current_rowMaxHeight < current_questionHeight) {
                     current_rowMaxHeight = current_questionHeight;
@@ -333,7 +333,7 @@ function networkOptimization(inputfilename, canvas_size) {
 
                 index += 1;
             }
-            y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight * 4); //buffer in y direction
+            y_additive += (current_rowMaxHeight + inputQuestions[0].questionRowHeight * nodebuffer);
             current_rowMaxHeight = 0;
             x_additive = 0;
         }
