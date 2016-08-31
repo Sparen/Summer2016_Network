@@ -15,8 +15,9 @@
  * param outputfilename - name of JSON file containing output objects        *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
  * param nodebuffer - how many units to use as a buffer between nodes        *
+ * param iterationnum - how many iterations of node placement to perform     *
  *************************************************************************** */
-function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer) {
+function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer, iterationnum) {
     var LEFT = -1;
     var RIGHT = 1;
     var database_obj; //the JSON input
@@ -73,7 +74,38 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
      *********************************************************************** */
 
     function optimizeNetworkByGrid() {
-        //TODO
+        var grid_size = placeOnToGrid(allquestions.length);
+        var scaled_coord_array = scaleCoordinates(grid_size, allquestions);
+        var lowestEdgeNoise = Number.MAX_VALUE;
+        var currentEdgeNoise;
+        var optimalGridAssignment = [];
+        var optimalQuestionsAssignment = [];
+
+        //Iterates through and finds the optimal result (least number of collisions)
+        var i;
+        var j;
+        for (i = 0; i < iterationnum; i += 1) {
+            shuffleQuestions(allquestions);
+            scaled_coord_array = scaleCoordinates(grid_size, allquestions);
+            updateCoordinates(scaled_coord_array);
+            currentEdgeNoise = numCollisions();
+            if (currentEdgeNoise < lowestEdgeNoise) {
+                lowestEdgeNoise = currentEdgeNoise;
+                for (j = 0; j < allquestions.length; j += 1) {
+                    optimalQuestionsAssignment[j] = allquestions[j];
+                    optimalGridAssignment[j] = scaled_coord_array[j];
+                }
+            }
+        }
+
+        var n;
+        for (n = 0; n < allquestions.length; n += 1) {
+            allquestions[n] = optimalQuestionsAssignment[n];
+        }
+
+        centralizeCoordinates(optimalGridAssignment);
+        updateCoordinates(optimalGridAssignment);
+        randomOffsetGenerator(allquestions);
     } 
 
     /* ***********************************************************************
@@ -659,6 +691,22 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
         for (i = 0; i < old_coordinates.length; i += 1) {
             old_coordinates[i][0] += x_canvas / 4;
             old_coordinates[i][1] += y_canvas / 7;
+        }
+    }
+
+    /* ***********************************************************************
+     * void updateCoordinates(number[][2])                                   *
+     * param scaled_coord_array - new coordinates for question nodes         *
+     *                                                                       *
+     * This function applies a predetermined set of scaled coordinates to    *
+     * the array containing all questions.                                   *
+     *********************************************************************** */
+    function updateCoordinates(scaled_coord_array) {
+        var i;
+        for (i = 0; i < allquestions.length; i += 1) {
+            allquestions[i].x = scaled_coord_array[i][0];
+            allquestions[i].y = scaled_coord_array[i][1];
+            allquestions[i].update();
         }
     }
 
