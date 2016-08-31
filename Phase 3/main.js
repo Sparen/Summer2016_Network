@@ -11,15 +11,16 @@
 
 /* ***************************************************************************
  * void networkOptimization(string, string, number[2]), number, number,      *
- *       function)                                                           *
+ *       function, data)                                                     *
  * param inputfilename - name of JSON file containing input ingredients      *
  * param outputfilename - name of JSON file containing output objects        *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
  * param nodebuffer - how many units to use as a buffer between nodes        *
  * param iterationnum - how many iterations of node placement to perform     *
  * param NO_callback - function to execute after output has been saved       *
+ * param NO_callbackparam - optional parameter for the callback function     *
  *************************************************************************** */
-function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer, iterationnum, NO_callback) {
+function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer, iterationnum, NO_callback, NO_callbackparam) {
     var LEFT = -1;
     var RIGHT = 1;
     var database_obj; //the JSON input
@@ -180,7 +181,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
         sessionStorage[outputfilename] = outputJSON;
         console.log(sessionStorage[outputfilename]); //debug
         if (typeof NO_callback === "function") { //make sure it's not undefined
-            NO_callback();
+            NO_callback(NO_callbackparam);
         }
     }     
 

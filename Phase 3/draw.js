@@ -12,8 +12,11 @@
  "use strict";
 
 /* ***************************************************************************
- * void render()                                                             *
+ * void render(string)                                                       *
+ * param inputfilename - name of JSON file containing output ingredients     *
  *************************************************************************** */
-function render() {
-
+function render(inputfilename) {
+    console.log("Beginning rendering onto canvas - input from " + inputfilename);
+    var inputobj = sessionStorage[inputfilename];
+    console.log(inputobj);
 }
