@@ -163,6 +163,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
                     midpoint_counter++;
                 }
             } 
+            OF_edges[newoutputedgeID] = newoutputedgenodes;
             edge_counter++;
         }
 
