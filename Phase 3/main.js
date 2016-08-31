@@ -156,10 +156,11 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
                 if (existing) { //If it already exists, push the midpoint's ID onto the list
                     newoutputedgenodes.push(midpointobjects[k].midpointID);
                 } else { //otherwise, create a new midpoint object.
-                    var newmidpointobject = {"x": alledges[i].points[j].x, "y": alledges[i].points[j].y, "midpointID": "m" + midpoint_counter};
+                    var newmidpointID = "m" + midpoint_counter;
+                    var newmidpointobject = {"x": alledges[i].points[j].x, "y": alledges[i].points[j].y, "midpointID": newmidpointID};
                     midpointobjects.push(newmidpointobject); //add the new midpoint to the set
-                    OF_midPoints.push("m" + midpoint_counter); //add the midpoint ID to the output field
-                    newoutputedgenodes.push("m" + midpoint_counter); //add the midpoint ID to the output edge
+                    OF_midPoints.push(newmidpointID); //add the midpoint ID to the output field
+                    newoutputedgenodes.push(newmidpointID); //add the midpoint ID to the output edge
                     midpoint_counter++;
                 }
             } 
