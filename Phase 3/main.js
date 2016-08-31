@@ -12,10 +12,11 @@
 /* ***************************************************************************
  * void networkOptimization(string, number[2])                               *
  * param inputfilename - name of JSON file containing input ingredients      *
+ * param outputfilename - name of JSON file containing output objects        *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
  * param nodebuffer - how many units to use as a buffer between nodes        *
  *************************************************************************** */
-function networkOptimization(inputfilename, canvas_size, nodebuffer) {
+function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer) {
     var LEFT = -1;
     var RIGHT = 1;
     var database_obj; //the JSON input
