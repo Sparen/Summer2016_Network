@@ -113,60 +113,74 @@
     "globalpoints": ["G1"],
     "blackedges": [
         {
+            "edgeID": "e1",
             "source": "aaa.aaa",
             "target": "aad"
         },
         {
+            "edgeID": "e2",
             "source": "aad.aad",
             "target": "aab"
         },
         {
+            "edgeID": "e3",
             "source": "aaa.aaa",
             "target": "aac"
         },
         {
+            "edgeID": "e4",
             "source": "aab.aaa",
             "target": "aac"
         },
         {
+            "edgeID": "e5",
             "source": "aab.aab",
             "target": "aae"
         },
         {
+            "edgeID": "e6",
             "source": "aae.aae",
             "target": "aad"
         },
         {
+            "edgeID": "e7",
             "source": "aaf.aaa",
             "target": "aab"
         },
         {
+            "edgeID": "e8",
             "source": "aaf.aac",
             "target": "aaa"
         },
         {
+            "edgeID": "e9",
             "source": "aag.aaa",
             "target": "aah"
         },
         {
+            "edgeID": "e10",
             "source": "aah.aab",
             "target": "aac"
         },
         {
+            "edgeID": "e11",
             "source": "aai.aab",
             "target": "aaj"
         }
     ],
     "blueedges": [
         {
+            "edgeID": "e101",
             "source": "aae",
             "target": "aad"
         },
         {
+            "edgeID": "e102",
             "source": "aaf",
             "target": "aac"
         },
         {
+            "edgeID": "e103",
             "source": "aaj",
             "target": "aai"
         }

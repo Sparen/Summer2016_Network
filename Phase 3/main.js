@@ -143,10 +143,8 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
         var OF_midPoints = []; //array containing all output midpoint IDs. **OUTPUT FIELD**
         var midpoint_counter = 0; //counter used to make unique midpoint object IDs
         var OF_edges = {}; //object containing all output edges with midPoint component IDs. **OUTPUT FIELD**
-        var edge_counter = 0; //counter used to make unique output edge IDs
         for (i = 0; i < alledges.length; i++) {
             //first, generate an output edge structure
-            var newoutputedgeID = "e" + edge_counter;
             var newoutputedgenodes = [];
             for (j = 0; j < alledges[i].points.length; j++) {
                 //First, we will see if the given node is already locked to an existing midpoint
@@ -167,8 +165,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
                     midpoint_counter++;
                 }
             } 
-            OF_edges[newoutputedgeID] = newoutputedgenodes;
-            edge_counter++;
+            OF_edges[alledges[i].edgeID] = newoutputedgenodes;
         }
 
         //Now, add fields to the output object
