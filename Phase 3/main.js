@@ -102,7 +102,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
 
         //Ensure that an optimal assignment was actually made
         if (optimalGridAssignment.length !== 0) {
-            centralizeCoordinates(optimalGridAssignment);
+            //centralizeCoordinates(optimalGridAssignment);
             updateCoordinates(optimalGridAssignment);
             randomOffsetGenerator(allquestions);
         } else { //retry
@@ -173,6 +173,8 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
 
         //Finally, use JSON.stringify on the entire output object and write to file/local storage for use by drawing code
         var outputJSON = JSON.stringify(outputobj);
+        sessionStorage[outputfilename] = outputJSON;
+        console.log(sessionStorage[outputfilename]);
     }     
 
     /* ***********************************************************************
@@ -738,6 +740,7 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
      * param old_coordinates - coordinates to update                         *
      *                                                                       *
      * This function shifts all of the coordinates provided by a set amount  *
+     * Deprecated due to changing of coordinate system.                      *
      *********************************************************************** */
     function centralizeCoordinates(old_coordinates) {
         var x_canvas = canvas_size[0];
