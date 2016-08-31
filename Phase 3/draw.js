@@ -84,6 +84,8 @@ function render(inputfilename) {
             var newquestionID = newquestion.questionID;
             var newquestioncoords = inputobj.coords[newquestionID];
 
+            newquestion.totalheight = newquestion.questionRowHeight + newquestion.responseRowIDs.length * newquestion.questionRowHeight;
+
             newquestion.x = newquestioncoords[0] * UNIT;
             newquestion.y = newquestioncoords[1] * UNIT;
             //Iterate through questions and assign to responseRowIDs
