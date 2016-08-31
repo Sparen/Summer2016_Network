@@ -17,7 +17,7 @@
  *************************************************************************** */
 function render(inputfilename) {
     console.log("Beginning rendering onto canvas - input from " + inputfilename);
-    var inputobj = sessionStorage[inputfilename];
+    var inputobj = JSON.parse(sessionStorage[inputfilename]);
 
     var database_obj; //the JSON input
 
@@ -63,7 +63,13 @@ function render(inputfilename) {
      *********************************************************************** */
 
     function handleQuestions() {
-
+        var i;
+        var j;
+        for (i = 0; i < database_obj.questions.length; i++) {
+            var newquestion = database_obj.questions[i];
+            var newquestionID = newquestion.questionID;
+            var newquestioncoords = inputobj.coords[newquestionID];
+        }
     }
 
     /* ***********************************************************************
