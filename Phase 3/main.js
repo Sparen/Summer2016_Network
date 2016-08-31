@@ -11,7 +11,7 @@
 
 /* ***************************************************************************
  * void networkOptimization(string, string, number[2]), number, number,      *
- *       function                                                            *
+ *       function)                                                           *
  * param inputfilename - name of JSON file containing input ingredients      *
  * param outputfilename - name of JSON file containing output objects        *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
