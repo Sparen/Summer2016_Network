@@ -145,19 +145,19 @@ function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuf
             //first, generate an output edge structure
             var newoutputedgeID = "e" + edge_counter;
             var newoutputedgenodes = [];
-            for (j = 0; j < alledges[i].points; j++) {
+            for (j = 0; j < alledges[i].points.length; j++) {
                 //First, we will see if the given node is already locked to an existing midpoint
-                var existing = false;
+                var existing = -1; //stores the index of the duplicate midpoint or -1 if there is none.
                 for (k = 0; k < midpointobjects.length; k++) {
-                    if (alledges[i].points[j].x === midpointobjects[k].x && alledges[i].points[j].y === midpointobjects[k].y) {
-                        existing = true;
+                    if (alledges[i].points[j][0] === midpointobjects[k].x && alledges[i].points[j][1] === midpointobjects[k].y) {
+                        existing = k;
                     }
                 }
-                if (existing) { //If it already exists, push the midpoint's ID onto the list
-                    newoutputedgenodes.push(midpointobjects[k].midpointID);
+                if (existing !== -1) { //If it already exists, push the midpoint's ID onto the list
+                    newoutputedgenodes.push(midpointobjects[existing].midpointID);
                 } else { //otherwise, create a new midpoint object.
                     var newmidpointID = "m" + midpoint_counter;
-                    var newmidpointobject = {"x": alledges[i].points[j].x, "y": alledges[i].points[j].y, "midpointID": newmidpointID};
+                    var newmidpointobject = {"x": alledges[i].points[j][0], "y": alledges[i].points[j][1], "midpointID": newmidpointID};
                     midpointobjects.push(newmidpointobject); //add the new midpoint to the set
                     OF_midPoints.push(newmidpointID); //add the midpoint ID to the output field
                     newoutputedgenodes.push(newmidpointID); //add the midpoint ID to the output edge
