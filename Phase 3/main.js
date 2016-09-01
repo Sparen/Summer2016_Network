@@ -10,30 +10,40 @@
  "use strict";
 
 /* ***************************************************************************
- * void networkOptimization(string, string, number[2]), number, number,      *
- *       function, data)                                                     *
+ * void networkOptimization(string, string, object, number[2]), number,      *
+ * number, function, data)                                                   *
  * param inputfilename - name of JSON file containing input ingredients      *
  * param outputfilename - name of JSON file containing output objects        *
+ * param jsoninput - direct JSON input ingredients                           *
  * param canvas_size - 2D array containing x and y dimensions of canvas      *
  * param nodebuffer - how many units to use as a buffer between nodes        *
  * param iterationnum - how many iterations of node placement to perform     *
  * param NO_callback - function to execute after output has been saved       *
  * param NO_callbackparam - optional parameter for the callback function     *
+ *                                                                           *
+ * Note that if using a JSON file, jsoninput should be "" (empty string)     *
+ * If using direct JSON input, inputfilename should be "" (empty string)     *
  *************************************************************************** */
-function networkOptimization(inputfilename, outputfilename, canvas_size, nodebuffer, iterationnum, NO_callback, NO_callbackparam) {
+function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_size, nodebuffer, iterationnum, NO_callback, NO_callbackparam) {
     var LEFT = -1;
     var RIGHT = 1;
     var database_obj; //the JSON input
     var allquestions = []; //the output question objects (complete objects)
     var alledges = []; //the output edge objects (complete edges)
 
-    loadJSON();
+    if (jsoninput === "") { //If using an external JSON file
+        loadJSON();
+    } else { //If directly feeding the input into the program
+        database_obj = jsoninput;
+        processInput();
+    }
 
     /* ***********************************************************************
      * void loadJSON()                                                       *
      *                                                                       *
      * This function loads the input JSON file to database_obj, and then     *
      * runs processInput()                                                   *
+     * TODO: Enable direct JSON input to bypass file IO entirely             *
      *********************************************************************** */
     function loadJSON() {
         var client = new XMLHttpRequest();

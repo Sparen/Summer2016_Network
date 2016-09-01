@@ -147,16 +147,16 @@ function render(inputfilename) {
         var i;
         var j;
         for (i = 0; i < database_obj.blackedges.length; i++) {
-            
+            var tempedgeID = database_obj.blackedges[i].edgeID;
         }
         if (database_obj.blueedges !== undefined) {
             for (i = 0; i < database_obj.blueedges.length; i++) {
-            
+                var tempedgeID = database_obj.blueedges[i].edgeID;
             }
         }
         if (database_obj.rededges !== undefined) {
             for (i = 0; i < database_obj.rededges.length; i++) {
-            
+                var tempedgeID = database_obj.rededges[i].edgeID;
             }
         }
     }
