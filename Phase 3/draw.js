@@ -24,6 +24,13 @@ function render(inputfilename) {
 
     var UNIT = 24; //pixel size for a single unit
 
+    //constants used in edge drawing
+    var LEFT = -1;
+    var RIGHT = 1;
+    var UP = -2;
+    var DOWN = 2;
+    var SAME = 0;
+
     var myCanvas = {
         start: function (canvasid) {
             this.canvas = document.getElementById(canvasid);
@@ -146,18 +153,183 @@ function render(inputfilename) {
     function handleEdges() {
         var i;
         var j;
+        var k;
+
+        //first, get all edges together
+        var edges = [];
         for (i = 0; i < database_obj.blackedges.length; i++) {
-            var tempedgeID = database_obj.blackedges[i].edgeID;
+            var tempedge = database_obj.blackedges[i];
+            tempedge.color = "black";
+            edges.push(tempedge);
         }
         if (database_obj.blueedges !== undefined) {
             for (i = 0; i < database_obj.blueedges.length; i++) {
-                var tempedgeID = database_obj.blueedges[i].edgeID;
+                var tempedge = database_obj.blueedges[i];
+                tempedge.color = "blue";
+                edges.push(tempedge);
             }
         }
         if (database_obj.rededges !== undefined) {
             for (i = 0; i < database_obj.rededges.length; i++) {
-                var tempedgeID = database_obj.rededges[i].edgeID;
+                var tempedge = database_obj.rededges[i];
+                tempedge.color = "red";
+                edges.push(tempedge);
             }
+        }
+
+        //Then render them
+        for (j = 0; j < edges.length; j++) {
+            edges[j].points = [];
+            var coordlist = inputobj.edges[edges[j].edgeID]; //list of midpoints
+            for (k = 0; k < coordlist.length; k++) { //for every coordinate
+                edges[j].points.push([coordlist[0], coordlist[1]]);
+            }
+            edges[j].draw = function () { //By Alex Ahn
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "2";
+                var curveRadius = 6;
+
+                var prevPoint;
+                var currPoint = this.points[0];
+                var nextPoint = this.points[1];
+
+                // Draw the very first segment of the edge
+                ctx.moveTo(currPoint[0], currPoint[1]);
+                var LRside = leftOrRight(currPoint, nextPoint);
+                var UDside = upOrDown(currPoint, nextPoint);
+                var last;
+
+                // draw a stub line up until the arc, to left or right side
+
+                // going out right
+                if (LRside === LEFT) {
+                    ctx.lineTo(nextPoint[0] - curveRadius, nextPoint[1]);
+                    last = [nextPoint[0] - curveRadius, nextPoint[1]];
+                } else { //right
+                    ctx.lineTo(nextPoint[0] + curveRadius, nextPoint[1]);
+                    last = [nextPoint[0] + curveRadius, nextPoint[1]];
+                }
+
+                ctx.stroke();
+                
+                var arcTangentPoint;
+                var i;
+                // Draw arc first, then segment - radius
+                for (i = 1; i < this.points.length-1; i++) {
+                    prevPoint = last; // point at the end of segment just before current point
+                    currPoint = this.points[i];            
+                    nextPoint = this.points[i+1];
+
+                    var firstLRside = leftOrRight(prevPoint, currPoint);
+                    var firstUDside = upOrDown(prevPoint, currPoint);
+                    var secondLRside = leftOrRight(currPoint, nextPoint);
+                    var secondUDside = upOrDown(currPoint, nextPoint);
+
+                    /***********************************************************
+                    BUG DETECTED: there are cases where duplicate edge points are added
+                    ************************************************************/
+                    
+                    if (currPoint[0] === nextPoint[0] && currPoint[1] === nextPoint[1]) {
+                        continue;
+                    }
+
+                    if (secondLRside === SAME) {
+                        if (secondUDside === UP) {
+                            arcTangentPoint = [currPoint[0], currPoint[1]+curveRadius];
+                            nextPoint = [nextPoint[0], nextPoint[1]-curveRadius];
+                        } else {
+                            arcTangentPoint = [currPoint[0], currPoint[1]-curveRadius];
+                            nextPoint = [nextPoint[0], nextPoint[1]+curveRadius];
+                        }
+                    }
+
+                    // horizontally aligned
+                    if (secondUDside === SAME) {
+                        if (secondLRside === LEFT) {
+                            arcTangentPoint = [currPoint[0]+curveRadius, currPoint[1]];
+                            nextPoint = [nextPoint[0]-curveRadius, nextPoint[1]];
+                        } else {
+                            arcTangentPoint = [currPoint[0]-curveRadius, currPoint[1]];
+                            nextPoint = [nextPoint[0]+curveRadius, nextPoint[1]];
+                        }
+                    }
+
+                    ctx.arcTo(currPoint[0], currPoint[1], arcTangentPoint[0], arcTangentPoint[1], curveRadius);
+                    ctx.stroke();
+
+                    ctx.lineTo(nextPoint[0], nextPoint[1]);
+                    last = nextPoint;
+                }
+
+                // Draw the last segment
+                ctx.lineTo(this.points[i][0], this.points[i][1]);
+                ctx.stroke();
+
+                // Drawing an arrow at the end of the edge
+                if (this.drawtarget) {
+                    var prev_coord = this.points[this.points.length - 2];
+                    var target_coord = this.points[this.points.length - 1];
+                    var arrow_size = 4;
+                    ctx.beginPath();
+                    ctx.fillStyle = "white";
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = "1.5";
+                    ctx.moveTo(target_coord[0], target_coord[1]);
+                    if (prev_coord[1] < target_coord[1]) { //top
+                        ctx.lineTo(prev_coord[0] + arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
+                        ctx.lineTo(prev_coord[0] - arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
+                    } else { //left or right
+                        ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] + arrow_size);
+                        ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] - arrow_size);
+                    }
+                    ctx.lineTo(target_coord[0], target_coord[1]);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            }
+            edges[j].draw();
+        }
+    }
+
+    /* ***********************************************************************
+     * void leftOrRight(object, object)                                      *
+     * param currentPoint - current point in drawing code                    *
+     * param otherPoint - point to compare currentPoint to                   *
+     *                                                                       *
+     * This function returns -1 if currentPoint is to the left of otherPoint *
+     * or 1 if to the right or 0 if both share the same y coordinate.        *
+     *********************************************************************** */
+    function leftOrRight(currentPoint, otherPoint) {
+        if (currentPoint[0] === otherPoint[0]) {
+            return SAME;
+        }
+        else if (currentPoint[0] < otherPoint[0]) {
+            return LEFT;
+        }
+        else {
+            return RIGHT;
+        }
+    }
+
+    /* ***********************************************************************
+     * void upOrDown(object, object)                                         *
+     * param currentPoint - current point in drawing code                    *
+     * param otherPoint - point to compare currentPoint to                   *
+     *                                                                       *
+     * This function returns -2 if currentPoint is above otherPoint or 2 if  *
+     * below or 0 if both share the same x coordinate.                       *
+     *********************************************************************** */
+    function upOrDown(currentPoint, otherPoint) {
+        if (currentPoint[1] === otherPoint[1]) {
+            return SAME;
+        }
+        else if (currentPoint[1] < otherPoint[1]) {
+            return UP;
+        }
+        else {
+            return DOWN;
         }
     }
 }
