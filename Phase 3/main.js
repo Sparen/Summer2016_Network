@@ -10,7 +10,7 @@
  "use strict";
 
 /* ***************************************************************************
- * void networkOptimization(string, string, object, number[2]), number,      *
+ * object networkOptimization(string, string, object, number[2]), number,    *
  * number, function, data)                                                   *
  * param inputfilename - name of JSON file containing input ingredients      *
  * param outputfilename - name of JSON file containing output objects        *
@@ -23,6 +23,7 @@
  *                                                                           *
  * Note that if using a JSON file, jsoninput should be "" (empty string)     *
  * If using direct JSON input, inputfilename should be "" (empty string)     *
+ * outputfilename should be "" if it is not used                             *
  *************************************************************************** */
 function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_size, nodebuffer, iterationnum, NO_callback, NO_callbackparam) {
     var LEFT = -1;
@@ -32,18 +33,18 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     var alledges = []; //the output edge objects (complete edges)
 
     if (jsoninput === "") { //If using an external JSON file
-        loadJSON();
+        return loadJSON();
     } else { //If directly feeding the input into the program
         database_obj = jsoninput;
-        processInput();
+        return processInput();
     }
 
     /* ***********************************************************************
-     * void loadJSON()                                                       *
+     * object loadJSON()                                                     *
      *                                                                       *
      * This function loads the input JSON file to database_obj, and then     *
-     * runs processInput()                                                   *
-     * TODO: Enable direct JSON input to bypass file IO entirely             *
+     * runs processInput(). The results of processInput() are then returned  *
+     * to the main function.                                                 *
      *********************************************************************** */
     function loadJSON() {
         var client = new XMLHttpRequest();
@@ -52,7 +53,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             if (client.readyState === 4) {
                 if (client.status === 200 || client.status === 0) {
                     database_obj = JSON.parse(client.responseText);
-                    processInput();
+                    return processInput();
                 }
             }
         };
@@ -60,19 +61,20 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     }
 
     /* ***********************************************************************
-     * void processInput()                                                   *
+     * object processInput()                                                 *
      *                                                                       *
      * This function runs immediately after the input JSON has been loaded   *
      * into database_obj. It loads the appropriate data, then handles the    *
      * assignment of values to the question and edge objects.                *
      * Once this is done, coordinates are assigned by optimizeNetworkByGrid()*
-     * and JSON is output by outputJSON().                                   *
+     * and JSON is output by outputJSON(), which is returned by this         *
+     * function.                                                             *
      *********************************************************************** */
     function processInput() {
         pushAllQuestions();
         pushAllEdges();
         optimizeNetworkByGrid(0);
-        outputJSON();
+        return outputJSON();
     }
 
     /* ***********************************************************************
@@ -126,11 +128,14 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     } 
 
     /* ***********************************************************************
-     * void outputJSON()                                                     *
+     * object outputJSON()                                                   *
      *                                                                       *
      * This function takes the IDs and coordinates of the nodes and outputs  *
-     * the information as a JSON file, filename specified as a parameter to  *
-     * the wrapper function.                                                 *
+     * the information as a JSON object, saving to session storage with the  *
+     * filename specified as a parameter to the wrapper function as well as  *
+     * returning the JSON object to the function that called outputJSON.     *
+     * This function only writes to session storage if outputfilename is     *
+     * provided as a parameter to the wrapper function.                      *
      *********************************************************************** */
 
     function outputJSON() {
@@ -185,8 +190,10 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
 
         //Finally, use JSON.stringify on the entire output object and write to file/local storage for use by drawing code
         var outputJSON = JSON.stringify(outputobj);
-        sessionStorage[outputfilename] = outputJSON;
-        console.log(sessionStorage[outputfilename]); //debug
+        if (outputfilename !== "") {
+            sessionStorage[outputfilename] = outputJSON;
+            //console.log(sessionStorage[outputfilename]); //debug
+        }
         if (typeof NO_callback === "function") { //make sure it's not undefined
             NO_callback(NO_callbackparam);
         }
