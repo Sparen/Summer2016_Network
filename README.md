@@ -14,8 +14,29 @@ As for the output, the function by default returns the output JSON object, and a
 
 # Input structure
 
-TODO
+The input format is sturctured as follows:
+
+The input consists of a single object with the following fields:
+
+* questions
+* pluspoints
+* globalpoints
+* blackedges
+* blueedges (optional)
+* rededges (optional)
+
+`questions` is an array of question objects. Each question object contains the following fields:
+
+* questionID (string) - the unique ID for this question
+* type (string) - the type of this question, standard (table) or track (track)
+* rowWidth (integer) - the width of the question box, in terms of standard units
+* questionRowHeight (integer) - the height of each row in the box, in terms of standard units
+* responseRowIDs ([string]) - the unique IDs for each response for the given node
 
 # Output structure
+
+TODO
+
+# Standard Units
 
 TODO
