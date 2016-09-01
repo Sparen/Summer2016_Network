@@ -181,8 +181,10 @@ function render(inputfilename) {
         for (j = 0; j < edges.length; j++) {
             edges[j].points = [];
             var coordlist = inputobj.edges[edges[j].edgeID]; //list of midpoints
-            for (k = 0; k < coordlist.length; k++) { //for every coordinate
-                edges[j].points.push([coordlist[0], coordlist[1]]);
+            for (k = 0; k < coordlist.length; k++) { //for every midpoint
+                var nextpointID = coordlist[k];
+                var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
+                edges[j].points.push(nextpointcoords);
             }
             edges[j].draw = function () { //By Alex Ahn
                 var ctx = myCanvas.context;
