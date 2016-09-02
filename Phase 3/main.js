@@ -177,6 +177,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                     midpointobjects.push(newmidpointobject); //add the new midpoint to the set
                     OF_midPoints.push(newmidpointID); //add the midpoint ID to the output field
                     newoutputedgenodes.push(newmidpointID); //add the midpoint ID to the output edge
+                    OF_coords[newmidpointID] = [newmidpointobject.x, newmidpointobject.y];
                     midpoint_counter++;
                 }
             } 

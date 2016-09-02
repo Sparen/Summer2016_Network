@@ -198,7 +198,7 @@ function render(inputfilename) {
                 var nextPoint = this.points[1];
 
                 // Draw the very first segment of the edge
-                ctx.moveTo(currPoint[0], currPoint[1]);
+                ctx.moveTo(currPoint[0] * UNIT, currPoint[1] * UNIT);
                 var LRside = leftOrRight(currPoint, nextPoint);
                 var UDside = upOrDown(currPoint, nextPoint);
                 var last;
@@ -207,11 +207,11 @@ function render(inputfilename) {
 
                 // going out right
                 if (LRside === LEFT) {
-                    ctx.lineTo(nextPoint[0] - curveRadius, nextPoint[1]);
-                    last = [nextPoint[0] - curveRadius, nextPoint[1]];
+                    ctx.lineTo(nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT);
+                    last = [nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT];
                 } else { //right
-                    ctx.lineTo(nextPoint[0] + curveRadius, nextPoint[1]);
-                    last = [nextPoint[0] + curveRadius, nextPoint[1]];
+                    ctx.lineTo(nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT);
+                    last = [nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT];
                 }
 
                 ctx.stroke();
@@ -258,15 +258,15 @@ function render(inputfilename) {
                         }
                     }
 
-                    ctx.arcTo(currPoint[0], currPoint[1], arcTangentPoint[0], arcTangentPoint[1], curveRadius);
+                    ctx.arcTo(currPoint[0] * UNIT, currPoint[1] * UNIT, arcTangentPoint[0] * UNIT, arcTangentPoint[1] * UNIT, curveRadius);
                     ctx.stroke();
 
-                    ctx.lineTo(nextPoint[0], nextPoint[1]);
+                    ctx.lineTo(nextPoint[0] * UNIT, nextPoint[1] * UNIT);
                     last = nextPoint;
                 }
 
                 // Draw the last segment
-                ctx.lineTo(this.points[i][0], this.points[i][1]);
+                ctx.lineTo(this.points[i][0] * UNIT, this.points[i][1] * UNIT);
                 ctx.stroke();
 
                 // Drawing an arrow at the end of the edge
@@ -278,15 +278,15 @@ function render(inputfilename) {
                     ctx.fillStyle = "white";
                     ctx.strokeStyle = this.color;
                     ctx.lineWidth = "1.5";
-                    ctx.moveTo(target_coord[0], target_coord[1]);
+                    ctx.moveTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
                     if (prev_coord[1] < target_coord[1]) { //top
-                        ctx.lineTo(prev_coord[0] + arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
-                        ctx.lineTo(prev_coord[0] - arrow_size, prev_coord[1] + (target_coord[1] - prev_coord[1]) / 2);
+                        ctx.lineTo(prev_coord[0] * UNIT + arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
+                        ctx.lineTo(prev_coord[0] * UNIT - arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
                     } else { //left or right
-                        ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] + arrow_size);
-                        ctx.lineTo(prev_coord[0] + (target_coord[0] - prev_coord[0]) / 2, prev_coord[1] - arrow_size);
+                        ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT + arrow_size);
+                        ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT - arrow_size);
                     }
-                    ctx.lineTo(target_coord[0], target_coord[1]);
+                    ctx.lineTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
                     ctx.fill();
                     ctx.stroke();
                 }
