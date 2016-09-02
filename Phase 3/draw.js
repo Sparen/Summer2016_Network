@@ -208,10 +208,10 @@ function render(inputfilename) {
                 // going out right
                 if (LRside === LEFT) {
                     ctx.lineTo(nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT];
+                    last = [nextPoint[0] - curveRadius, nextPoint[1]];
                 } else { //right
                     ctx.lineTo(nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT];
+                    last = [nextPoint[0] + curveRadius, nextPoint[1]];
                 }
 
                 ctx.stroke();
