@@ -156,37 +156,37 @@ function render(inputfilename) {
         var k;
 
         //first, get all edges together
-        var edges = [];
+        var alledges = [];
         for (i = 0; i < database_obj.blackedges.length; i++) {
             var tempedge = database_obj.blackedges[i];
             tempedge.color = "black";
-            edges.push(tempedge);
+            alledges.push(tempedge);
         }
         if (database_obj.blueedges !== undefined) {
             for (i = 0; i < database_obj.blueedges.length; i++) {
                 var tempedge = database_obj.blueedges[i];
                 tempedge.color = "blue";
-                edges.push(tempedge);
+                alledges.push(tempedge);
             }
         }
         if (database_obj.rededges !== undefined) {
             for (i = 0; i < database_obj.rededges.length; i++) {
                 var tempedge = database_obj.rededges[i];
                 tempedge.color = "red";
-                edges.push(tempedge);
+                alledges.push(tempedge);
             }
         }
 
         //Then render them
-        for (j = 0; j < edges.length; j++) {
-            edges[j].points = [];
-            var coordlist = inputobj.edges[edges[j].edgeID]; //list of midpoints
+        for (j = 0; j < alledges.length; j++) {
+            alledges[j].points = []; //in terms of standard QRH units
+            var coordlist = inputobj.edges[alledges[j].edgeID]; //list of midpoints
             for (k = 0; k < coordlist.length; k++) { //for every midpoint
                 var nextpointID = coordlist[k];
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
-                edges[j].points.push(nextpointcoords);
+                alledges[j].points.push(nextpointcoords);
             }
-            edges[j].draw = function () { //By Alex Ahn
+            alledges[j].draw = function () { //By Alex Ahn
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -291,7 +291,7 @@ function render(inputfilename) {
                     ctx.stroke();
                 }
             }
-            edges[j].draw();
+            alledges[j].draw();
         }
     }
 
