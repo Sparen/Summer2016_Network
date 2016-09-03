@@ -186,7 +186,39 @@ function render(inputfilename) {
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
                 alledges[j].points.push(nextpointcoords);
             }
-            alledges[j].draw = function () { //By Alex Ahn
+            alledges[j].draw = function () { //Backup
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "2";
+                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
+                var i;
+                for (i = 1; i < this.points.length; i += 1) {
+                    ctx.lineTo(this.points[i][0] * UNIT, this.points[i][1] * UNIT);
+                }
+                ctx.stroke();
+
+                // Drawing an arrow at the end of the edge
+                var prev_coord = this.points[this.points.length - 2];
+                var target_coord = this.points[this.points.length - 1];
+                var arrow_size = 4;
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "1.5";
+                ctx.moveTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
+                if (prev_coord[1] < target_coord[1]) { //top
+                    ctx.lineTo(prev_coord[0] * UNIT + arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
+                    ctx.lineTo(prev_coord[0] * UNIT - arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
+                } else { //left or right
+                    ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT + arrow_size);
+                    ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT - arrow_size);
+                }
+                ctx.lineTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
+                ctx.fill();
+                ctx.stroke();
+            }
+            alledges[j].draw_alt = function () { //By Alex Ahn
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -289,8 +321,9 @@ function render(inputfilename) {
                 ctx.fill();
                 ctx.stroke();
             }
-            alledges[j].draw();
+            //alledges[j].draw();
         }
+        alledges[0].draw();
     }
 
     /* ***********************************************************************

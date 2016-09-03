@@ -193,7 +193,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var outputJSON = JSON.stringify(outputobj);
         if (outputfilename !== "") {
             sessionStorage[outputfilename] = outputJSON;
-            //console.log(sessionStorage[outputfilename]); //debug
+            console.log(sessionStorage[outputfilename]); //debug
         }
         if (typeof NO_callback === "function") { //make sure it's not undefined
             NO_callback(NO_callbackparam);
