@@ -321,9 +321,8 @@ function render(inputfilename) {
                 ctx.fill();
                 ctx.stroke();
             }
-            //alledges[j].draw();
+            alledges[j].draw();
         }
-        alledges[0].draw();
     }
 
     /* ***********************************************************************

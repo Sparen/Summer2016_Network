@@ -78,6 +78,22 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     }
 
     /* ***********************************************************************
+     * void updateAll()                                                      *
+     *                                                                       *
+     * This function forfefully updates all questions and edges.             *
+     *********************************************************************** */
+    function updateAll() {
+        var i;
+        for (i = 0; i < allquestions.length; i += 1) {
+            allquestions[i].update();
+        }
+        var j;
+        for (j = 0; j < alledges.length; j += 1) {
+            alledges[j].update();
+        }
+    }
+
+    /* ***********************************************************************
      * void optimizeNetworkByGrid(number)                                    *
      * param retryattemptno - number of times optimization has failed        *
      *                                                                       *
@@ -125,6 +141,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             console.log("optimizeNetworkByGrid: With iteration number " + iterationnum + ", no successful placements could be determined. Retrying - attempt number " + retryattemptno);
             optimizeNetworkByGrid(retryattemptno);
         }
+        updateAll();
     } 
 
     /* ***********************************************************************
