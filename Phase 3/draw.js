@@ -186,7 +186,7 @@ function render(inputfilename) {
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
                 alledges[j].points.push(nextpointcoords);
             }
-            alledges[j].draw = function () { //Backup
+            alledges[j].draw_alt = function () { //Backup
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -218,7 +218,7 @@ function render(inputfilename) {
                 ctx.fill();
                 ctx.stroke();
             }
-            alledges[j].draw_alt = function () { //By Alex Ahn
+            alledges[j].draw = function () { //By Alex Ahn
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -240,10 +240,10 @@ function render(inputfilename) {
                 // going out right
                 if (LRside === LEFT) {
                     ctx.lineTo(nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] - curveRadius, nextPoint[1]];
+                    last = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
                 } else { //right
                     ctx.lineTo(nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] + curveRadius, nextPoint[1]];
+                    last = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
                 }
 
                 ctx.stroke();
@@ -271,22 +271,22 @@ function render(inputfilename) {
 
                     if (secondLRside === SAME) {
                         if (secondUDside === UP) {
-                            arcTangentPoint = [currPoint[0], currPoint[1]+curveRadius];
-                            nextPoint = [nextPoint[0], nextPoint[1]-curveRadius];
+                            arcTangentPoint = [currPoint[0], currPoint[1] + curveRadius / UNIT];
+                            nextPoint = [nextPoint[0], nextPoint[1] - curveRadius / UNIT];
                         } else {
-                            arcTangentPoint = [currPoint[0], currPoint[1]-curveRadius];
-                            nextPoint = [nextPoint[0], nextPoint[1]+curveRadius];
+                            arcTangentPoint = [currPoint[0], currPoint[1] - curveRadius / UNIT];
+                            nextPoint = [nextPoint[0], nextPoint[1] + curveRadius / UNIT];
                         }
                     }
 
                     // horizontally aligned
                     if (secondUDside === SAME) {
                         if (secondLRside === LEFT) {
-                            arcTangentPoint = [currPoint[0]+curveRadius, currPoint[1]];
-                            nextPoint = [nextPoint[0]-curveRadius, nextPoint[1]];
+                            arcTangentPoint = [currPoint[0] + curveRadius / UNIT, currPoint[1]];
+                            nextPoint = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
                         } else {
-                            arcTangentPoint = [currPoint[0]-curveRadius, currPoint[1]];
-                            nextPoint = [nextPoint[0]+curveRadius, nextPoint[1]];
+                            arcTangentPoint = [currPoint[0] - curveRadius / UNIT, currPoint[1]];
+                            nextPoint = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
                         }
                     }
 
