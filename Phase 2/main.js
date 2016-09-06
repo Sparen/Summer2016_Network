@@ -328,11 +328,11 @@ function setEdgeParameters(edge) {
             /***********************************************************
             BUG DETECTED: there are cases where duplicate edge points are added
             ************************************************************/
-            
+/*            
             if (currPoint[0] === nextPoint[0] && currPoint[1] === nextPoint[1]) {
                 continue;
             }
-
+*/
 /*
             // if all aligned on the horizontal line, no arc
             if (firstUDside === SAME && secondUDside === SAME) {
@@ -549,8 +549,12 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
     numcollisions = testSegmentCollision(segment);
     if (numcollisions !== Number.MAX_VALUE) {
         curr_edge.points.push([targetstubx, sourcey]);
-        curr_edge.points.push([targetstubx, targety]);
+        if (sourcey !== targety) {
+            curr_edge.points.push([targetstubx, targety]);
+        }
+        if (targetstubx !== targetx) {
         curr_edge.points.push([targetx, targety]); //target
+        }
         return false;
     }
 
@@ -572,11 +576,36 @@ function determineEdgeMidpointsLR(curr_edge, sourcex, targetx, sourcey, targety,
         multiple += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
 
-    curr_edge.points.push([targetstubx, targety]);
-    curr_edge.points.push([targetx, targety]); //target
+    var p1 = [sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
+    var p2 = [sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety];
+    var p3 = [targetstubx, targety];
+    var p4 = [targetx, targety];
+
+    curr_edge.points.push(p1);
+    if (p1 !== p2){
+        curr_edge.points.push(p2);
+    }
+    if (p2[0] !== p3[0]) {
+        curr_edge.points.push(p3);
+    }
+    if (p3[0] !== p4[0]) {
+        curr_edge.points.push(p4); //target
+    }
+
+    // Draw midpoints
+    var mycanvas = document.getElementById('maincanvas');
+    var ctx = mycanvas.getContext("2d");
+    ctx.beginPath();
+    ctx.fillStyle = 'green';
+    ctx.arc(p1[0], p1[1], 4, 0, 2*Math.PI);
+    ctx.fill();
+/*
+    ctx.beginPath();
+    ctx.fillStyle = 'blue';
+    ctx.arc(p2[0], p2[1], 4, 0, 2*Math.PI);
+    ctx.fill();
+*/
     return mincollisions === Number.MAX_VALUE;
 }
 
@@ -623,13 +652,22 @@ function determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety
         multipleLR += 1;
     }
 
-    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
-    curr_edge.points.push([sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2]);
-    curr_edge.points.push([targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2]);
+    // parametrize midpoints and prevent redundency
+    var p1 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
+    var p2 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
+    var p3 = [targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
+    var p4 = [targetx, targetstuby];
+    var p5 = [targetx, targety];
 
-    curr_edge.points.push([targetx, targetstuby]);
-    curr_edge.points.push([targetx, targety]);
-
+//    curr_edge.points.push(p1);
+    curr_edge.points.push(p2);
+    if (p2[0] !== p3[0]) {
+        curr_edge.points.push(p3);
+    }
+    if (p3[1] !== p4[1]) {
+        curr_edge.points.push(p4);
+    }
+    curr_edge.points.push(p5);
     return mincollisions === Number.MAX_VALUE;
 }
 
