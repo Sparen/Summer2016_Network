@@ -186,7 +186,20 @@ function render(inputfilename) {
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
                 alledges[j].points.push(nextpointcoords);
             }
+            alledges[j].draw_simple = function () { //used if exactly 2 points
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "2";
+                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
+                ctx.lineTo(this.points[1][0] * UNIT, this.points[1][1] * UNIT);
+                ctx.stroke();
+            }
             alledges[j].draw_alt = function () { //Backup
+                if (this.points.length === 2) {
+                    this.draw_simple();
+                    return;
+                }
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;
@@ -219,6 +232,10 @@ function render(inputfilename) {
                 ctx.stroke();
             }
             alledges[j].draw = function () { //By Alex Ahn
+                if (this.points.length === 2) {
+                    this.draw_simple();
+                    return;
+                }
                 var ctx = myCanvas.context;
                 ctx.beginPath();
                 ctx.strokeStyle = this.color;

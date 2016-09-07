@@ -31,6 +31,8 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     var database_obj; //the JSON input
     var allquestions = []; //the output question objects (complete objects)
     var alledges = []; //the output edge objects (complete edges)
+    var allpluspoints = []; //plus point objects
+    var allglobalpoints = []; //global point objects
 
     if (jsoninput === "") { //If using an external JSON file
         return loadJSON();
@@ -71,6 +73,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
      * function.                                                             *
      *********************************************************************** */
     function processInput() {
+        initializePlusGlobal();
         pushAllQuestions();
         pushAllEdges();
         optimizeNetworkByGrid(0);
@@ -220,6 +223,22 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     }     
 
     /* ***********************************************************************
+     * void initializePlusGlobal()                                           *
+     *                                                                       *
+     * This function loads the ids of global and plus points into storage.   *
+     *********************************************************************** */
+    function initializePlusGlobal() {
+        var i;
+        var j;
+        for (i = 0; i < database_obj.pluspoints.length; i++) {
+            allpluspoints.push({"id": database_obj.pluspoints[i]});
+        }
+        for (j = 0; j < database_obj.globalpoints.length; j++) {
+            allglobalpoints.push({"id": database_obj.globalpoints[j]});
+        }
+    }
+
+    /* ***********************************************************************
      * void pushAllQuestions()                                               *
      *                                                                       *
      * This function assigns key information to each question object,        *
@@ -317,10 +336,18 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var j;
         var k;
         for (i = 0; i < alledges.length; i += 1) {
+            alledges[i].drawstate = "standard"; //draws normally (question to question)
             for (j = 0; j < allquestions.length; j += 1) {
                 //sourceObject assignment
                 if (alledges[i].source === allquestions[j].questionID) {
                     alledges[i].sourceObject = allquestions[j];
+                } else if (contains(database_obj.globalpoints, alledges[i].source)) { //source is a global point
+                    for (k = 0; k < allglobalpoints.length; k += 1) {
+                        if (allglobalpoints[k].id === alledges[i].source) {
+                            alledges[i].sourceObject = allglobalpoints[k];
+                        }
+                    }
+                    alledges[i].drawstate = "global"; //uses specialized global point drawing
                 } else {
                     for (k = 0; k < allquestions[j].responses.length; k += 1) {
                         if (alledges[i].source === allquestions[j].responses[k].nodeID) {
@@ -352,6 +379,11 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
      * This function assigns midpoints (including stubs) to a given edge     *
      *********************************************************************** */
     function updateEdge(curr_edge) {
+        if (curr_edge.drawstate === "global") {
+            drawGlobal(curr_edge);
+            return;
+        }
+
         //First, obtain values
         var sourcex = curr_edge.sourceObject.x;
         var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight / 2;
@@ -413,7 +445,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             }
             targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
             if (curr_edge.color === "blue") {
-                targetx -= curr_edge.targetObject.questionRowHeight / 4;
+                targetx -= curr_edge.targetObject.questionRowHeight / 2;
             }
             targety = curr_edge.targetObject.y;
             bad = determineEdgeMidpointsTOP(curr_edge, sourcex, targetx, sourcey, targety, sourcestub);
@@ -640,6 +672,39 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         curr_edge.points.push([targetstubx, targetstuby]);
         curr_edge.points.push([targetx, targety]); // Top Node Middle Point
     }
+
+    /* ***********************************************************************
+     * void drawGlobal(object)                                               *
+     * param curr_edge - edge object to assign midpoints to                  *
+     *                                                                       *
+     * This function handles assignment of midpoints to an edge containing a *
+     * global point                                                          *
+     *********************************************************************** */
+
+     function drawGlobal(curr_edge) {
+        var targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
+        var targety = curr_edge.targetObject.y;
+
+        //variables to hold final position of global object
+        var tempy = targety;
+
+        var i = 2; //by default, this is the minimum distance (in standard units) the point can be from the target
+        var finished = false;
+        while(!finished) {
+            //test every possible location until a good one is found
+            tempy = targety - i;
+            //create fake edge
+            var tempedge = {points: [[targetx - 0.5, tempy], [targetx + 0.5, tempy]], sourceObject: null, targetObject: null};
+            var collisions = testSegmentCollision(tempedge);
+            var tempedge2 = {points: [[targetx, tempy - 0.5], [targetx, tempy + 0.5]], sourceObject: null, targetObject: null};
+            var collisions2 = testSegmentCollision(tempedge2);
+            if (collisions === 0 && collisions2 === 0) {
+                finished = true;
+                curr_edge.points = [[targetx, tempy], [targetx, targety]];
+            }
+            i++;
+        }
+     } 
 
     /* ***********************************************************************
      * number testSegmentCollision(object)                                   *
@@ -1037,6 +1102,24 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             if (value > bound1 || value < bound2) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    /* ***********************************************************************
+     * boolean contains(array[object], object)                               *
+     * param a - array of values                                             *
+     * param obj - object to check within array                              *
+     *                                                                       *
+     * This function return true if the given object is present within the   *
+     * provided array                                                        *
+     *********************************************************************** */
+    function contains(a, obj) {
+        var i = a.length;
+        while (i--) {
+           if (a[i] === obj) {
+               return true;
+           }
         }
         return false;
     }

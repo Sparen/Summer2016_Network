@@ -166,6 +166,11 @@
             "edgeID": "e11",
             "source": "aai.aab",
             "target": "aaj"
+        },
+        {
+            "edgeID": "e12",
+            "source": "G1",
+            "target": "aaj"
         }
     ],
     "blueedges": [
