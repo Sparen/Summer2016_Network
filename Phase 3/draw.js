@@ -186,32 +186,8 @@ function render(inputfilename) {
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
                 alledges[j].points.push(nextpointcoords);
             }
-            alledges[j].draw_simple = function () { //used if exactly 2 points
+            alledges[j].draw_arrow = function () { //used if exactly 2 points
                 var ctx = myCanvas.context;
-                ctx.beginPath();
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = "2";
-                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
-                ctx.lineTo(this.points[1][0] * UNIT, this.points[1][1] * UNIT);
-                ctx.stroke();
-            }
-            alledges[j].draw_alt = function () { //Backup
-                if (this.points.length === 2) {
-                    this.draw_simple();
-                    return;
-                }
-                var ctx = myCanvas.context;
-                ctx.beginPath();
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = "2";
-                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
-                var i;
-                for (i = 1; i < this.points.length; i += 1) {
-                    ctx.lineTo(this.points[i][0] * UNIT, this.points[i][1] * UNIT);
-                }
-                ctx.stroke();
-
-                // Drawing an arrow at the end of the edge
                 var prev_coord = this.points[this.points.length - 2];
                 var target_coord = this.points[this.points.length - 1];
                 var arrow_size = 4;
@@ -230,6 +206,50 @@ function render(inputfilename) {
                 ctx.lineTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
                 ctx.fill();
                 ctx.stroke();
+            }
+            alledges[j].draw_arrow_simple = function () { //used if exactly 2 points
+                var ctx = myCanvas.context;
+                var prev_coord = this.points[0];
+                var target_coord = this.points[1];
+                var xcoord = target_coord[0];
+                var arrow_size = 4;
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "1.5";
+                ctx.moveTo(xcoord * UNIT, target_coord[1] * UNIT);
+                ctx.lineTo(xcoord * UNIT + arrow_size, target_coord[1] * UNIT - UNIT / 2);
+                ctx.lineTo(xcoord * UNIT - arrow_size, target_coord[1] * UNIT - UNIT / 2);
+                ctx.lineTo(xcoord * UNIT, target_coord[1] * UNIT);
+                ctx.fill();
+                ctx.stroke();
+            }
+            alledges[j].draw_simple = function () { //used if exactly 2 points
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "2";
+                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
+                ctx.lineTo(this.points[1][0] * UNIT, this.points[1][1] * UNIT);
+                ctx.stroke();
+                this.draw_arrow_simple();
+            }
+            alledges[j].draw_alt = function () { //Backup
+                if (this.points.length === 2) {
+                    this.draw_simple();
+                    return;
+                }
+                var ctx = myCanvas.context;
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = "2";
+                ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
+                var i;
+                for (i = 1; i < this.points.length; i += 1) {
+                    ctx.lineTo(this.points[i][0] * UNIT, this.points[i][1] * UNIT);
+                }
+                ctx.stroke();
+                this.draw_arrow();
             }
             alledges[j].draw = function () { //By Alex Ahn
                 if (this.points.length === 2) {
@@ -317,26 +337,7 @@ function render(inputfilename) {
                 // Draw the last segment
                 ctx.lineTo(this.points[i][0] * UNIT, this.points[i][1] * UNIT);
                 ctx.stroke();
-
-                // Drawing an arrow at the end of the edge
-                var prev_coord = this.points[this.points.length - 2];
-                var target_coord = this.points[this.points.length - 1];
-                var arrow_size = 4;
-                ctx.beginPath();
-                ctx.fillStyle = "white";
-                ctx.strokeStyle = this.color;
-                ctx.lineWidth = "1.5";
-                ctx.moveTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
-                if (prev_coord[1] < target_coord[1]) { //top
-                    ctx.lineTo(prev_coord[0] * UNIT + arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
-                    ctx.lineTo(prev_coord[0] * UNIT - arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 2);
-                } else { //left or right
-                    ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT + arrow_size);
-                    ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 2, prev_coord[1] * UNIT - arrow_size);
-                }
-                ctx.lineTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
-                ctx.fill();
-                ctx.stroke();
+                this.draw_arrow();
             }
             alledges[j].draw();
         }
