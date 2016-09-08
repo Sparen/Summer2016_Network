@@ -694,9 +694,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             //test every possible location until a good one is found
             tempy = targety - i;
             //create fake edge
-            var tempedge = {points: [[targetx - 0.5, tempy], [targetx + 0.5, tempy]], sourceObject: null, targetObject: null};
+            var tempedge = {points: [[targetx - 0.5, tempy], [targetx + 0.5, tempy]], sourceObject: null, targetObject: null, color: curr_edge.color};
             var collisions = testSegmentCollision(tempedge);
-            var tempedge2 = {points: [[targetx, tempy - 0.5], [targetx, tempy + 0.5]], sourceObject: null, targetObject: null};
+            var tempedge2 = {points: [[targetx, tempy - 0.5], [targetx, tempy + 0.5]], sourceObject: null, targetObject: null, color: curr_edge.color};
             var collisions2 = testSegmentCollision(tempedge2);
             if (collisions === 0 && collisions2 === 0) {
                 finished = true;
