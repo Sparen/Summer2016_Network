@@ -203,6 +203,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             } 
             OF_edges[alledges[i].edgeID] = newoutputedgenodes;
         }
+        for (i = 0; i < allglobalpoints.length; i++) {
+            OF_coords[allglobalpoints[i].id] = [allglobalpoints[i].x, allglobalpoints[i].y];
+        }
 
         //Now, add fields to the output object
         outputobj["coords"] = OF_coords;
@@ -701,6 +704,8 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             if (collisions === 0 && collisions2 === 0) {
                 finished = true;
                 curr_edge.points = [[targetx, tempy], [targetx, targety]];
+                curr_edge.sourceObject.x = targetx;
+                curr_edge.sourceObject.y = tempy;
             }
             i++;
         }
