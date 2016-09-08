@@ -603,13 +603,13 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         }
 
         // parametrize midpoints and prevent redundency
-        //var p1 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
+        var p1 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
         var p2 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
         var p3 = [targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
         var p4 = [targetx, targetstuby];
         var p5 = [targetx, targety];
 
-        // curr_edge.points.push(p1);
+        curr_edge.points.push(p1);
         curr_edge.points.push(p2);
         if (p2[0] !== p3[0]) {
             curr_edge.points.push(p3);
