@@ -740,22 +740,42 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         //variables to hold final position of plus object
         var tempx = sourcex;
 
-        var i = 2; //by default, this is the minimum distance (in standard units) the point can be from the target
+        var i = 1.5; //by default, this is the minimum distance (in standard units) the point can be from the target
         var finished = false;
         while(!finished) {
             //test every possible location until a good one is found
             tempx = sourcex + i;
             //create fake edge denoting location of plus point
             //NOTE: Do NOT use a full size block, or it'll trigger collisions against adjacent plus points.
-            var tempedge = {points: [[tempx, sourcey - 0.25], [tempx, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight, sourcey - 0.25]], sourceObject: null, targetObject: null, color: curr_edge.color};
+            var tempedge = {points: [[tempx, sourcey - 0.25], [tempx, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight / 2, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight / 2, sourcey - 0.25]], sourceObject: null, targetObject: null, color: curr_edge.color};
             var collisions = testSegmentCollision(tempedge);
+            //the actual edge to the global point must not run through nodes.
+            var longedge = {points: [[sourcex + 1.5, sourcey], [tempx, sourcey]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
+            var collisions2 = testSegmentCollision(longedge);
+            if (collisions2 === Number.MAX_VALUE) {
+                console.log(collisions2);
+                break; //failure, will have to try other methods
+            }
             if (collisions === 0) {
                 finished = true;
                 curr_edge.points = [[sourcex, sourcey], [tempx, sourcey]];
                 curr_edge.targetObject.x = tempx + curr_edge.sourceObject.questionRowHeight / 4;
                 curr_edge.targetObject.y = sourcey;
             }
-            i++;
+            i += 0.5;
+        }
+        if (!finished) { //If the edge to the plus point collided with something bad
+            //first, find an edge leading from that point, if possible.
+            var k;
+            for (k = 0; k < alledges.length; k++) {
+                if (k.sourceObject === curr_edge.sourceObject) {
+                    //try to find a suitable spot for the plus point.
+                }
+            }
+            //if failed, default.
+            curr_edge.points = [[sourcex, sourcey], [sourcex + 1.5, sourcey]];
+            curr_edge.targetObject.x = sourcex + 1.5 + curr_edge.sourceObject.questionRowHeight / 4;
+            curr_edge.targetObject.y = sourcey;
         }
     } 
 
