@@ -87,9 +87,9 @@ function render(inputfilename) {
         var key;
         var minx = Number.MAX_VALUE;
         var miny = Number.MAX_VALUE;
-        for (key in database_obj.coords) {
-            if (database_obj.coords.hasOwnProperty(key)) {
-                var tempcoord = database_obj.coords[key];
+        for (key in inputobj.coords) {
+            if (inputobj.coords.hasOwnProperty(key)) {
+                var tempcoord = inputobj.coords[key];
                 if (tempcoord[0] < minx) {
                     minx = tempcoord[0];
                 }
@@ -100,12 +100,12 @@ function render(inputfilename) {
         }
         var xoffset = Math.max(0, 1 - minx); //if the smallest x value is -1, then an offset of 2 will be provided, etc.
         var yoffset = Math.max(0, 1 - miny);
-        for (key in database_obj.coords) {
-            if (database_obj.coords.hasOwnProperty(key)) {
-                var tempcoord = database_obj.coords[key];
+        for (key in inputobj.coords) {
+            if (inputobj.coords.hasOwnProperty(key)) {
+                var tempcoord = inputobj.coords[key];
                 tempcoord[0] += xoffset;
                 tempcoord[1] += yoffset;
-                database_obj.coords[key] = tempcoord;
+                inputobj.coords[key] = tempcoord;
             }
         }
     }

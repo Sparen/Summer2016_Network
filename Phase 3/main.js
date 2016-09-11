@@ -753,7 +753,6 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             var longedge = {points: [[sourcex + 1.5, sourcey], [tempx, sourcey]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
             var collisions2 = testSegmentCollision(longedge);
             if (collisions2 === Number.MAX_VALUE) {
-                console.log(collisions2);
                 break; //failure, will have to try other methods
             }
             if (collisions === 0) {
