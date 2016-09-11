@@ -206,6 +206,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         for (i = 0; i < allglobalpoints.length; i++) {
             OF_coords[allglobalpoints[i].id] = [allglobalpoints[i].x, allglobalpoints[i].y];
         }
+        for (i = 0; i < allpluspoints.length; i++) {
+            OF_coords[allpluspoints[i].id] = [allpluspoints[i].x, allpluspoints[i].y];
+        }
 
         //Now, add fields to the output object
         outputobj["coords"] = OF_coords;
@@ -361,6 +364,13 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                 //targetObject assignment
                 if (alledges[i].target === allquestions[j].questionID) {
                     alledges[i].targetObject = allquestions[j];
+                } else if (contains(database_obj.pluspoints, alledges[i].target)) { //target is a plus point
+                    for (k = 0; k < allpluspoints.length; k += 1) {
+                        if (allpluspoints[k].id === alledges[i].target) {
+                            alledges[i].targetObject = allpluspoints[k];
+                        }
+                    }
+                    alledges[i].drawstate = "plus"; //uses specialized plus point drawing
                 } else {
                     for (k = 0; k < allquestions[j].responses.length; k += 1) {
                         if (alledges[i].target === allquestions[j].responses[k].nodeID) {
@@ -384,6 +394,10 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
     function updateEdge(curr_edge) {
         if (curr_edge.drawstate === "global") {
             drawGlobal(curr_edge);
+            return;
+        }
+        if (curr_edge.drawstate === "plus") {
+            drawPlus(curr_edge);
             return;
         }
 
@@ -684,7 +698,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
      * global point                                                          *
      *********************************************************************** */
 
-     function drawGlobal(curr_edge) {
+    function drawGlobal(curr_edge) {
         var targetx = curr_edge.targetObject.x + curr_edge.targetObject.rowWidth / 2;
         var targety = curr_edge.targetObject.y;
 
@@ -709,7 +723,41 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             }
             i++;
         }
-     } 
+    } 
+
+    /* ***********************************************************************
+     * void drawPlus(object)                                                 *
+     * param curr_edge - edge object to assign midpoints to                  *
+     *                                                                       *
+     * This function handles assignment of midpoints to an edge containing a *
+     * plus point, including the creation of the plus point object.          *
+     *********************************************************************** */
+
+    function drawPlus(curr_edge) {
+        var sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
+        var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight / 2;
+
+        //variables to hold final position of plus object
+        var tempx = sourcex;
+
+        var i = 2; //by default, this is the minimum distance (in standard units) the point can be from the target
+        var finished = false;
+        while(!finished) {
+            //test every possible location until a good one is found
+            tempx = sourcex + i;
+            //create fake edge denoting location of plus point
+            //NOTE: Do NOT use a full size block, or it'll trigger collisions against adjacent plus points.
+            var tempedge = {points: [[tempx, sourcey - 0.25], [tempx, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight, sourcey + 0.25], [tempx + curr_edge.sourceObject.questionRowHeight, sourcey - 0.25]], sourceObject: null, targetObject: null, color: curr_edge.color};
+            var collisions = testSegmentCollision(tempedge);
+            if (collisions === 0) {
+                finished = true;
+                curr_edge.points = [[sourcex, sourcey], [tempx, sourcey]];
+                curr_edge.targetObject.x = tempx + curr_edge.sourceObject.questionRowHeight / 4;
+                curr_edge.targetObject.y = sourcey;
+            }
+            i++;
+        }
+    } 
 
     /* ***********************************************************************
      * number testSegmentCollision(object)                                   *

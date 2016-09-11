@@ -75,6 +75,7 @@ function render(inputfilename) {
         coordshift();
         handleQuestions();
         handleEdges();
+        handlePlus();
     }
 
     /* ***********************************************************************
@@ -219,7 +220,7 @@ function render(inputfilename) {
                 var nextpointcoords = [inputobj.coords[nextpointID][0], inputobj.coords[nextpointID][1]];
                 alledges[j].points.push(nextpointcoords);
             }
-            alledges[j].draw_arrow = function () { //used if exactly 2 points
+            alledges[j].draw_arrow = function () {
                 var ctx = myCanvas.context;
                 var prev_coord = this.points[this.points.length - 2];
                 var target_coord = this.points[this.points.length - 1];
@@ -240,20 +241,28 @@ function render(inputfilename) {
                 ctx.fill();
                 ctx.stroke();
             }
-            alledges[j].draw_arrow_simple = function () { //used if exactly 2 points
+            alledges[j].draw_arrow_simple = function (orientation) { //used if exactly 2 points
                 var ctx = myCanvas.context;
                 var prev_coord = this.points[0];
                 var target_coord = this.points[1];
-                var xcoord = target_coord[0];
+                var xcoord = target_coord[0]; //used for vertical
+                var ycoord = target_coord[1]; //used for horizontal
                 var arrow_size = 4;
                 ctx.beginPath();
                 ctx.fillStyle = "white";
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = "1.5";
-                ctx.moveTo(xcoord * UNIT, target_coord[1] * UNIT);
-                ctx.lineTo(xcoord * UNIT + arrow_size, target_coord[1] * UNIT - UNIT / 2);
-                ctx.lineTo(xcoord * UNIT - arrow_size, target_coord[1] * UNIT - UNIT / 2);
-                ctx.lineTo(xcoord * UNIT, target_coord[1] * UNIT);
+                if (orientation === 1) {
+                    ctx.moveTo(xcoord * UNIT, target_coord[1] * UNIT);
+                    ctx.lineTo(xcoord * UNIT + arrow_size, target_coord[1] * UNIT - UNIT / 2);
+                    ctx.lineTo(xcoord * UNIT - arrow_size, target_coord[1] * UNIT - UNIT / 2);
+                    ctx.lineTo(xcoord * UNIT, target_coord[1] * UNIT);
+                } else {
+                    ctx.moveTo(target_coord[0] * UNIT, ycoord * UNIT);
+                    ctx.lineTo(target_coord[0] * UNIT - UNIT / 2, ycoord * UNIT + arrow_size);
+                    ctx.lineTo(target_coord[0] * UNIT - UNIT / 2, ycoord * UNIT - arrow_size);
+                    ctx.lineTo(target_coord[0] * UNIT, ycoord * UNIT);
+                }
                 ctx.fill();
                 ctx.stroke();
             }
@@ -265,7 +274,12 @@ function render(inputfilename) {
                 ctx.moveTo(this.points[0][0] * UNIT, this.points[0][1] * UNIT);
                 ctx.lineTo(this.points[1][0] * UNIT, this.points[1][1] * UNIT);
                 ctx.stroke();
-                this.draw_arrow_simple();
+                if (this.points[0][0] === this.points[1][0]) { //same x coordinate
+                    this.draw_arrow_simple(1);
+                }
+                if (this.points[0][1] === this.points[1][1]) { //same y coordinate
+                    this.draw_arrow_simple(2);
+                }
             }
             alledges[j].draw_alt = function () { //Backup
                 if (this.points.length === 2) {
@@ -373,6 +387,36 @@ function render(inputfilename) {
                 this.draw_arrow();
             }
             alledges[j].draw();
+        }
+    }
+
+    /* ***********************************************************************
+     * void handlePlus()                                                     *
+     *                                                                       *
+     * This function takes the input plus points and renders them using the  *
+     * coordinates from the black box JSON                                   *
+     *********************************************************************** */
+
+    function handlePlus() {
+        var i;
+        for (i = 0; i < database_obj.pluspoints.length; i++) {
+            var plusid = database_obj.pluspoints[i];
+            var pluscoord = inputobj.coords[plusid];
+
+            var ctx = myCanvas.context;
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            ctx.arc(pluscoord[0] * UNIT, pluscoord[1] * UNIT, UNIT / 4, 0, 2*Math.PI);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = "2";
+            ctx.moveTo((pluscoord[0] - 0.2) * UNIT, pluscoord[1] * UNIT);
+            ctx.lineTo((pluscoord[0] + 0.2) * UNIT, pluscoord[1] * UNIT);
+            ctx.moveTo(pluscoord[0] * UNIT, (pluscoord[1] - 0.2) * UNIT);
+            ctx.lineTo(pluscoord[0] * UNIT, (pluscoord[1] + 0.2) * UNIT);
+            ctx.stroke();
         }
     }
 

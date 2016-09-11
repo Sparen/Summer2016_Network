@@ -109,7 +109,7 @@
             ]
         }
     ],
-    "pluspoints": ["P1"],
+    "pluspoints": ["P1", "P2", "P3", "P4", "P5", "P6"],
     "globalpoints": ["G1"],
     "blackedges": [
         {
@@ -171,6 +171,36 @@
             "edgeID": "e12",
             "source": "G1",
             "target": "aaj"
+        },
+        {
+            "edgeID": "e13",
+            "source": "aaj.aaa",
+            "target": "P1"
+        },
+        {
+            "edgeID": "e14",
+            "source": "aaj.aab",
+            "target": "P2"
+        },
+        {
+            "edgeID": "e15",
+            "source": "aaf.aaa",
+            "target": "P3"
+        },
+        {
+            "edgeID": "e16",
+            "source": "aaf.aab",
+            "target": "P4"
+        },
+        {
+            "edgeID": "e17",
+            "source": "aah.aaa",
+            "target": "P5"
+        },
+        {
+            "edgeID": "e18",
+            "source": "aah.aab",
+            "target": "P6"
         }
     ],
     "blueedges": [
