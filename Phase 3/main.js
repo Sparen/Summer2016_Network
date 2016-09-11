@@ -1083,8 +1083,8 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var i;
         var offsetunit = inputQuestions[0].questionRowHeight;
         for (i = 0; i < inputQuestions.length; i += 1) {
-            inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 2) - 1);
-            inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 2) - 1);
+            //inputQuestions[i].x += offsetunit * Math.floor((Math.random() * 3) - 1);
+            inputQuestions[i].y += offsetunit * Math.floor((Math.random() * 3) - 1);
         }
     }
 
