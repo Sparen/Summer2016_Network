@@ -72,8 +72,41 @@ function render(inputfilename) {
      * rendering of the components to the canvas                             *
      *********************************************************************** */
     function processInput() {
+        coordshift();
         handleQuestions();
         handleEdges();
+    }
+
+    /* ***********************************************************************
+     * void coordshift()                                                     *
+     *                                                                       *
+     * This function shifts all coordinates so that positions < 1 are denied *
+     *********************************************************************** */
+    function coordshift() {
+        var key;
+        var minx = Number.MAX_VALUE;
+        var miny = Number.MAX_VALUE;
+        for (key in database_obj.coords) {
+            if (database_obj.coords.hasOwnProperty(key)) {
+                var tempcoord = database_obj.coords[key];
+                if (tempcoord[0] < minx) {
+                    minx = tempcoord[0];
+                }
+                if (tempcoord[1] < miny) {
+                    miny = tempcoord[1];
+                }
+            }
+        }
+        var xoffset = Math.max(0, 1 - minx); //if the smallest x value is -1, then an offset of 2 will be provided, etc.
+        var yoffset = Math.max(0, 1 - miny);
+        for (key in database_obj.coords) {
+            if (database_obj.coords.hasOwnProperty(key)) {
+                var tempcoord = database_obj.coords[key];
+                tempcoord[0] += xoffset;
+                tempcoord[1] += yoffset;
+                database_obj.coords[key] = tempcoord;
+            }
+        }
     }
 
     /* ***********************************************************************
