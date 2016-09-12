@@ -716,7 +716,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         //variables to hold final position of global object
         var tempy = targety;
 
-        var i = 2; //by default, this is the minimum distance (in standard units) the point can be from the target
+        var i = 1.5; //by default, this is the minimum distance (in standard units) the point can be from the target
         var finished = false;
         while(!finished) {
             //test every possible location until a good one is found
@@ -732,7 +732,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                 curr_edge.sourceObject.x = targetx;
                 curr_edge.sourceObject.y = tempy;
             }
-            i++;
+            i += 0.5;
         }
     } 
 
