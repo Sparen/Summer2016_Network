@@ -556,11 +556,22 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             multiple += 1;
         }
 
-        curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
-        curr_edge.points.push([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
 
-        curr_edge.points.push([targetstubx, targety]);
-        curr_edge.points.push([targetx, targety]); //target
+        var p1 = ([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
+        var p2 = ([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
+        var p3 = ([targetstubx, targety]);
+        var p4 = ([targetx, targety]);
+
+        curr_edge.points.push(p1);
+        if (p1[0] !== p2[0]) {
+            curr_edge.points.push(p2);
+        }
+        if (p2[1] !== p3[1]) {
+            curr_edge.points.push(p3);
+        }
+        if (p3[1] !== p4[1]) {
+            curr_edge.points.push(p4); //target
+        }
         return mincollisions === Number.MAX_VALUE;
     }
 
