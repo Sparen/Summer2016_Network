@@ -345,14 +345,6 @@ function render(inputfilename) {
                     var secondLRside = leftOrRight(currPoint, nextPoint);
                     var secondUDside = upOrDown(currPoint, nextPoint);
 
-                    /***********************************************************
-                    BUG DETECTED: there are cases where duplicate edge points are added
-                    ************************************************************/
-                    
-                    if (currPoint[0] === nextPoint[0] && currPoint[1] === nextPoint[1]) {
-                        continue;
-                    }
-
                     if (secondLRside === SAME) {
                         if (secondUDside === UP) {
                             arcTangentPoint = [currPoint[0], currPoint[1] + curveRadius / UNIT];
@@ -375,9 +367,6 @@ function render(inputfilename) {
                     }
 
                     ctx.arcTo(currPoint[0] * UNIT, currPoint[1] * UNIT, arcTangentPoint[0] * UNIT, arcTangentPoint[1] * UNIT, curveRadius);
-                    ctx.stroke();
-
-                    ctx.lineTo(nextPoint[0] * UNIT, nextPoint[1] * UNIT);
                     last = nextPoint;
                 }
 
