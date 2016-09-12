@@ -54,3 +54,11 @@ The output structure is, similarly to the input, a single object with the follow
 # Standard Units
 
 TODO
+
+# Description of Algorithm
+
+TODO
+
+# Notes on Positioning of Plus and Global Points
+
+TODO
