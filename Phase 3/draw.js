@@ -154,6 +154,12 @@ function render(inputparam) {
                 for (n = 0; n < this.responses.length; n += 1) {
                     this.responses[n].draw();
                 }
+
+                ctx.font = "" + UNIT / 2 + "px Monospace";
+                ctx.textAlign = "center"; 
+                ctx.textBaseline = "middle"; 
+                ctx.fillStyle = "#33AAFF";
+                ctx.fillText(this.questionID, this.x + (this.rowWidth / 2) * UNIT, this.y + (this.questionRowHeight / 2) * UNIT);
             };
 
             newquestion.draw(); //actually draw
@@ -175,6 +181,12 @@ function render(inputparam) {
                 ctx.rect(this.x, this.y, this.rowWidth * UNIT, this.questionRowHeight * UNIT);
                 ctx.fill(); //draw rectangle inside
                 ctx.stroke(); //draw rectangle border
+
+                ctx.font = "" + UNIT / 2 + "px Monospace";
+                ctx.textAlign = "center"; 
+                ctx.textBaseline = "middle"; 
+                ctx.fillStyle = "#33AAFF";
+                ctx.fillText(this.nodeID, this.x + (this.rowWidth / 2) * UNIT, this.y + (this.questionRowHeight / 2) * UNIT);
             };
         }
     }
