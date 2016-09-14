@@ -1,0 +1,78 @@
+{
+    "questions": [
+        {
+            "questionID": "aaa",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaa.aaa",
+                "aaa.aab"
+            ]
+        },
+        {
+            "questionID": "aab",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aab.aaa",
+                "aab.aab",
+                "aab.aac",
+                "aab.aad"
+            ]
+        },
+        {
+            "questionID": "aac",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aac.aaa",
+                "aac.aab",
+                "aac.aac"
+            ]
+        }
+    ],
+    "pluspoints": ["P1", "P2", "P3", "P4"],
+    "globalpoints": ["G1"],
+    "blackedges": [
+        {
+            "edgeID": "e1",
+            "source": "G1",
+            "target": "aaa"
+        },
+        {
+            "edgeID": "e2",
+            "source": "aaa.aaa",
+            "target": "aab"
+        },
+        {
+            "edgeID": "e3",
+            "source": "aaa.aab",
+            "target": "aac"
+        },
+        {
+            "edgeID": "e4",
+            "source": "aab.aaa",
+            "target": "P1"
+        },
+        {
+            "edgeID": "e5",
+            "source": "aab.aab",
+            "target": "P2"
+        },
+        {
+            "edgeID": "e6",
+            "source": "aab.aac",
+            "target": "P3"
+        },
+        {
+            "edgeID": "e7",
+            "source": "aab.aad",
+            "target": "P4"
+        }
+    ],
+    "blueedges": [
+    ]
+}
