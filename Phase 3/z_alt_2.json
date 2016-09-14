@@ -1,0 +1,226 @@
+{
+    "questions": [
+        {
+            "questionID": "aaa",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaa.aaa",
+                "aaa.aab"
+            ]
+        },
+        {
+            "questionID": "aab",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aab.aaa",
+                "aab.aab",
+                "aab.aac",
+                "aab.aad"
+            ]
+        },
+        {
+            "questionID": "aac",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aac.aaa",
+                "aac.aab",
+                "aac.aac"
+            ]
+        },
+        {
+            "questionID": "aad",
+            "type": "table",
+            "rowWidth": 8,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aad.aaa",
+                "aad.aab",
+                "aad.aac"
+            ]
+        },
+        {
+            "questionID": "aae",
+            "type": "table",
+            "rowWidth": 6,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aae.aaa",
+                "aae.aab"
+            ]
+        },
+        {
+            "questionID": "aaf",
+            "type": "table",
+            "rowWidth": 6,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaf.aaa",
+                "aaf.aab",
+                "aaf.aac",
+                "aaf.aad",
+                "aaf.aae",
+                "aaf.aaf"
+            ]
+        },
+        {
+            "questionID": "aag",
+            "type": "table",
+            "rowWidth": 4,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aag.aaa",
+                "aag.aab",
+                "aag.aac",
+                "aag.aad"
+            ]
+        },
+        {
+            "questionID": "aah",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aah.aaa",
+                "aah.aab",
+                "aah.aac",
+                "aah.aad",
+                "aah.aae"
+            ]
+        },
+        {
+            "questionID": "aai",
+            "type": "table",
+            "rowWidth": 12,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aai.aaa",
+                "aai.aab",
+                "aai.aac",
+                "aai.aad"
+            ]
+        },
+        {
+            "questionID": "aaj",
+            "type": "table",
+            "rowWidth": 3,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aaj.aaa",
+                "aaj.aab"
+            ]
+        },
+        {
+            "questionID": "aak",
+            "type": "table",
+            "rowWidth": 4,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aak.aaa",
+                "aak.aab",
+                "aak.aac"
+            ]
+        },
+        {
+            "questionID": "aal",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aal.aaa",
+                "aal.aab",
+                "aal.aac",
+                "aal.aad",
+                "aal.aae",
+                "aal.aaf"
+            ]
+        },
+        {
+            "questionID": "aam",
+            "type": "table",
+            "rowWidth": 5,
+            "questionRowHeight": 1,
+            "responseRowIDs": [
+                "aam.aaa",
+                "aam.aab",
+                "aam.aac"
+            ]
+        }
+    ],
+    "pluspoints": [],
+    "globalpoints": ["G1"],
+    "blackedges": [
+        {
+            "edgeID": "e1",
+            "source": "G1",
+            "target": "aaa"
+        },
+        {
+            "edgeID": "e2",
+            "source": "aaa.aaa",
+            "target": "aab"
+        },
+        {
+            "edgeID": "e3",
+            "source": "aaa.aab",
+            "target": "aac"
+        },
+        {
+            "edgeID": "e4",
+            "source": "aaa.aaa",
+            "target": "aad"
+        },
+        {
+            "edgeID": "e5",
+            "source": "aaa.aab",
+            "target": "aae"
+        },
+        {
+            "edgeID": "e6",
+            "source": "aaa.aaa",
+            "target": "aaf"
+        },
+        {
+            "edgeID": "e7",
+            "source": "aaa.aab",
+            "target": "aag"
+        },
+        {
+            "edgeID": "e8",
+            "source": "aaa.aaa",
+            "target": "aah"
+        },
+        {
+            "edgeID": "e9",
+            "source": "aaa.aab",
+            "target": "aai"
+        },
+        {
+            "edgeID": "10",
+            "source": "aaa.aaa",
+            "target": "aaj"
+        },
+        {
+            "edgeID": "e11",
+            "source": "aaa.aab",
+            "target": "aak"
+        },
+        {
+            "edgeID": "e12",
+            "source": "aaa.aaa",
+            "target": "aal"
+        },
+        {
+            "edgeID": "e13",
+            "source": "aaa.aab",
+            "target": "aam"
+        }
+    ],
+    "blueedges": [
+    ]
+}
