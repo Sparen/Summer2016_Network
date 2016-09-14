@@ -3,7 +3,7 @@
         {
             "questionID": "aaa",
             "type": "table",
-            "rowWidth": 3,
+            "rowWidth": 4,
             "questionRowHeight": 1,
             "responseRowIDs": [
                 "aaa.aaa",
@@ -109,7 +109,7 @@
             ]
         }
     ],
-    "pluspoints": ["P1", "P2", "P3", "P4", "P5", "P6"],
+    "pluspoints": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"],
     "globalpoints": ["G1"],
     "blackedges": [
         {
@@ -201,6 +201,26 @@
             "edgeID": "e18",
             "source": "aah.aab",
             "target": "P6"
+        },
+        {
+            "edgeID": "e19",
+            "source": "aaa.aaa",
+            "target": "P7"
+        },
+        {
+            "edgeID": "e20",
+            "source": "aaa.aab",
+            "target": "P8"
+        },
+        {
+            "edgeID": "e21",
+            "source": "aae.aae",
+            "target": "P9"
+        },
+        {
+            "edgeID": "e22",
+            "source": "aae.aaf",
+            "target": "P10"
         }
     ],
     "blueedges": [

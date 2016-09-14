@@ -145,7 +145,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             optimizeNetworkByGrid(retryattemptno);
         }
         updateAll();
-    } 
+    }
 
     /* ***********************************************************************
      * object outputJSON()                                                   *
@@ -200,7 +200,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                     OF_coords[newmidpointID] = [newmidpointobject.x, newmidpointobject.y];
                     midpoint_counter++;
                 }
-            } 
+            }
             OF_edges[alledges[i].edgeID] = newoutputedgenodes;
         }
         for (i = 0; i < allglobalpoints.length; i++) {
@@ -226,7 +226,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         }
 
         return outputobj;
-    }     
+    }
 
     /* ***********************************************************************
      * void initializePlusGlobal()                                           *
@@ -487,7 +487,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             targetx = curr_edge.targetObject.x;
             targety = curr_edge.targetObject.y;
             // add new midpoints that goes around the node here
-            resetEdgeToLoop(curr_edge, sourcex, sourcey, targetx, targety, sourcestub);       
+            resetEdgeToLoop(curr_edge, sourcex, sourcey, targetx, targety, sourcestub);
         }
     }
 
@@ -687,11 +687,11 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         if (curr_edge.color === "blue") {
             targetx -= curr_edge.targetObject.questionRowHeight;
         }
-        var targetstubx = targetx + curr_edge.targetObject.rowWidth/2;
+        var targetstubx = targetx + curr_edge.targetObject.rowWidth / 2;
         var targetstuby = targety - stublength;
 
         // Make target point to be top mid points
-        targetx += curr_edge.targetObject.rowWidth/2;
+        targetx += curr_edge.targetObject.rowWidth / 2;
 
         // Renew the points of the edge
         curr_edge.points = [];
@@ -699,7 +699,8 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
 
         // Add looping-midpoints
-        var m1x = 0, m1y = 0;
+        var m1x = 0;
+        var m1y = 0;
 
         // Go straight down from sourcestub until targetstuby + c
         m1x = sourcestubx;
@@ -728,7 +729,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
 
         var i = 1.5; //by default, this is the minimum distance (in standard units) the point can be from the target
         var finished = false;
-        while(!finished) {
+        while (!finished) {
             //test every possible location until a good one is found
             tempy = targety - i;
             //create fake edge
@@ -744,7 +745,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             }
             i += 0.5;
         }
-    } 
+    }
 
     /* ***********************************************************************
      * void drawPlus(object)                                                 *
@@ -758,12 +759,14 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var sourcex = curr_edge.sourceObject.x + curr_edge.sourceObject.rowWidth;
         var sourcey = curr_edge.sourceObject.y + curr_edge.sourceObject.questionRowHeight / 2;
 
+        var mindist = 1.5;
+
         //variables to hold final position of plus object
         var tempx = sourcex;
 
-        var i = 1.5; //by default, this is the minimum distance (in standard units) the point can be from the target
+        var i = mindist; //by default, this is the minimum distance (in standard units) the point can be from the target
         var finished = false;
-        while(!finished) {
+        while (!finished) {
             //test every possible location until a good one is found
             tempx = sourcex + i;
             //create fake edge denoting location of plus point
@@ -781,6 +784,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                 curr_edge.points = [[sourcex, sourcey], [tempx, sourcey]];
                 curr_edge.targetObject.x = tempx + curr_edge.sourceObject.questionRowHeight / 4;
                 curr_edge.targetObject.y = sourcey;
+                return;
             }
             i += 0.5;
         }
@@ -788,8 +792,119 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             //first, find an edge leading from that point, if possible.
             var k;
             for (k = 0; k < alledges.length; k++) {
-                if (k.sourceObject === curr_edge.sourceObject) {
+                if (alledges[k].sourceObject === curr_edge.sourceObject) {
                     //try to find a suitable spot for the plus point.
+                    var baseedge = alledges[k];
+                    if (baseedge.points === undefined) {continue;} //for those weird situations.
+                    var pt;
+                    for (pt = 1; pt < baseedge.points.length - 3; pt++) { //cannot use stubs, so starts at 1 and uses -3 instead of -2. 
+                        var temppoint1 = baseedge.points[pt];
+                        var temppoint2 = baseedge.points[pt + 1];
+                        var orientation = "V"; //default vertical
+                        if (temppoint1[1] === temppoint2[1]) {
+                            orientation = "H"; //horizontal
+                        }
+                        var seglen = (temppoint2[0] - temppoint1[0]) + (temppoint2[1] - temppoint1[1]);
+                        var slctr; //must test both ends of the segments as well.
+
+                        //The following code works as follows: For each unit on a given edge, it will, based on whether the edge is horizontal or vertical,
+                        //offset one unit to the left/top and right/bottom of the point. It will test for plus point placement here.
+                        for (slctr = 0; slctr <= seglen; slctr += 0.5) { //for all possible places you can shove a plus point directly off the edge
+                            if (orientation === "H") { //Horizontal edge
+                                var newpoint1 = [temppoint1[0] + slctr, temppoint1[1]]; //point on edge to sprout from
+                                var newpoint2 = [temppoint1[0] + slctr, temppoint1[1] - mindist]; //test point 1
+                                var newpoint3 = [temppoint1[0] + slctr, temppoint1[1] + mindist]; //test point 2
+                                var testbox = {points: [[newpoint2[0] - 0.25, newpoint2[1]], [newpoint2[0] + 0.25, newpoint2[1]], [newpoint2[0] + 0.25, newpoint2[1] + curr_edge.sourceObject.questionRowHeight / 2], [newpoint2[0] - 0.25, newpoint2[1] + curr_edge.sourceObject.questionRowHeight / 2]], sourceObject: null, targetObject: null, color: curr_edge.color};
+                                var boxcollisions = testSegmentCollision(testbox);
+                                //the actual edge to the plus point must not run through nodes.
+                                var longedge = {points: [[newpoint1[0], newpoint1[1]], [newpoint2[0], newpoint2[1]]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
+                                var collisions2 = testSegmentCollision(longedge);
+                                if (collisions2 !== Number.MAX_VALUE && boxcollisions === 0) {
+                                    finished = true;
+                                    //first, add points on edge
+                                    curr_edge.points = [];
+                                    var m;
+                                    for (m = 0; m <= pt; m++) { //push all points on the edge so far
+                                        curr_edge.points.push(baseedge.points[m]);
+                                    }
+                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                        curr_edge.points.push(newpoint1);
+                                    }
+                                    curr_edge.points.push(newpoint2);
+                                    curr_edge.targetObject.x = newpoint2[0];
+                                    curr_edge.targetObject.y = newpoint2[1] - curr_edge.sourceObject.questionRowHeight / 4;
+                                    return;
+                                }
+                                testbox = {points: [[newpoint3[0] - 0.25, newpoint3[1]], [newpoint3[0] + 0.25, newpoint3[1]], [newpoint3[0] + 0.25, newpoint3[1] + curr_edge.sourceObject.questionRowHeight / 2], [newpoint2[0] - 0.25, newpoint2[1] + curr_edge.sourceObject.questionRowHeight / 2]], sourceObject: null, targetObject: null, color: curr_edge.color};
+                                boxcollisions = testSegmentCollision(testbox);
+                                //the actual edge to the plus point must not run through nodes.
+                                longedge = {points: [[newpoint1[0], newpoint1[1]], [newpoint3[0], newpoint3[1]]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
+                                var collisions3 = testSegmentCollision(longedge);
+                                if (collisions3 !== Number.MAX_VALUE && boxcollisions === 0) {
+                                    finished = true;
+                                    //first, add points on edge
+                                    curr_edge.points = [];
+                                    var m;
+                                    for (m = 0; m <= pt; m++) { //push all points on the edge so far
+                                        curr_edge.points.push(baseedge.points[m]);
+                                    }
+                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                        curr_edge.points.push(newpoint1);
+                                    }
+                                    curr_edge.points.push(newpoint3);
+                                    curr_edge.targetObject.x = newpoint3[0];
+                                    curr_edge.targetObject.y = newpoint3[1] + curr_edge.sourceObject.questionRowHeight / 4;
+                                    return;
+                                }
+                            } else if (orientation === "V") { //Vertical edge
+                                var newpoint1 = [temppoint1[0], temppoint1[1] + slctr]; //point on edge to sprout from
+                                var newpoint2 = [temppoint1[0] - mindist, temppoint1[1] + slctr]; //test point 1
+                                var newpoint3 = [temppoint1[0] + mindist, temppoint1[1] + slctr]; //test point 2
+                                var testbox = {points: [[newpoint2[0], newpoint2[1] - 0.25], [newpoint2[0], newpoint2[1] + 0.25], [newpoint2[0] + curr_edge.sourceObject.questionRowHeight / 2, newpoint2[1] + 0.25], [newpoint2[0] + curr_edge.sourceObject.questionRowHeight / 2, newpoint2[1] - 0.25]], sourceObject: null, targetObject: null, color: curr_edge.color};
+                                var boxcollisions = testSegmentCollision(testbox);
+                                //the actual edge to the plus point must not run through nodes.
+                                var longedge = {points: [[newpoint1[0], newpoint1[1]], [newpoint2[0], newpoint2[1]]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
+                                var collisions2 = testSegmentCollision(longedge);
+                                if (collisions2 !== Number.MAX_VALUE && boxcollisions === 0) {
+                                    finished = true;
+                                    //first, add points on edge
+                                    curr_edge.points = [];
+                                    var m;
+                                    for (m = 0; m <= pt; m++) { //push all points on the edge so far
+                                        curr_edge.points.push(baseedge.points[m]);
+                                    }
+                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                        curr_edge.points.push(newpoint1);
+                                    }
+                                    curr_edge.points.push(newpoint2);
+                                    curr_edge.targetObject.x = newpoint2[0] - curr_edge.sourceObject.questionRowHeight / 4;
+                                    curr_edge.targetObject.y = newpoint2[1];
+                                    return;
+                                }
+                                testbox = {points: [[newpoint3[0], newpoint3[1] - 0.25], [newpoint3[0], newpoint3[1] + 0.25], [newpoint3[0] + curr_edge.sourceObject.questionRowHeight / 2, newpoint3[1] + 0.25], [newpoint3[0] + curr_edge.sourceObject.questionRowHeight / 2, newpoint3[1] - 0.25]], sourceObject: null, targetObject: null, color: curr_edge.color};
+                                boxcollisions = testSegmentCollision(testbox);
+                                //the actual edge to the plus point must not run through nodes.
+                                longedge = {points: [[newpoint1[0], newpoint1[1]], [newpoint3[0], newpoint3[1]]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
+                                var collisions3 = testSegmentCollision(longedge);
+                                if (collisions3 !== Number.MAX_VALUE && boxcollisions === 0) {
+                                    finished = true;
+                                    //first, add points on edge
+                                    curr_edge.points = [];
+                                    var m;
+                                    for (m = 0; m < pt; m++) { //push all points on the edge so far
+                                        curr_edge.points.push(baseedge.points[m]);
+                                    }
+                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                        curr_edge.points.push(newpoint1);
+                                    }
+                                    curr_edge.points.push(newpoint3);
+                                    curr_edge.targetObject.x = newpoint3[0] + curr_edge.sourceObject.questionRowHeight / 4;
+                                    curr_edge.targetObject.y = newpoint3[1];
+                                    return;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             //if failed, default.
