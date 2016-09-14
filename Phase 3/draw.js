@@ -335,10 +335,10 @@ function render(inputfilename) {
                 var arcTangentPoint;
                 var i;
                 // Draw arc first, then segment - radius
-                for (i = 1; i < this.points.length-1; i++) {
+                for (i = 1; i < this.points.length - 1; i++) {
                     prevPoint = last; // point at the end of segment just before current point
                     currPoint = this.points[i];            
-                    nextPoint = this.points[i+1];
+                    nextPoint = this.points[i + 1];
 
                     var firstLRside = leftOrRight(prevPoint, currPoint);
                     var firstUDside = upOrDown(prevPoint, currPoint);

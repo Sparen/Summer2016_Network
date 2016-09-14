@@ -675,7 +675,6 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var currentMinCollision = testSegmentCollision(curr_edge);
         var stublength = curr_edge.sourceObject.questionRowHeight;
 
-
         var sourcestubx;
         // Get left and right stub
         if (sourcestub === -1) {
@@ -693,10 +692,12 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         // Make target point to be top mid points
         targetx += curr_edge.targetObject.rowWidth / 2;
 
-        // Renew the points of the edge
+        var p0 = [sourcex, sourcey];
+        var p1 = [sourcestubx, sourcey];
+
         curr_edge.points = [];
-        curr_edge.points.push([sourcex, sourcey]); //source
-        curr_edge.points.push([sourcestubx, sourcestuby]); //source stub
+        curr_edge.points.push(p0); //source
+        curr_edge.points.push(p1); //source stub
 
         // Add looping-midpoints
         var m1x = 0;
@@ -706,9 +707,12 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         m1x = sourcestubx;
         m1y = targetstuby;
         var m1 = [m1x, m1y];
-        curr_edge.points.push(m1);
-        
-        curr_edge.points.push([targetstubx, targetstuby]);
+        if (p1[0] !== m1x || p1[1] !== m1y) {
+            curr_edge.points.push(m1);
+        }
+        if (targetstubx !== m1x || targetstuby !== m1y) {
+            curr_edge.points.push([targetstubx, targetstuby]);
+        }
         curr_edge.points.push([targetx, targety]); // Top Node Middle Point
     }
 
@@ -907,6 +911,10 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                     }
                 }
             }
+        }
+        if (!finished) {
+            /* TODO: POTENTIAL LEFT DIRECTION OPTION */
+
             //if failed, default.
             curr_edge.points = [[sourcex, sourcey], [sourcex + 1.5, sourcey]];
             curr_edge.targetObject.x = sourcex + 1.5 + curr_edge.sourceObject.questionRowHeight / 4;
