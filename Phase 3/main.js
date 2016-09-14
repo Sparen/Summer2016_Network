@@ -520,9 +520,12 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         
         targetstubx = targetx - stublength;
 
+        var p0 = [sourcex, sourcey];
+        var p1 = [sourcestubx, sourcey];
+
         curr_edge.points = [];
-        curr_edge.points.push([sourcex, sourcey]); //source
-        curr_edge.points.push([sourcestubx, sourcey]); //source stub
+        curr_edge.points.push(p0); //source
+        curr_edge.points.push(p1); //source stub
 
         var testx;
         var segment;
@@ -556,22 +559,22 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             multiple += 1;
         }
 
+        var p2 = [sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
+        var p3 = [sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety];
+        var p4 = [targetstubx, targety];
+        var p5 = [targetx, targety];
 
-        var p1 = ([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey]);
-        var p2 = ([sourcestubx + bestmultiple * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targety]);
-        var p3 = ([targetstubx, targety]);
-        var p4 = ([targetx, targety]);
-
-        curr_edge.points.push(p1);
-        if (p1[0] !== p2[0]) {
+        if (p1[0] !== p2[0] || p1[1] !== p2[1]) {
             curr_edge.points.push(p2);
         }
-        if (p2[1] !== p3[1]) {
+        if (p2[0] !== p3[0] || p2[1] !== p3[1]) {
             curr_edge.points.push(p3);
         }
-        if (p3[1] !== p4[1]) {
-            curr_edge.points.push(p4); //target
+        if (p3[0] !== p4[0] || p3[1] !== p4[1]) {
+            curr_edge.points.push(p4);
         }
+        curr_edge.points.push(p5);
+
         return mincollisions === Number.MAX_VALUE;
     }
 
@@ -602,9 +605,12 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         }
         targetstuby = targety - curr_edge.targetObject.questionRowHeight;
 
+        var p0 = [sourcex, sourcey];
+        var p1 = [sourcestubx, sourcey];
+
         curr_edge.points = [];
-        curr_edge.points.push([sourcex, sourcey]); //source
-        curr_edge.points.push([sourcestubx, sourcey]); //source stub
+        curr_edge.points.push(p0); //source
+        curr_edge.points.push(p1); //source stub
 
         //First see if you can go straight down with no problems
         //TODO
@@ -631,21 +637,25 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         }
 
         // parametrize midpoints and prevent redundency
-        var p1 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
-        var p2 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
-        var p3 = [targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
-        var p4 = [targetx, targetstuby];
-        var p5 = [targetx, targety];
+        var p2 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, sourcey];
+        var p3 = [sourcestubx + bestmultipleLR * sourcestub * curr_edge.sourceObject.questionRowHeight / 2, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
+        var p4 = [targetx, targetstuby - bestmultipleTOP * curr_edge.targetObject.questionRowHeight / 2];
+        var p5 = [targetx, targetstuby];
+        var p6 = [targetx, targety];
 
-        curr_edge.points.push(p1);
-        curr_edge.points.push(p2);
-        if (p2[0] !== p3[0]) {
+        if (p1[0] !== p2[0] || p1[1] !== p2[1]) {
+            curr_edge.points.push(p2);
+        }
+        if (p2[0] !== p3[0] || p2[1] !== p3[1]) {
             curr_edge.points.push(p3);
         }
-        if (p3[1] !== p4[1]) {
+        if (p3[0] !== p4[0] || p3[1] !== p4[1]) {
             curr_edge.points.push(p4);
         }
-        curr_edge.points.push(p5);
+        if (p4[0] !== p5[0] || p4[1] !== p5[1]) {
+            curr_edge.points.push(p5);
+        }
+        curr_edge.points.push(p6);
         return mincollisions === Number.MAX_VALUE;
     }
 
