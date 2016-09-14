@@ -13,10 +13,12 @@
  "use strict";
 
 /* ***************************************************************************
- * void render(string)                                                       *
- * param inputfilename - name of JSON file containing output ingredients     *
+ * void render([string])                                                     *
+ * param inputparam - input parameters                                       *
  *************************************************************************** */
-function render(inputfilename) {
+function render(inputparam) {
+    var inputfilename = inputparam[0]; //name of JSON file containing output ingredients
+    var databasefilename = inputparam[1]; //name of JSON file containing input ingredients
     console.log("Beginning rendering onto canvas - input from " + inputfilename);
     var inputobj = JSON.parse(sessionStorage[inputfilename]);
 
@@ -52,7 +54,7 @@ function render(inputfilename) {
      *********************************************************************** */
     function loadJSON() {
         var client = new XMLHttpRequest();
-        client.open("GET", "survey.json", true);
+        client.open("GET", databasefilename, true);
         client.onreadystatechange = function () { //callback
             if (client.readyState === 4) {
                 if (client.status === 200 || client.status === 0) {
