@@ -564,13 +564,13 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var p4 = [targetstubx, targety];
         var p5 = [targetx, targety];
 
-        if (p1[0] !== p2[0] || p1[1] !== p2[1]) {
+        if (!(p1[0] == p2[0] && p1[1] == p2[1])) {
             curr_edge.points.push(p2);
         }
-        if (p2[0] !== p3[0] || p2[1] !== p3[1]) {
+        if (!(p2[0] == p3[0] && p2[1] == p3[1])) {
             curr_edge.points.push(p3);
         }
-        if (p3[0] !== p4[0] || p3[1] !== p4[1]) {
+        if (!(p3[0] == p4[0] && p3[1] == p4[1])) {
             curr_edge.points.push(p4);
         }
         curr_edge.points.push(p5);
@@ -643,16 +643,16 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         var p5 = [targetx, targetstuby];
         var p6 = [targetx, targety];
 
-        if (p1[0] !== p2[0] || p1[1] !== p2[1]) {
+        if (!(p1[0] == p2[0] && p1[1] == p2[1])) {
             curr_edge.points.push(p2);
         }
-        if (p2[0] !== p3[0] || p2[1] !== p3[1]) {
+        if (!(p2[0] == p3[0] && p2[1] == p3[1])) {
             curr_edge.points.push(p3);
         }
-        if (p3[0] !== p4[0] || p3[1] !== p4[1]) {
+        if (!(p3[0] == p4[0] && p3[1] == p4[1])) {
             curr_edge.points.push(p4);
         }
-        if (p4[0] !== p5[0] || p4[1] !== p5[1]) {
+        if (!(p4[0] == p5[0] && p4[1] == p5[1])) {
             curr_edge.points.push(p5);
         }
         curr_edge.points.push(p6);
@@ -707,10 +707,10 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         m1x = sourcestubx;
         m1y = targetstuby;
         var m1 = [m1x, m1y];
-        if (p1[0] !== m1x || p1[1] !== m1y) {
+        if (!(p1[0] == m1x && p1[1] == m1y)) {
             curr_edge.points.push(m1);
         }
-        if (targetstubx !== m1x || targetstuby !== m1y) {
+        if (!(targetstubx == m1x && targetstuby == m1y)) {
             curr_edge.points.push([targetstubx, targetstuby]);
         }
         curr_edge.points.push([targetx, targety]); // Top Node Middle Point
