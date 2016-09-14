@@ -535,7 +535,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
         segment = {points: [[sourcestubx, sourcey], [targetstubx, sourcey], [targetstubx, targety]], sourceObject: curr_edge.sourceObject, targetObject: curr_edge.targetObject, color: curr_edge.color};
         numcollisions = testSegmentCollision(segment);
         if (numcollisions !== Number.MAX_VALUE) {
-            curr_edge.points.push([targetstubx, sourcey]);
+            if (targetstubx != sourcestubx) {
+                curr_edge.points.push([targetstubx, sourcey]);
+            }
             curr_edge.points.push([targetstubx, targety]);
             curr_edge.points.push([targetx, targety]); //target
             return false;
