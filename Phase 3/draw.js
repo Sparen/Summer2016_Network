@@ -331,26 +331,23 @@ function render(inputparam) {
                 ctx.moveTo(currPoint[0] * UNIT, currPoint[1] * UNIT);
                 var LRside = leftOrRight(currPoint, nextPoint);
                 var UDside = upOrDown(currPoint, nextPoint);
-                var last;
 
                 // draw a stub line up until the arc, to left or right side
 
                 // going out right
                 if (LRside === LEFT) {
                     ctx.lineTo(nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
+                    prevPoint = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
                 } else { //right
                     ctx.lineTo(nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT);
-                    last = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
+                    prevPoint = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
                 }
-
                 ctx.stroke();
-                
+
                 var arcTangentPoint;
                 var i;
                 // Draw arc first, then segment - radius
                 for (i = 1; i < this.points.length - 1; i++) {
-                    prevPoint = last; // point at the end of segment just before current point
                     currPoint = this.points[i];            
                     nextPoint = this.points[i + 1];
 
@@ -359,29 +356,45 @@ function render(inputparam) {
                     var secondLRside = leftOrRight(currPoint, nextPoint);
                     var secondUDside = upOrDown(currPoint, nextPoint);
 
-                    if (secondLRside === SAME) {
+                    // horizontally aligned (first case handling)
+                    if (secondUDside === SAME && i === 1) {
+                        ctx.moveTo(prevPoint[0] * UNIT, prevPoint[1] * UNIT);
+                        if (secondLRside === LEFT) {
+                            ctx.lineTo(nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT);
+                            prevPoint = [nextPoint[0] * UNIT - curveRadius, nextPoint[1] * UNIT];
+                        } else {
+                            ctx.lineTo(nextPoint[0] * UNIT + curveRadius, nextPoint[1] * UNIT);
+                            prevPoint = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
+                        }
+                    }
+
+                    // vertically aligned
+                    else if (secondLRside === SAME) {
                         if (secondUDside === UP) {
                             arcTangentPoint = [currPoint[0], currPoint[1] + curveRadius / UNIT];
-                            nextPoint = [nextPoint[0], nextPoint[1] - curveRadius / UNIT];
+                            prevPoint = [nextPoint[0], nextPoint[1] - curveRadius / UNIT];
                         } else {
                             arcTangentPoint = [currPoint[0], currPoint[1] - curveRadius / UNIT];
-                            nextPoint = [nextPoint[0], nextPoint[1] + curveRadius / UNIT];
+                            prevPoint = [nextPoint[0], nextPoint[1] + curveRadius / UNIT];
                         }
+                        ctx.arcTo(currPoint[0] * UNIT, currPoint[1] * UNIT, arcTangentPoint[0] * UNIT, arcTangentPoint[1] * UNIT, curveRadius);
                     }
 
                     // horizontally aligned
-                    if (secondUDside === SAME) {
+                    else if (secondUDside === SAME) {
                         if (secondLRside === LEFT) {
                             arcTangentPoint = [currPoint[0] + curveRadius / UNIT, currPoint[1]];
-                            nextPoint = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
+                            prevPoint = [nextPoint[0] - curveRadius / UNIT, nextPoint[1]];
                         } else {
                             arcTangentPoint = [currPoint[0] - curveRadius / UNIT, currPoint[1]];
-                            nextPoint = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
+                            prevPoint = [nextPoint[0] + curveRadius / UNIT, nextPoint[1]];
                         }
+                        ctx.arcTo(currPoint[0] * UNIT, currPoint[1] * UNIT, arcTangentPoint[0] * UNIT, arcTangentPoint[1] * UNIT, curveRadius);
                     }
-
-                    ctx.arcTo(currPoint[0] * UNIT, currPoint[1] * UNIT, arcTangentPoint[0] * UNIT, arcTangentPoint[1] * UNIT, curveRadius);
-                    last = nextPoint;
+                    else {
+                        ctx.lineTo(nextPoint[0] * UNIT, nextPoint[1] * UNIT);
+                        console.log('special case: plus point not aligned orthogonally with the coordinate');
+                    }
                 }
 
                 // Draw the last segment
