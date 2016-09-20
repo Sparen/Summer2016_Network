@@ -53,7 +53,9 @@ The output structure is, similarly to the input, a single object with the follow
 
 # Standard Units
 
-TODO
+All coordinates in this algorithm are in terms of standard units. For example, in the input, a question will usually have a questionRowHeight of 1 standard unit and a width typically &gt;5 standard units. These are ratios that can be scaled in drawing by multiplying them with a set number (see our draw.js in the Phase 3 folder for an example of how the standard units are used in rendering).
+
+All collision detection is done in terms of standard units. Usually, half units are used as well. Keep in mind that quarter units are also used occasionally.
 
 # Description of Algorithm
 
@@ -61,4 +63,8 @@ TODO
 
 # Notes on Positioning of Plus and Global Points
 
-TODO
+Global points are positioned directly above a target question, with their x coordinate being the center of the target question. They are placed with a minimum distance from their target, and are locked to the standard grid (in 0.5x standard units).
+
+Plus points, however, are positioned differently. Similarly to Global points, the edges point to a certain location, but the midpoint designating the end of the edge is NOT equivalent to the coordinate returned for the position of the actual plus point. 
+
+Plus points are offset by 0.25 standard units from the end of the edge by default. This may be parameterizable in the future.
