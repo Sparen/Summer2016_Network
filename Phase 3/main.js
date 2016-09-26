@@ -91,6 +91,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             allquestions[i].update();
         }
         var j;
+        for (j = 0; j < alledges.length; j += 1) { //Purge all points to make sure the previous iteration does not affect the new one.
+            alledges[j].points = [];
+        }
         for (j = 0; j < alledges.length; j += 1) {
             alledges[j].update();
         }
@@ -983,6 +986,9 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
             allquestions[i].update();
         }
 
+        for (j = 0; j < alledges.length; j += 1) { //first, purge all points to make sure the previous iteration does not affect the current one.
+            alledges[j].points = [];
+        }
         for (j = 0; j < alledges.length; j += 1) {
             alledges[j].update();
         }
