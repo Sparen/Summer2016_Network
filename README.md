@@ -57,13 +57,14 @@ All coordinates in this algorithm are in terms of standard units. For example, i
 
 All collision detection is done in terms of standard units. Usually, half units are used as well. Keep in mind that quarter units are also used occasionally.
 
-# Description of Algorithm - General
+# Algorithm Structure
+## Description of Algorithm - General
 
 Our algorithm works as follows:
 
-First, it loads the input JSON, whether via file or via direct parameter input. Once it has the data, it processes it. First, it creates objects for all plus and global objects (initializePlusGlobal()) with their ID. Then it takes all the input questions and assigns fields to them, including their responses, dimensions (via input JSON), and tentative dummy position (pushAllQuestions()). Next, edges are processed. Color, source and target objects, and various other fields are populated (pushAllEdges()).
+First, it loads the input JSON, whether via file or via direct parameter input. Once it has the data, it processes it. First, it creates objects for all plus and global objects (`initializePlusGlobal()`) with their ID. Then it takes all the input questions and assigns fields to them, including their responses, dimensions (via input JSON), and tentative dummy position (`pushAllQuestions()`). Next, edges are processed. Color, source and target objects, and various other fields are populated (`pushAllEdges()`).
 
-Once all of these have been initialized, the optimization begins (optimizeNetworkByGrid()). Our algorithm uses the iterationnum input parameter to determine how many times to try and find a good match. The function first shuffles the questions, then creates positions for the questions using that random positioning. Coordinates are assigned, and then we find the edge noise - a value determined by the number of collisions on the screen. In this function, edges are updated and their midpoints are calculated. This process will be explained in further detail later.
+Once all of these have been initialized, the optimization begins (`optimizeNetworkByGrid()`). Our algorithm uses the iterationnum input parameter to determine how many times to try and find a good match. The function first shuffles the questions, then creates positions for the questions using that random positioning. Coordinates are assigned, and then we find the edge noise - a value determined by the number of collisions on the screen. In this function, edges are updated and their midpoints are calculated. This process will be explained in further detail later.
 
 The best possible assignment of coordinates is saved, and is used later. If no appropriate result is found, the function repeats in an attempt to generate appropriate output. This final assignment is then output. 
 
@@ -71,11 +72,11 @@ During the output process, all existing coordinates for questions, global points
 
 The output is saved to session storage is applicable and is also returned by the function.
 
-# Description of Algorithm - Edge Midpoint Assignment, Global Point Assignment, and Plus Point Assignment
+## Description of Algorithm - Edge Midpoint Assignment, Global Point Assignment, and Plus Point Assignment
 
 TODO
 
-# Notes on Positioning of Plus and Global Points
+## Notes on Positioning of Plus and Global Points
 
 Global points are positioned directly above a target question, with their x coordinate being the center of the target question. They are placed with a minimum distance from their target, and are locked to the standard grid (in 0.5x standard units).
 
