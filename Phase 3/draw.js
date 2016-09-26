@@ -244,12 +244,14 @@ function render(inputparam) {
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = "1.5";
                 ctx.moveTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
-                if (prev_coord[1] < target_coord[1]) { //top
+                if (prev_coord[0] === target_coord[0]) { //top or bottom
                     ctx.lineTo(prev_coord[0] * UNIT + arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 1.5);
                     ctx.lineTo(prev_coord[0] * UNIT - arrow_size, prev_coord[1] * UNIT + (target_coord[1] * UNIT - prev_coord[1] * UNIT) / 1.5);
-                } else { //left or right
+                } else if (prev_coord[1] === target_coord[1]) { //left or right
                     ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 1.5, prev_coord[1] * UNIT + arrow_size);
                     ctx.lineTo(prev_coord[0] * UNIT + (target_coord[0] * UNIT - prev_coord[0] * UNIT) / 1.5, prev_coord[1] * UNIT - arrow_size);
+                } else {
+                    console.log("Error drawing arrow for edge with ID " + this.edgeID);
                 }
                 ctx.lineTo(target_coord[0] * UNIT, target_coord[1] * UNIT);
                 ctx.fill();
@@ -266,12 +268,12 @@ function render(inputparam) {
                 ctx.fillStyle = "white";
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = "1.5";
-                if (orientation === 1) {
+                if (orientation === 1) { //horizontal
                     ctx.moveTo(xcoord * UNIT, target_coord[1] * UNIT);
                     ctx.lineTo(xcoord * UNIT + arrow_size, target_coord[1] * UNIT - UNIT / 3);
                     ctx.lineTo(xcoord * UNIT - arrow_size, target_coord[1] * UNIT - UNIT / 3);
                     ctx.lineTo(xcoord * UNIT, target_coord[1] * UNIT);
-                } else {
+                } else { //vertical
                     ctx.moveTo(target_coord[0] * UNIT, ycoord * UNIT);
                     ctx.lineTo(target_coord[0] * UNIT - UNIT / 3, ycoord * UNIT + arrow_size);
                     ctx.lineTo(target_coord[0] * UNIT - UNIT / 3, ycoord * UNIT - arrow_size);

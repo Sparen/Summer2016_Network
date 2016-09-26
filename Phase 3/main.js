@@ -809,7 +809,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                     var baseedge = alledges[k];
                     if (baseedge.points === undefined) {continue;} //for those weird situations.
                     var pt;
-                    for (pt = 1; pt < baseedge.points.length - 3; pt++) { //cannot use stubs, so starts at 1 and uses -3 instead of -2. 
+                    for (pt = 1; pt < baseedge.points.length - 3; pt++) { //cannot use stubs, so starts at 1 and uses -3 instead of -2
                         var temppoint1 = baseedge.points[pt];
                         var temppoint2 = baseedge.points[pt + 1];
                         var orientation = "V"; //default vertical
@@ -839,7 +839,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                                     for (m = 0; m <= pt; m++) { //push all points on the edge so far
                                         curr_edge.points.push(baseedge.points[m]);
                                     }
-                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                    if (baseedge.points[pt][0] !== newpoint1[0] || baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
                                         curr_edge.points.push(newpoint1);
                                     }
                                     curr_edge.points.push(newpoint2);
@@ -860,7 +860,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                                     for (m = 0; m <= pt; m++) { //push all points on the edge so far
                                         curr_edge.points.push(baseedge.points[m]);
                                     }
-                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                    if (baseedge.points[pt][0] !== newpoint1[0] || baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
                                         curr_edge.points.push(newpoint1);
                                     }
                                     curr_edge.points.push(newpoint3);
@@ -885,7 +885,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                                     for (m = 0; m <= pt; m++) { //push all points on the edge so far
                                         curr_edge.points.push(baseedge.points[m]);
                                     }
-                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                    if (baseedge.points[pt][0] !== newpoint1[0] || baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
                                         curr_edge.points.push(newpoint1);
                                     }
                                     curr_edge.points.push(newpoint2);
@@ -906,7 +906,7 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                                     for (m = 0; m < pt; m++) { //push all points on the edge so far
                                         curr_edge.points.push(baseedge.points[m]);
                                     }
-                                    if (baseedge.points[pt][0] !== newpoint1[0] && baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
+                                    if (baseedge.points[pt][0] !== newpoint1[0] || baseedge.points[pt][1] !== newpoint1[1]) { //prevent duplicates
                                         curr_edge.points.push(newpoint1);
                                     }
                                     curr_edge.points.push(newpoint3);
