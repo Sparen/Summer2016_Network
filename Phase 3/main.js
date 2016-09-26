@@ -189,16 +189,22 @@ function networkOptimization(inputfilename, outputfilename, jsoninput, canvas_si
                         existing = k;
                     }
                 }
-                if (existing !== -1) { //If it already exists, push the midpoint's ID onto the list
-                    newoutputedgenodes.push(midpointobjects[existing].midpointID);
-                } else { //otherwise, create a new midpoint object.
-                    var newmidpointID = "m" + midpoint_counter;
-                    var newmidpointobject = {"x": alledges[i].points[j][0], "y": alledges[i].points[j][1], "midpointID": newmidpointID};
-                    midpointobjects.push(newmidpointobject); //add the new midpoint to the set
-                    OF_midPoints.push(newmidpointID); //add the midpoint ID to the output field
-                    newoutputedgenodes.push(newmidpointID); //add the midpoint ID to the output edge
-                    OF_coords[newmidpointID] = [newmidpointobject.x, newmidpointobject.y];
-                    midpoint_counter++;
+                var duplicate = false; //last ditch attempt to prevent duplicate coordinates in an edge
+                if (j > 0 && alledges[i].points[j][0] === alledges[i].points[j - 1][0] && alledges[i].points[j][1] === alledges[i].points[j - 1][1]) {
+                    duplicate = true;
+                }
+                if (!duplicate) {
+                    if (existing !== -1) { //If it already exists, push the midpoint's ID onto the list
+                        newoutputedgenodes.push(midpointobjects[existing].midpointID);
+                    } else { //otherwise, create a new midpoint object.
+                        var newmidpointID = "m" + midpoint_counter;
+                        var newmidpointobject = {"x": alledges[i].points[j][0], "y": alledges[i].points[j][1], "midpointID": newmidpointID};
+                        midpointobjects.push(newmidpointobject); //add the new midpoint to the set
+                        OF_midPoints.push(newmidpointID); //add the midpoint ID to the output field
+                        newoutputedgenodes.push(newmidpointID); //add the midpoint ID to the output edge
+                        OF_coords[newmidpointID] = [newmidpointobject.x, newmidpointobject.y];
+                        midpoint_counter++;
+                    }
                 }
             }
             OF_edges[alledges[i].edgeID] = newoutputedgenodes;
