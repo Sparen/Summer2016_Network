@@ -68,3 +68,10 @@ Global points are positioned directly above a target question, with their x coor
 Plus points, however, are positioned differently. Similarly to Global points, the edges point to a certain location, but the midpoint designating the end of the edge is NOT equivalent to the coordinate returned for the position of the actual plus point. 
 
 Plus points are offset by 0.25 standard units from the end of the edge by default. This may be parameterizable in the future.
+
+# Known Issues
+
+* Plus points that sprout off edges are ambiguous as to source edge (No immediate solution proposed)
+* Some edges overlap, resulting in ambiguous results (See #26)
+* Plus points that sprout off edges occasionally missing points (Part of #16)
+* Global points occasionally choose a less than optimal position when an optimal position is available (cause unknown)
